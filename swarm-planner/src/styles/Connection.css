@@ -1,0 +1,28 @@
+.connection-manager-component {
+    display: flex;
+    background-color: lightyellow;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0 10px 0 0;
+}
+
+.connection-drop-box {
+    width: 150px;
+    min-width: 150px;
+}
+
+
+.CONNECT {
+    background-color: green;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.DISCONNECT {
+    background-color: red;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.connect-button:hover {
+    background-color: grey;
+}

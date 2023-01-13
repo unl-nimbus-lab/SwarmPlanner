@@ -1,0 +1,75 @@
+/* .AgentStatusCardCollapsed {
+    background-color: white;
+    display: flex;
+    height: 30px;
+    margin: 5px;
+    align-items: center;
+} */
+
+.AgentStatusCardSection-Regular {
+    background-color: white;
+    display: flex;
+    height: 30px;
+    align-items: center;
+}
+
+.AgentStatusCardSection-Large {
+    background-color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+}
+
+.AgentStatusCard {
+    background-color: white;
+    display: flex;
+    margin: 5px;
+    flex-direction: column;
+}
+
+
+
+/* .AgentStatusCardExpanded {
+    background-color: white;
+    display: flex;
+    height: 70px;
+    margin: 5px;
+    align-items: center;
+} */
+
+.DroneLogo {
+    height: 20px;
+}
+
+.DockerIcon {
+    height: 20px;
+    padding-left: 5px;
+}
+
+.ConnectIcon {
+    height: 20px;
+}
+
+.ExpandOptions {
+    height: 20px;
+    width: 20px;
+    background-color: red;
+
+}
+
+.ExpandOptions:hover {
+    background-color: grey;
+}
+
+.Selector {
+    /* width: 650px; */
+    flex: 10;
+}
+
+.SliderDisplay {
+    width: 50px;
+}
+
+.SetAltButton {
+    width: 60px;
+}

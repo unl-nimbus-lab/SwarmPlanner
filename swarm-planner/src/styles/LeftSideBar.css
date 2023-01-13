@@ -1,0 +1,9 @@
+.LeftSideBar {
+    position: fixed;
+    background-color: lightyellow;
+    top: 60px;
+    bottom: 0px;
+    width: 300px;
+    left: 0px;
+    display:flex;
+}
