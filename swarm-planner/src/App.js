@@ -9,14 +9,14 @@ import SwarmAgent from './classes/SwarmAgent';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {agentList: []}
+    this.state = {agentList: [], ignoreComps: []}
  }
 
 
  componentDidMount() {
   this.timerID = setInterval(
     () => this.check(),
-    10000
+    500
   );}
 
   check = () => {
@@ -34,10 +34,30 @@ class App extends React.Component {
     })
   }
 
-   render() {
+  removeAgent= (input) => {
+    var blackListed = this.state.ignoreComps
+    blackListed.push(input)
+    console.log(blackListed)
+    this.setState({
+      ingnoreComps: blackListed
+    })
+    return 
+  }
+
+  render() {
     let agents = this.state.agentList.map( (agent) => {
+      if (this.state.ignoreComps.includes(agent.getCId())) {
+        return null
+      }
       return  (
-        <AgentStatusCard key={agent.getId()} agentId={agent.getId()} compId={agent.getCId()} flightMode={agent.getFlightMode()} armStatus={agent.getArmStatus()} altitude={agent.getAltitude() } />
+        <AgentStatusCard  key={agent.getId()} 
+                          agentId={agent.getId()} 
+                          compId={agent.getCId()} 
+                          flightMode={agent.getFlightMode()} 
+                          armStatus={agent.getArmStatus()} 
+                          altitude={agent.getAltitude()} 
+                          timeout={agent.getTimeout()} 
+                          removeFun={this.removeAgent}  />
       )
     })
 

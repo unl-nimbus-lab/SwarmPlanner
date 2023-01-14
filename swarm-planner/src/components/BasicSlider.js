@@ -4,15 +4,18 @@ class BasicSlider extends React.Component {
     constructor(props) {
         super(props)
         this.state = {alt: 0}
+        const sliderId = "slider" + this.props.agentId;
     }
 
     handleChange = (event) => {
         this.setState({alt: event.target.value})
     }
 
-    render() {
+    sendValue = () => {
+        fetch('http://127.0.0.1:8080/sendDebug/' + this.state.alt)
+    }
 
-        const sliderId = "slider" + this.props.id;
+    render() {
 
         if (this.props.render === "Collapsed") {
             return null;
@@ -20,9 +23,9 @@ class BasicSlider extends React.Component {
 
         return(
             <div className="AgentStatusCardSection-Regular">
-                <input type="range" min="10" max="120" id={sliderId} onChange={this.handleChange} />
+                <input type="range" min="10" max="120" id={this.sliderId} onChange={this.handleChange} />
                 {this.state.alt}
-                <button>Set</button>
+                <button onClick={this.sendValue}>Set Altitude</button>
             </div>
     
         );

@@ -1,14 +1,19 @@
 import React from 'react'
 
-function ArmButton(props) {
+class ArmButton extends React.Component {
 
-    function arm() {
-        console.log('arming...')
+    arm = () => {
+        if (this.props.agentId === undefined) {
+            fetch('http://127.0.0.1:8080/arm')
+        } else {
+            fetch('http://127.0.0.1:8080/arm/' + this.props.agentId + "_" + this.props.compId)
+        }
+
     }
-
-    return (
-        <button onClick={this.arm}>ARM</button>
-    )
+    render() {
+        return (
+            <button onClick={this.arm}>ARM</button>
+        )
+    }
 }
-
 export default ArmButton;

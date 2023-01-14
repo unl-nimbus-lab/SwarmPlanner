@@ -1,0 +1,216 @@
+# Python 3 server example
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from operator import length_hint
+import os
+import time
+import socketserver
+from helperFunctions import *
+import json
+import cgi
+
+from pymavswarm import MavSwarm
+from pymavswarm.types import AgentID
+from pymavswarm import Agent
+
+
+mavswarm = MavSwarm()
+
+path = "/dev"
+dir_list = os.listdir(path)
+
+hostName = "127.0.0.1"
+serverPort = 8080
+
+class MyServer(BaseHTTPRequestHandler):
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json') 
+        self.send_header('Access-Control-Allow-Origin','*')
+        self.send_header('Access-Control-Allow-Credentials','true')
+        self.end_headers()
+
+    def do_GET(self):
+        self._set_headers()
+
+        splitURL = self.path.split('/')
+        
+        command = splitURL[1]
+
+        match command:
+            case 'update_connection_data':
+                swarmData = []
+                if (mavswarm.connected):
+                    swarmData.append({"Connected": "true"})
+                else:
+                    swarmData.append({"Connected": "false"})
+                
+                jSwarm = json.dumps(swarmData)
+                self.wfile.write(bytes(jSwarm,encoding='utf8'))
+
+            case 'update_agents':
+                agentInfo = []
+
+                
+
+                #generate random fake agents for easy testing
+                #agentInfo = testAgent()
+
+                for agent in mavswarm.agents:
+                    tempAgent = {
+                        "agentId": str(agent.system_id),
+                        "compId": str(agent.component_id),
+                        "armStatus": agent.armed.value,
+                        "mode": agent.mode.value,
+                        "timeout": agent.timeout.value,
+                        "latitude": agent.position.global_frame.x,
+                        "longitude": agent.position.global_frame.y,
+                        "altitude": agent.position.global_frame.z
+                    }
+                    agentInfo.append(tempAgent)
+                    
+                    
+                    #use these for gps shite
+                    # print((agent.position.global_frame.x))
+                    # print((agent.position.global_frame.y))
+                    # print((agent.position.global_frame.z))
+
+                jagents = json.dumps(agentInfo)
+                self.wfile.write(bytes(jagents,encoding='utf8'))
+
+
+            case 'update_connection_list':
+                devices = []
+                availbledevices = serial_ports()
+                for device in availbledevices:
+                    devices.append({"Device": device})
+
+                jDevices = json.dumps(devices)
+                self.wfile.write(bytes(jDevices,encoding='utf8'))
+
+            case 'connect_to':
+                deviceLocation = splitURL[2]
+                deviceName = splitURL[3]
+                baudrate = splitURL[4]
+                url =  '/' + deviceLocation + '/' + deviceName
+                print('Connecting to ' + url + " at " + baudrate + " baud ...")
+                mavswarm.connect(url, baudrate, 255, 0)
+
+            case 'disconnect':
+                mavswarm.disconnect()
+
+            case 'arm':
+                if len(splitURL) == 2: 
+                    mavswarm.arm()
+                else:
+                    agents_to_work = splitURL[2:]
+                    agentsToArm = convertAgentsToAgentID(agents_to_work)
+                    mavswarm.arm(agentsToArm)
+                    # agentsToArm = []
+                    # for i in range( 2, (len(splitURL))):
+                    #     barf = splitURL[i].split("_")
+                    #     agentsToArm.append( AgentID( [ int(barf[0]) ,  int(barf[1]) ] ))
+                    
+                    # mavswarm.arm(agentsToArm)
+                    # thang = AgentID([5,1])
+                    # thangsToArm = [thang]
+                    #print(thangsToArm)
+                    #print(agentsToArm)
+                    #thang1 = AgentID( splitURL[2] )
+                    #thang2 = AgentID( [5,1]  )
+
+                    #mavswarm.arm( [thang1] )
+
+                #Need to try with 2
+                #thang = AgentID([5,1])
+                #print("arming")
+                #agentsToArm = []
+                #mavswarm.arm(agentsToArm)
+
+            case 'disarm':
+                if len(splitURL) == 2: 
+                    mavswarm.disarm()
+                else:
+                    agents_to_work = splitURL[2:]
+                    agentsToDisarm = convertAgentsToAgentID(agents_to_work)
+                    mavswarm.disarm(agentsToDisarm)
+            
+            case 'set_mode':
+                mode = splitURL[2]
+                match mode:
+                    case 'STABILIZE':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("STABILIZE")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("STABILIZE",agentsToLand)
+                    case 'ALT_HOLD':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("ALT_HOLD")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("ALT_HOLD",agentsToLand)
+                    case 'LOITER':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("LOITER")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("LOITER",agentsToLand)
+                    case 'GUIDED':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("GUIDED")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("GUIDED",agentsToLand)
+                    case 'AUTO':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("AUTO")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("AUTO",agentsToLand)
+                    case 'LAND':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("LAND")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("LAND",agentsToLand)
+                    case 'RTL':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("RTL")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("RTL",agentsToLand)
+                    case 'THROW':
+                        if len(splitURL) == 3: 
+                            mavswarm.set_mode("THROW")
+                        else:
+                            agents_to_work = splitURL[3:]
+                            agentsToLand = convertAgentsToAgentID(agents_to_work)
+                            mavswarm.set_mode("THROW",agentsToLand)
+                    case _:
+                        print('you did not send a valid flightmode')   
+
+            case _:
+                print('you did not send a valid command')
+
+            #self.wfile.write(jDevices)
+                             
+if __name__ == "__main__":        
+    webServer = HTTPServer((hostName, serverPort), MyServer)
+    print("Server started http://%s:%s" % (hostName, serverPort))
+
+    try:
+        webServer.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+    webServer.server_close()
+    print("Server stopped.")
+
+    

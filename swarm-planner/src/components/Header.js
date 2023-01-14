@@ -1,5 +1,5 @@
 import React from 'react';
-import ConnectionManager from './connection-manager';
+import ConnectionManager from './ConnectionManager';
 import '../styles/Header.css'
 
 class Header extends React.Component {

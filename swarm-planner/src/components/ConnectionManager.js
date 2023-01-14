@@ -1,11 +1,12 @@
 import React from 'react';
 import '../styles/Connection.css'
+import ConnectButton from './ConnectButton';
+import DisconnectButton from './DisconnectButton';
 
 class ConnectionManager extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {deviceList: [''], status: 0};
-        this.connectStyle = "CONNECT";
+        this.state = {deviceList: [''], status: 'disconnected'};
     }
 
     componentDidMount() {
@@ -21,17 +22,47 @@ class ConnectionManager extends React.Component {
         .then((result) => {
             let connectionStatus = result[0].Connected;
             //console.log(connectionStatus)
-            if (connectionStatus === 1) {
-                this.setState({status: 1})
+            if (connectionStatus === "true") {
+                this.setState({status: 'connected'})
             }
             else {
-                this.setState({status: 0})
+                this.setState({status: 'disconnected'})
             }
         })
     }
 
+    connectClick = () => {
+        var device = document.getElementById('SerialConnectList');
+        var baud = document.getElementById('SerialBaudRate');
+        var value = device.value;
+        var baudrate = baud.value;
+        fetch('http://127.0.0.1:8080/connect_to' + value + '/' + baudrate)
+    }
+    disconnectClick = () => {
+        fetch('http://127.0.0.1:8080/disconnect')
+    }
+
+    get = () => {
+        fetch('http://127.0.0.1:8080/update_connection_list')
+        .then((result) => result.json())
+        .then((result) => {
+            const finalList = result.map( (device) => {
+                return device.Device;
+            })
+            this.setState({deviceList: finalList})
+        })
+    }
+
+    getButton = () => {
+        if (this.state.status === 'connected') {
+            return <DisconnectButton buttonFcn={this.disconnectClick}/>
+        } else {
+            return <ConnectButton buttonFcn={this.connectClick}/>
+        }
+    }
+
     render() {
-        const baudList = ["57600","230400","115200","921600"]
+        const baudList = ["230400","57600","115200","921600"]
 
         let devices = this.state.deviceList.map( (device) => {
             return (
@@ -45,6 +76,8 @@ class ConnectionManager extends React.Component {
             )
         })
 
+        const button = this.getButton();
+
         return(
             <div className="connection-manager-component">
                 <div>
@@ -57,38 +90,12 @@ class ConnectionManager extends React.Component {
                         {bauds}
                     </select>
                 </div>
-                <div className={this.connectStyle} onClick={this.handleConnectClick}>
-                    {this.connectStyle}
-                </div>
+                {button}
             </div>
         )
     }
 
-    handleConnectClick = () => {
-        if (this.state.status === 0) {
-            var device = document.getElementById('SerialConnectList');
-            var baud = document.getElementById('SerialBaudRate');
-            var value = device.value;
-            var baudrate = baud.value;
-            fetch('http://127.0.0.1:8080/connect_to' + value + '/' + baudrate)
-            this.connectStyle = 'DISCONNECT'
-        } else if( this.state.status === 1) {
-            fetch('http://127.0.0.1:8080/disconnect')
-            this.connectStyle = 'CONNECT'
-        }
-
-    }
-
-     get = () => {
-        fetch('http://127.0.0.1:8080/update_connection_list')
-        .then((result) => result.json())
-        .then((result) => {
-            const finalList = result.map( (device) => {
-                return device.Device;
-            })
-            this.setState({deviceList: finalList})
-        })
-    }
+    
 }
 
 export default ConnectionManager;

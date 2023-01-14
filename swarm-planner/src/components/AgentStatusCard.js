@@ -5,7 +5,15 @@ import dockerBlue from "../resources/images/docker-3.svg"
 import connectPlain from "../resources/images/wireless-plain.svg"
 import connectBlue from "../resources/images/wireless-blue.svg"
 import quad from "../resources/images/Simple_drone.svg"
-import BasicSlider from './BasicSlider';
+import BasicSlider from './BasicSlider'
+import ExtraButtons from './ExtraButtons'
+import ModeButton from './ModeButton'
+import ArmButton from './ArmButton'
+import DisarmButton from './DisarmButton';
+import RemoveButton from './RemoveButton';
+import ExpandButton from './ExpandButton';
+import StatusTag from './StatusTag';
+import DroneLogo from './DroneLogo';
 
 
 class AgentStatusCard extends React.Component {
@@ -15,28 +23,19 @@ class AgentStatusCard extends React.Component {
     }
     
     armed = () => {
-        if (this.props.armStatus === 'true') {
+        if (this.props.armStatus === true) {
             return 'ARMED';
         } else {
             return 'DISARMED';
         }
     }
 
-    arm = () => {
-        //console.log("arming [" + this.props.agentId + "," + this.props.compId + "]")
-        fetch('http://127.0.0.1:8080/arm/' + "[" + this.props.agentId + "," + this.props.compId + "]" )
-    }
-
-    disarm = () => {
-        fetch('http://127.0.0.1:8080/disarm/' + "[" + this.props.agentId + "," + this.props.compId + "]" )
-    }
-
-    setLand = () => {
-        fetch('http://127.0.0.1:8080/set_mode/LAND/' + "[" + this.props.agentId + "," + this.props.compId + "]" )
-    }
-
-    setRTL = () => {
-        fetch('http://127.0.0.1:8080/set_mode/RTL/' + "[" + this.props.agentId + "," + this.props.compId + "]" )
+    connected = () => {
+        if (this.props.timeout === true) {
+            return <img className="ConnectIcon" src={connectPlain} />
+        } else {
+            return <img className="ConnectIcon" src={connectBlue} />
+        }
     }
 
     setOptions = () => {
@@ -50,29 +49,27 @@ class AgentStatusCard extends React.Component {
 
     render() {
         const isArmed = this.armed();
-        
-        //if (this.state.options)
-
-        const sliderId = "SetAltitude" + this.props.agentId;
+        const connection = this.connected();
 
         return(
             <div key={this.props.agentId} className={"AgentStatusCard"} id={this.props.agentId} value={this.props.agentId}>
                 <div className={"AgentStatusCardSection-Regular"}>
-                    <img className="DroneLogo" src={quad} />
+                    <DroneLogo class="DroneLogo" imageSource={quad}/>
                     <div className="IdTag">{"agent-" + this.props.agentId}</div>
-                    <img className="ConnectIcon" src={connectPlain} />
+                    {connection}
                     <img className="DockerIcon" src={dockerBlue} />
-                    <div className="FlightModeTag">{this.props.flightMode}</div>
-                    <div className="ArmTag">{isArmed}</div>
-                    <div className="AltTag">{this.props.altitude}</div>
-                    <button className="ArmingButton" onClick={this.arm}>ARM</button>
-                    <button className="DisarmButton" onClick={this.disarm}>DISARM</button>
-                    <button className="LandButton"   onClick={this.setLand}>LAND</button>
-                    <button className="RTLButton"    onClick={this.setRTL}>RTL</button>
-                    <div className="ExpandOptions"   onClick={this.setOptions}>
-                    </div>
+                    <StatusTag class="FlightModeTag" info={this.props.flightMode} />          
+                    <StatusTag class="ArmTag" info={isArmed} />
+                    <StatusTag class="AltTag" info={this.props.altitude} />
+                    <ArmButton agentId={this.props.agentId} compId={this.props.compId} />
+                    <DisarmButton agentId={this.props.agentId} compId={this.props.compId} />
+                    <ModeButton mode="LAND" agentId={this.props.agentId} compId={this.props.compId} />
+                    <ModeButton mode="RTL" agentId={this.props.agentId} compId={this.props.compId} />
+                    <ExpandButton buttonAction={this.setOptions} />
+                    <RemoveButton agentId={this.props.agentId} compId={this.props.compId} removeFun={this.props.removeFun}/>
                 </div>
-                <BasicSlider id={this.props.agentId} render={this.state.options}/>
+                <ExtraButtons agentId={this.props.agentId} compId={this.props.compId} render={this.state.options} />
+                <BasicSlider agentId={this.props.agentId} render={this.state.options} />
             </div>
         )
     }
