@@ -248,18 +248,15 @@ class MyServer(BaseHTTPRequestHandler):
                     case 4:
                         x = float(splitURL[3])
                         mavswarm.send_debug_message(splitURL[2],[x,0,0])
-                        print('case 1')
                     case 5:
                         x = float(splitURL[3])
                         y = float(splitURL[4])
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
-                        print('case 2')
                     case 6:
                         x = float(splitURL[3])
                         y = float(splitURL[4])
                         z = float(splitURL[5])
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
-                        print('case 3')
                     case _:
                         print('Vector is too big')
             case _:
