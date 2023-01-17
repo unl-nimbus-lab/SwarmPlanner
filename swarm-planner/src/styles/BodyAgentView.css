@@ -1,0 +1,5 @@
+.BodyAgentView {
+    background-color: lightpink;
+    display: flex;
+    flex-direction: column;
+}

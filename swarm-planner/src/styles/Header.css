@@ -16,18 +16,43 @@
     display: flex;
     background-color: lightgreen;
     padding: 0 10px 0 10px;
-    width: 280px;
+    width: 290px;
 }
 
 .tabs {
     display: flex;
     background-color: lightblue;
     flex: 1;
-    justify-content: center;
+    justify-content: left;
 }
 
 .connection {
     display: flex;
     background-color: lightyellow;
     padding: 0 10px 0 10px;
+}
+
+.SwarmOverviewTab {
+    height: 60px;
+    background-color: lightpink;
+    cursor: pointer;    
+}
+
+
+.ClusterControlTab {
+    height: 60px;
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+.SwarmConfigTab {
+    height: 60px;
+    background-color: lightyellow;
+    cursor: pointer;
+}
+
+.ParameterManagerTab {
+    height: 60px;
+    background-color: lightcoral;
+    cursor: pointer;
 }

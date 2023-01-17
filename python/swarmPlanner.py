@@ -139,67 +139,131 @@ class MyServer(BaseHTTPRequestHandler):
                 match mode:
                     case 'STABILIZE':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("STABILIZE")
+                            future = mavswarm.set_mode("STABILIZE")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("STABILIZE",agentsToLand)
+                            future = mavswarm.set_mode("STABILIZE",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'ALT_HOLD':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("ALT_HOLD")
+                            future = mavswarm.set_mode("ALT_HOLD")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("ALT_HOLD",agentsToLand)
+                            future = mavswarm.set_mode("ALT_HOLD",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'LOITER':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("LOITER")
+                            future = mavswarm.set_mode("LOITER")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("LOITER",agentsToLand)
+                            future = mavswarm.set_mode("LOITER",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'GUIDED':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("GUIDED")
+                            future = mavswarm.set_mode("GUIDED")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("GUIDED",agentsToLand)
+                            future = mavswarm.set_mode("GUIDED",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'AUTO':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("AUTO")
+                            future = mavswarm.set_mode("AUTO")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("AUTO",agentsToLand)
+                            future = mavswarm.set_mode("AUTO",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'LAND':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("LAND")
+                            future = mavswarm.set_mode("LAND")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("LAND",agentsToLand)
+                            future = mavswarm.set_mode("LAND",agentsToLand)
+                            while not future.done():
+                                pass
                     case 'RTL':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("RTL")
+                            future = mavswarm.set_mode("RTL")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("RTL",agentsToLand)
+                            future = mavswarm.set_mode("RTL",agentsToLand)
+                            while not future.done():
+                                pass
+
                     case 'THROW':
                         if len(splitURL) == 3: 
-                            mavswarm.set_mode("THROW")
+                            future = mavswarm.set_mode("THROW")
+                            while not future.done():
+                                pass
                         else:
                             agents_to_work = splitURL[3:]
                             agentsToLand = convertAgentsToAgentID(agents_to_work)
-                            mavswarm.set_mode("THROW",agentsToLand)
+                            future = mavswarm.set_mode("THROW",agentsToLand)
+                            while not future.done():
+                                pass
                     case _:
-                        print('you did not send a valid flightmode')   
+                        print('you did not send a valid flightmode')
+            
+            case 'takeoff':
+                if (len(splitURL) == 4):
+                    agents_to_work = [splitURL[2]]
+                    altitude = splitURL[3]   
+                else:
+                    agents_to_work = splitURL[2::2]
+                    altitude = splitURL[3::2]
 
+                agentsToTakeoff = convertAgentsToAgentID(agents_to_work)
+                future = mavswarm.takeoff(altitude,agentsToTakeoff)
+
+            case 'debug_vector':
+                match (len(splitURL)):
+                    case 3:
+                        #Just the name and default values
+                        mavswarm.send_debug_message(splitURL[2],[0,0,0])
+                    case 4:
+                        x = float(splitURL[3])
+                        mavswarm.send_debug_message(splitURL[2],[x,0,0])
+                        print('case 1')
+                    case 5:
+                        x = float(splitURL[3])
+                        y = float(splitURL[4])
+                        mavswarm.send_debug_message(splitURL[2],[x,y,z])
+                        print('case 2')
+                    case 6:
+                        x = float(splitURL[3])
+                        y = float(splitURL[4])
+                        z = float(splitURL[5])
+                        mavswarm.send_debug_message(splitURL[2],[x,y,z])
+                        print('case 3')
+                    case _:
+                        print('Vector is too big')
             case _:
                 print('you did not send a valid command')
-
-            #self.wfile.write(jDevices)
                              
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)

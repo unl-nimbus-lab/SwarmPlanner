@@ -6,6 +6,7 @@ class SwarmAgent {
         this.flightMode = flightMode;
         this.timeout = timeout;
         this.altitude = altitude;
+        this.checked = false;
     }
 
     getId() {
@@ -25,6 +26,9 @@ class SwarmAgent {
     }
     getAltitude() {
         return this.altitude;
+    }
+    getChecked() {
+        return this.checked;
     }
 }
 

@@ -3,29 +3,25 @@ import React from 'react'
 class BasicSlider extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {alt: 0}
-        const sliderId = "slider" + this.props.agentId;
+        this.state = {stateVal: 0}
     }
 
     handleChange = (event) => {
-        this.setState({alt: event.target.value})
-    }
-
-    sendValue = () => {
-        fetch('http://127.0.0.1:8080/sendDebug/' + this.state.alt)
+        this.setState({stateVal: event.target.value})
     }
 
     render() {
-
         if (this.props.render === "Collapsed") {
             return null;
         }
+        
+        let buttonHandle = this.props.buttonFcn;
 
         return(
             <div className="AgentStatusCardSection-Regular">
-                <input type="range" min="10" max="120" id={this.sliderId} onChange={this.handleChange} />
-                {this.state.alt}
-                <button onClick={this.sendValue}>Set Altitude</button>
+                <input type="range" min={this.props.min} max={this.props.max} onChange={this.handleChange} defaultValue={this.props.defaultValue}/>
+                {this.state.stateVal}
+                <button onClick={ ()=>{buttonHandle(this.state.stateVal)} }>{this.props.title}</button>
             </div>
     
         );

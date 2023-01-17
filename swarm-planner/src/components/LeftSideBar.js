@@ -1,14 +1,22 @@
 import React from 'react';
 import '../styles/LeftSideBar.css'
-import ArmButton from './ArmButton';
-import DisarmButton from './DisarmButton';
+import HRLButtons from './HRLButtons';
+import SwarmManager from './SwarmManager'
+
 
 class LeftSideBar extends React.Component {
     render() {
         return (
             <div className="LeftSideBar">
-                <ArmButton />
-                <DisarmButton />
+                <div className="TopBox">
+                    Blank
+                </div>
+                <div className="HRLManager">
+                    <HRLButtons />
+                </div>
+                <div className="SwarmManager">
+                    <SwarmManager />
+                </div>
             </div>
         );
     }

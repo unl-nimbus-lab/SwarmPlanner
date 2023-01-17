@@ -3,7 +3,26 @@
     background-color: lightyellow;
     top: 60px;
     bottom: 0px;
-    width: 300px;
+    width: 310px;
     left: 0px;
     display:flex;
+    flex-direction: column;
 }
+
+.TopBox {
+    flex:1;
+    background-color: grey;
+}
+
+.HRLManager {
+    flex: 1;
+    background-color: lightskyblue;
+    padding: 5px;
+}
+
+.SwarmManager {
+    flex: 1;
+    background-color: lightgreen;
+    padding: 5px;
+}
+
