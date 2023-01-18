@@ -251,7 +251,7 @@ class MyServer(BaseHTTPRequestHandler):
                     case 5:
                         x = float(splitURL[3])
                         y = float(splitURL[4])
-                        mavswarm.send_debug_message(splitURL[2],[x,y,z])
+                        mavswarm.send_debug_message(splitURL[2],[x,y,0])
                     case 6:
                         x = float(splitURL[3])
                         y = float(splitURL[4])

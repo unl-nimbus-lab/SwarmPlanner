@@ -2,6 +2,7 @@ import React from 'react'
 import AgentStatusCard from '../components/AgentStatusCard';
 import SwarmAgent from '../classes/SwarmAgent'
 import '../styles/BodyAgentView.css'
+import MapContainer from './MapContainer';
 
 class BodyAgentView extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class BodyAgentView extends React.Component {
         .then((result) => result.json())
         .then((result) => {
             let swarmAgents = result.map( (agent) => {
-            const tempAgent = new SwarmAgent(agent.agentId, agent.compId, agent.armStatus, agent.mode, agent.timeout, agent.altitude)
+            const tempAgent = new SwarmAgent(agent.agentId, agent.compId, agent.armStatus, agent.mode, agent.timeout, agent.altitude, agent.latitude, agent.longitude)
             //console.log(tempAgent)
             return tempAgent
             })
@@ -58,9 +59,15 @@ class BodyAgentView extends React.Component {
           })
 
         return(
-            <div className="BodyAgentView">
-                {agents}
+            <div className="Body">
+                <div className="BodyAgentView">
+                    {agents}
+                </div>
+                <div className="BodyMap">
+                    <MapContainer agents={this.state.agentList}/>
+                </div>
             </div>
+
         );
     }
 }

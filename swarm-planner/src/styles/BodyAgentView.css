@@ -2,4 +2,15 @@
     background-color: lightpink;
     display: flex;
     flex-direction: column;
+    flex:1;
+}
+
+.Body {
+    display: flex;
+}
+
+.BodyMap {
+    flex:1;
+    background-color: lightcoral;
+    padding: 5px;
 }

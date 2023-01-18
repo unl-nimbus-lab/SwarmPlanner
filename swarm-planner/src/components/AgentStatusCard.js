@@ -21,8 +21,6 @@ class AgentStatusCard extends React.Component {
         this.state = {options: 'Collapsed'}
     }
 
-    
-    
     armed = () => {
         if (this.props.armStatus === true) {
             return 'ARMED';
@@ -50,7 +48,7 @@ class AgentStatusCard extends React.Component {
 
     sendValue = (value) => {
         const sliderVal = value;
-        fetch('http://127.0.0.1:8080/debug_vector/' + sliderVal);
+        fetch('http://127.0.0.1:8080/debug_vector/A' + this.props.agentId + '$14/' + sliderVal);
     }
 
     handleChange = (input) => {
