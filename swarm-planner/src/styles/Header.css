@@ -2,7 +2,7 @@
 
 .header {
     display: flex;
-    background-color: lightsalmon;
+    background-color: white;
     position: fixed;
     height: 60px;
     top: 0px;
@@ -14,16 +14,19 @@
 }
 
 .logo {
-    height: 30px;
+    /* height: 30px; */
     display: flex;
-    background-color: lightgreen;
+    background-color:white;
     padding: 0 10px 0 10px;
-    width: 335px;
+    width: 330px;
+    font-family: Audiowide;
+    font-size: 30px;
+    justify-content: center;
 }
 
 .tabs {
     display: flex;
-    background-color: lightblue;
+    background-color: white;
     flex: 1;
     justify-content: left;
 }
@@ -34,29 +37,142 @@
     padding: 0 10px 0 10px;
 }
 
-.SwarmOverviewTab {
+.SwarmOverviewSelected {
     height: 60px;
-    background-color: hsl(0, 0%, 95%);
+    width: 90px;
+    background-color: white;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+    margin: 0 0 0 0;
 }
 
-
-.ClusterControlTab {
-    height: 60px;
-    background-color: lightpink;
-    cursor: pointer;
+.SwarmOverviewSelected:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
 }
 
-.SwarmConfigTab {
-    height: 60px;
-    background-color: lightyellow;
-    cursor: pointer;
+.SwarmOverviewSelected:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
 }
 
-.ParameterManagerTab {
+.ClusterControlSelected {
     height: 60px;
-    background-color: lightcoral;
+    width: 90px;
+    background-color: white;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+}
+
+.ClusterControlSelected:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
+}
+
+.ClusterControlSelected:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
+}
+
+.SwarmConfigSelected {
+    height: 60px;
+    width: 90px;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+}
+
+.SwarmConfigSelected:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
+}
+
+.SwarmConfigSelected:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
+}
+
+.SwarmOverviewDefault {
+    height: 60px;
+    width: 90px;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+}
+
+.SwarmOverviewDefault:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
+}
+
+.SwarmOverviewDefault:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
+}
+
+.ClusterControlDefault {
+    height: 60px;
+    width: 90px;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+}
+
+.ClusterControlDefault:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
+}
+
+.ClusterControlDefault:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
+}
+
+.SwarmConfigDefault {
+    height: 60px;
+    width: 90px;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7px;
+}
+
+.SwarmConfigDefault:hover {
+    background-color: hsl(0, 0%, 95%);
+    transition: .15s;
+}
+
+.SwarmConfigDefault:active {
+    background-color: hsl(0, 0%, 75%);
+    transition: .15s;
+}
+
+.HeaderPicture {
+    height: 40px;
+    width: 40px;
+
+}
+
+.HeaderText {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    font-size: 12px;
 }

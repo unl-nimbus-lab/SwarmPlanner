@@ -12,7 +12,7 @@ class MapContainer extends React.Component {
 
   render() {
     const mapStyles = {        
-        height: "100vh",
+        height: "92vh",
         width: "100%"};
       
       const defaultCenter = {

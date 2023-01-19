@@ -4,7 +4,7 @@ import dockerPlain from "../resources/images/docker-1.svg"
 import dockerBlue from "../resources/images/docker-3.svg"
 import connectPlain from "../resources/images/wireless-plain.svg"
 import connectBlue from "../resources/images/wireless-blue.svg"
-import quad from "../resources/images/Simple_drone.svg"
+import pi from "../resources/images/Raspberry_Pi-Logo.wine.svg"
 import BasicSlider from './BasicSlider'
 import ExtraButtons from './ExtraButtons'
 import ModeButton from './ModeButton'
@@ -67,17 +67,16 @@ class AgentStatusCard extends React.Component {
         return(
             <div key={this.props.agentId} className={"AgentStatusCard"} id={this.props.agentId} value={this.props.agentId}>
                 <div className={"AgentStatusCardSection-Regular"}>
-
-                    <DroneLogo class="DroneLogo" imageSource={quad}/>
-                    <div className="IdTag" >{"AGENT-" + this.props.agentId}</div>
+                    <img className="DropArrow" src={DropArrow} onClick={this.setOptions}/>
+                    <StatusTag class="FlightModeTag" info={"AGENT-" + this.props.agentId} /> 
                     {connection}
                     <div>
                         <img className="DockerIcon" src={dockerBlue} />
                     </div>
+                    <DroneLogo class="DroneLogo" imageSource={pi}/>
                     <StatusTag class="FlightModeTag" info={this.props.flightMode} />          
                     <StatusTag class={isArmed} info={isArmed} />
                     <StatusTag class="AltTag" info={this.props.altitude} />
-                    <img className="DropArrow" src={DropArrow} onClick={this.setOptions}/>
                     <ArmButton class="ArmButton-Smol" agentId={this.props.agentId} compId={this.props.compId} />
                     <DisarmButton class="DisarmButton-Smol" agentId={this.props.agentId} compId={this.props.compId} />
                     <ModeButton class="ModeButton-Smol" mode="LAND" agentId={this.props.agentId} compId={this.props.compId} />
@@ -86,8 +85,8 @@ class AgentStatusCard extends React.Component {
                     <RemoveButton agentId={this.props.agentId} compId={this.props.compId} removeFun={this.props.removeFun}/>
                 </div>
                 <ExtraButtons agentId={this.props.agentId} compId={this.props.compId} render={this.state.options} />
-                <BasicSlider SliderStyle='AgentStatusCard-Slider' sliderClass="AgentStatusCardSection-Medium" ButtonClass="TakeoffButton" buttonFcn={this.sendValue} agentId={this.props.agentId} defaultValue={10} min={10} max={120} render={this.state.options} title="SET ALTITUDE"/>
-                <BasicSlider SliderStyle='AgentStatusCard-Slider' sliderClass="AgentStatusCardSection-Medium" ButtonClass="TakeoffButton" buttonFcn={this.sendValue} agentId={this.props.agentId} defaultValue={3}  min={3}  max={30}   render={this.state.options} title="TAKEOFF" />
+                <BasicSlider SliderStyle='AgentStatusCard-Slider' sliderClass="AgentStatusCardSection-RegularSlider" ButtonClass="SetAltButton-Smol" buttonFcn={this.sendValue} agentId={this.props.agentId} defaultValue={10} min={10} max={120} render={this.state.options} title="SET ALTITUDE"/>
+                <BasicSlider SliderStyle='AgentStatusCard-Slider' sliderClass="AgentStatusCardSection-RegularSlider" ButtonClass="SetAltButton-Smol" buttonFcn={this.sendValue} agentId={this.props.agentId} defaultValue={3}  min={3}  max={30}   render={this.state.options} title="TAKEOFF" />
             </div>
         )
     }

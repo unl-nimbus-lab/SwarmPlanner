@@ -12,6 +12,22 @@
     height: 30px;
     align-items: center;
 }
+.AgentStatusCardSection-RegularSpaced {
+    background-color: white;
+    display: flex;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    margin: 1px 0 0 0;
+}
+.AgentStatusCardSection-RegularSlider {
+    background-color: white;
+    display: flex;
+    height: 30px;
+    align-items: center;
+    padding: 0 20px 0 20px;
+
+}
 
 .AgentStatusCardSection-Medium {
     background-color: white;
@@ -31,12 +47,13 @@
 .AgentStatusCard {
     background-color: white;
     display: flex;
-    margin: 3px;
+    margin: 6px 6px 0 6px;
     flex-direction: column;
     border-style: solid;
     border-radius: 8px;
     border-color:white;
     padding: 3px;
+    /* width: 745px; */
 }
 
 
@@ -50,16 +67,17 @@
 } */
 
 .DroneLogo {
-    height: 20px;
+    height: 30px;
 }
 
 .DockerIcon {
     height: 20px;
-    margin: 0 0 0 5px;
+    margin: 0 0 0 8px;
 }
 
 .ConnectIcon {
     height: 20px;
+    margin: 0 0 0 8px;
 }
 
 .ExpandOptions {

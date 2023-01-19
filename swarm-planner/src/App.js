@@ -33,7 +33,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Header buttonFcn={this.updateBody}/>
+        <Header buttonFcn={this.updateBody} selected={this.state.body}/>
         <LeftSideBar />
         {body}
       </div>

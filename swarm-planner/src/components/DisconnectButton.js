@@ -1,13 +1,14 @@
 import React from 'react'
 import '../styles/Connection.css'
+import '../styles/ButtonStyles.css'
 class DisconnectButton extends React.Component {
     render() {
         return (
-            <div className="DISCONNECT" onClick={()=>{this.props.buttonFcn()}}>
+            <button className="DisconnectButton" onClick={()=>{this.props.buttonFcn()}}>
                 DISCONNECT
-            </div>
+            </button>
         );
     }
 }
 
-export default DisconnectButton;
+export default DisconnectButton; 

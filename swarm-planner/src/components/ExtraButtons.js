@@ -9,13 +9,15 @@ class ExtraButtons extends React.Component {
         }
 
         return(
-            <div className="AgentStatusCardSection-Regular">
+            <div className="AgentStatusCardSection-RegularSpaced">
                 <ModeButton class="ModeButton-Mid" mode="STABILIZE" agentId={this.props.agentId} compId={this.props.compId} />
                 <ModeButton class="ModeButton-Mid" mode="ALT_HOLD" agentId={this.props.agentId} compId={this.props.compId} />
                 <ModeButton class="ModeButton-Mid"  mode="LOITER" agentId={this.props.agentId} compId={this.props.compId} />
                 <ModeButton class="ModeButton-Mid"  mode="GUIDED" agentId={this.props.agentId} compId={this.props.compId} />
                 <ModeButton class="ModeButton-Mid"  mode="AUTO" agentId={this.props.agentId} compId={this.props.compId} />
                 <ModeButton class="ModeButton-Mid"  mode="THROW" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="BRAKE" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="STRIKE" agentId={this.props.agentId} compId={this.props.compId} />
             </div>
         );
     }

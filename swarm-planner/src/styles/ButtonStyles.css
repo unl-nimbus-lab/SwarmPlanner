@@ -63,7 +63,7 @@
     border-radius: 6px;
     margin: 5px 0 0 3px;
     height: 35px;
-    width: 106px;
+    width: 105px;
 }
 
 .ModeButton:hover {
@@ -296,7 +296,7 @@
     border-style: solid;
     border-radius: 6px;
     height: 26.5px;
-    width: 90px;
+    width: 88px;
 }
 
 .ModeButton-Mid:hover {
@@ -309,4 +309,82 @@
 .ModeButton-Mid:active {
     background-color: rgb(0, 0, 196);
     border-color: rgb(0, 0, 196);
+}
+
+.SetAltButton-Smol {
+    color:blue;
+    background-color: white;
+    border-color: blue;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    height: 26.5px;
+    width: 120px;
+    margin-left: 5px;
+}
+
+.SetAltButton-Smol:hover {
+    color: white;
+    background-color: blue;
+    border-color: blue;
+    transition: .15s;
+}
+
+.SetAltButton-Smol:active {
+    background-color: rgb(0, 0, 196);
+    border-color: rgb(0, 0, 196);
+}
+
+.ConnectButton {
+    color: rgb(0, 179, 0);
+    background-color: White;
+    border-color: rgb(0, 179, 0);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin-left: 3px;
+    height: 35px;
+    width: 160px;
+}
+
+.ConnectButton:hover {
+    color:white;
+    background-color: rgb(0, 179, 0);
+    border-color: rgb(0, 179, 0);
+    transition: .15s;
+}
+
+.ConnectButton:active {
+    background-color: green;
+    border-color: green;
+}
+
+.DisconnectButton {
+    color:rgb(255, 61, 61);
+    background-color: White;
+    border-color: rgb(255, 61, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin-left: 3px;
+    height: 35px;
+    width: 160px;
+}
+
+.DisconnectButton:hover {
+    color:white;
+    background-color: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    transition: .15s;
+}
+
+.DisconnectButton:active {
+    background-color: rgb(187, 0, 0);
+    border-color: rgb(187, 0, 0);
 }
