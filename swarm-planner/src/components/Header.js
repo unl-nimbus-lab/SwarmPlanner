@@ -2,6 +2,7 @@ import React from 'react';
 import ConnectionManager from './ConnectionManager';
 import TabButton from './TabButton';
 import '../styles/Header.css'
+import Swarm from '../resources/images/swarm.png'
 
 
 class Header extends React.Component {
@@ -13,7 +14,7 @@ class Header extends React.Component {
                     swarmplanner
                 </div>
                 <div className="tabs">
-                    <TabButton class="SwarmOverviewTab" title="SwarmOverview" buttonFcn={this.props.buttonFcn}/>
+                    <TabButton image={Swarm} class="SwarmOverviewTab" title="SwarmOverview" buttonFcn={this.props.buttonFcn}/>
                     <TabButton class="ClusterControlTab" title="ClusterControl" buttonFcn={this.props.buttonFcn}/>
                     <TabButton class="SwarmConfigTab" title="SwarmConfig" buttonFcn={this.props.buttonFcn}/>
                     <TabButton class="ParameterManagerTab" title="ParameterManager" buttonFcn={this.props.buttonFcn}/>

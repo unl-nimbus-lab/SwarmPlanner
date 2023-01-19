@@ -37,3 +37,8 @@
 .AgentStatusCard-Slider {
     flex:1
 }
+
+.HeaderPicture {
+    height: 40px;
+    width: 60px;
+}
