@@ -45,7 +45,7 @@ class HRLButtons extends React.Component {
         return(
             <div>
                 <div className="center-text">
-                    <p className="PanelLabel" >HRL Control Panel</p>
+                    <p className="PanelLabel" >HRL Controller Actions</p>
                 </div>
                 <div className="center-input">
                     <p className="PanelSubLabel">Target Group: </p>

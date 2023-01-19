@@ -3,6 +3,8 @@ import ConnectionManager from './ConnectionManager';
 import TabButton from './TabButton';
 import '../styles/Header.css'
 import Swarm from '../resources/images/swarm.svg'
+import Path from '../resources/images/location-path.svg'
+import tool from '../resources/images/wrench.svg'
 
 
 class Header extends React.Component {
@@ -24,12 +26,12 @@ class Header extends React.Component {
         return(
             <div className="header">
                 <div className="logo">
-                    <p>Swarm Planner</p>
+                    <p className="logoText" >Swarm Planner</p>
                 </div>
                 <div className="tabs">
                     <TabButton image={Swarm} class={swarmOverviewStyle} title="SwarmOverview" buttonFcn={this.props.buttonFcn} message="Overview"/>
-                    <TabButton image={Swarm} class={clusterControlStyle} title="ClusterControl" buttonFcn={this.props.buttonFcn} message="Mission"/>
-                    <TabButton image={Swarm} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Setup"/>
+                    <TabButton image={Path} class={clusterControlStyle} title="ClusterControl" buttonFcn={this.props.buttonFcn} message="Mission"/>
+                    <TabButton image={tool} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Setup"/>
                 </div>
                 <div>
                     <ConnectionManager />

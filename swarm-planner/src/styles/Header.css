@@ -4,7 +4,7 @@
     display: flex;
     background-color: white;
     position: fixed;
-    height: 60px;
+    height: 67px;
     top: 0px;
     left: 0px;
     right: 0px;
@@ -16,12 +16,23 @@
 .logo {
     /* height: 30px; */
     display: flex;
-    background-color:white;
+    /* background-color:white; */
     padding: 0 10px 0 10px;
     width: 330px;
     font-family: Audiowide;
     font-size: 30px;
+    height: 67px;
     justify-content: center;
+    align-items: center;
+    border-bottom-style: solid;
+    border-right-style: solid;
+    border-color: rgb(218, 218, 218);
+    border-width: 1px;
+}
+
+.logoText {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .tabs {

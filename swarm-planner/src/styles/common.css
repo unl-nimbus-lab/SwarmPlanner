@@ -20,7 +20,7 @@
 .HRLSeparate {
     display:flex;
     flex-direction: column;
-    border-style: solid;
+    border-style: none;
     align-items: center;
     border-color: gray;
     border-radius: 5px;
