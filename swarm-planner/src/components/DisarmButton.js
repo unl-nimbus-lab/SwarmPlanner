@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/ButtonStyles.css'
 
 class DisarmButton extends React.Component {
 
@@ -12,7 +13,7 @@ class DisarmButton extends React.Component {
     }
     render() {
         return (
-            <button onClick={this.disarm}>DISARM</button>
+            <button className={this.props.class} onClick={this.disarm}>DISARM</button>
         )
     }
 }

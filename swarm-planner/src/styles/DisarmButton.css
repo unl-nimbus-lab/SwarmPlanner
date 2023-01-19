@@ -1,0 +1,26 @@
+.DisarmButton {
+    color:rgb(255, 61, 61);
+    background-color: White;
+    border-color: rgb(255, 61, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 140px;
+}
+
+.DisarmButton:hover {
+    color:white;
+    background-color: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    transition: .15s;
+}
+
+.DisarmButton:active {
+    background-color: rgb(187, 0, 0);
+    border-color: rgb(187, 0, 0);
+}

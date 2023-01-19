@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/AgentStatusCard.css'
+import '../styles/ButtonStyles.css'
 
 class FourValueInput extends React.Component {
     constructor(props) {
@@ -29,19 +30,15 @@ class FourValueInput extends React.Component {
         return(
             <div className="AgentStatusCardSection-Regular">
 
-                <label for="NAME">NAME: </label>
-                <input id='name' onChange={this.handleChangeName} className="TextInput" type="text"></input>
+                <input id='name' onChange={this.handleChangeName} className="TextInput-Small" placeHolder="NAME" type="text"></input>
 
-                <label for="X">X: </label>
-                <input id='x' onChange={this.handleChangeX} className="TextInput" type="text"></input>
+                <input id='x' onChange={this.handleChangeX} className="TextInput-Small" placeHolder="X" type="text"></input>
 
-                <label for="Y">Y: </label>
-                <input id='y' onChange={this.handleChangeY} className="TextInput" type="text"></input>
+                <input id='y' onChange={this.handleChangeY} className="TextInput-Small" placeHolder="Y" type="text"></input>
 
-                <label for="Z">Z: </label>
-                <input id='z' onChange={this.handleChangeZ} className="TextInput" type="text"></input>
+                <input id='z' onChange={this.handleChangeZ} className="TextInput-Small" placeHolder="Z" type="text"></input>
 
-                <button onClick={ ()=>{handleClick(this.state.name,this.state.x,this.state.y,this.state.z)} }>SEND</button>
+                <button class="SendButton" onClick={ ()=>{handleClick(this.state.name,this.state.x,this.state.y,this.state.z)} }>SEND</button>
             </div>
 
         );

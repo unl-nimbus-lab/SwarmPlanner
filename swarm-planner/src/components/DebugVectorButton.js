@@ -1,4 +1,5 @@
 import React from "react";
+import '../styles/ButtonStyles.css'
 
 class DebugVectorButton extends React.Component {
 
@@ -21,7 +22,7 @@ class DebugVectorButton extends React.Component {
 
     render() {
         return(
-            <button onClick={this.buttonFcn}>{this.props.title}</button>
+            <button className={this.props.class} onClick={this.buttonFcn}>{this.props.title}</button>
         );
     }
 }

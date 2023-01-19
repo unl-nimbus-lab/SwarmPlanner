@@ -1,3 +1,15 @@
 .TextInput {
-    width: 30px;
+    width: 55px;
+    height: 20px;
+    border-radius: 6px;
+    margin: 0 2px 0 2px;
+    border-width: 1px;
+}
+
+.TextInput-Small {
+    width: 47px;
+    height: 20px;
+    border-radius: 6px;
+    margin: 0 2px 0 2px;
+    border-width: 1px;
 }

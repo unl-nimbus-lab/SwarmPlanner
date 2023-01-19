@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/AgentStatusCard.css'
-// import '../styles/SingleValueInput.css'
+import '../styles/ButtonStyles.css'
+import '../styles/TextStyles.css'
 
 class SingleValueInput extends React.Component {
     constructor(props) {
@@ -18,9 +19,9 @@ class SingleValueInput extends React.Component {
 
         return(
             <div className="AgentStatusCardSection-Regular">
-                <label for={this.props.title}>{this.props.title + ":"} </label>
+                <label class="PanelSubLabel" for={this.props.title}>{this.props.title + ":"} </label>
                 <input onChange={this.handleChangeX} className="TextInput" type="text"></input>
-                <button onClick={()=>handleClick(this.state.x)}>SEND</button>
+                <button class="SendButton" onClick={()=>handleClick(this.state.x)}>SEND</button>
             </div>
 
         );

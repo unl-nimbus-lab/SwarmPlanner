@@ -8,15 +8,15 @@ class LeftSideBar extends React.Component {
     render() {
         return (
             <div className="LeftSideBar">
-                <div className="TopBox">
-                    Blank
-                </div>
                 <div className="HRLManager">
                     <HRLButtons />
                 </div>
                 <div className="SwarmManager">
                     <SwarmManager />
                 </div>
+                <div className="TopBox">
+                    
+                    </div>
             </div>
         );
     }

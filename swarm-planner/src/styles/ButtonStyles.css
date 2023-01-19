@@ -1,0 +1,312 @@
+.ArmButton {
+    color: rgb(0, 179, 0);
+    background-color: White;
+    border-color: rgb(0, 179, 0);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 160px;
+}
+
+.ArmButton:hover {
+    color:white;
+    background-color: rgb(0, 179, 0);
+    border-color: rgb(0, 179, 0);
+    transition: .15s;
+}
+
+.ArmButton:active {
+    background-color: green;
+    border-color: green;
+}
+
+.DisarmButton {
+    color:rgb(255, 61, 61);
+    background-color: White;
+    border-color: rgb(255, 61, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 160px;
+}
+
+.DisarmButton:hover {
+    color:white;
+    background-color: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    transition: .15s;
+}
+
+.DisarmButton:active {
+    background-color: rgb(187, 0, 0);
+    border-color: rgb(187, 0, 0);
+}
+
+.ModeButton {
+    color:blue;
+    background-color: white;
+    border-color: blue;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    height: 35px;
+    width: 106px;
+}
+
+.ModeButton:hover {
+    color: white;
+    background-color: blue;
+    border-color: blue;
+    transition: .15s;
+}
+
+.ModeButton:active {
+    background-color: rgb(0, 0, 196);
+    border-color: rgb(0, 0, 196);
+}
+
+.EmergencyLand {
+    color:rgb(255, 61, 61);
+    background-color: White;
+    border-color: rgb(255, 61, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 323px;
+}
+
+.EmergencyLand:hover {
+    color:white;
+    background-color: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    transition: .15s;
+}
+
+.EmergencyLand:active {
+    background-color: rgb(187, 0, 0);
+    border-color: rgb(187, 0, 0);
+}
+
+.EmergencyRTL {
+    color:rgb(255, 148, 61);
+    background-color: White;
+    border-color: rgb(255, 148, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 323px;
+}
+
+.EmergencyRTL:hover {
+    color:white;
+    background-color: rgb(255, 148, 61);
+    border-color: rgb(255, 148, 61);
+    transition: .15s;
+}
+
+.EmergencyRTL:active {
+    background-color: rgb(235, 106, 0);
+    border-color: rgb(235, 106, 0);
+}
+
+.TakeoffButton {
+    color:salmon;
+    background-color: white;
+    border-color: salmon;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    height: 35px;
+    width: 95px;
+}
+
+.TakeoffButton:hover {
+    color: white;
+    background-color: salmon;
+    border-color: salmon;
+    transition: .15s;
+}
+
+.TakeoffButton:active {
+    background-color: rgb(255, 80, 60);
+    border-color: rgb(255, 80, 60);
+}
+
+.OrangeButton {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    height: 35px;
+    width: 160px;
+}
+
+.OrangeButton:hover {
+    color: white;
+    background-color: orange;
+    border-color: orange;
+    transition: .15s;
+}
+
+.OrangeButton:active {
+    background-color: rgb(190, 124, 0);
+    border-color: rgb(190, 124, 0);
+}
+
+.SendButton {
+    color:blue;
+    background-color: white;
+    border-color: blue;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 0 0 0 3px;
+    height: 26px;
+    width: 50px;
+}
+
+.SendButton:hover {
+    color: white;
+    background-color: blue;
+    border-color: blue;
+    transition: .15s;
+}
+
+.SendButton:active {
+    background-color: rgb(0, 0, 196);
+    border-color: rgb(0, 0, 196);
+}
+
+.ArmButton-Smol {
+    color: rgb(0, 179, 0);
+    background-color: White;
+    border-color: rgb(0, 179, 0);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    height: 26.5px;
+    width: 50px;
+    margin: 0 0 0 3px;
+}
+
+.ArmButton-Smol:hover {
+    color:white;
+    background-color: rgb(0, 179, 0);
+    border-color: rgb(0, 179, 0);
+    transition: .15s;
+}
+
+.ArmButton-Smol:active {
+    background-color: green;
+    border-color: green;
+}
+
+.DisarmButton-Smol {
+    color:rgb(255, 61, 61);
+    background-color: White;
+    border-color: rgb(255, 61, 61);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    height: 26.5px;
+    width: 75px;
+}
+
+.DisarmButton-Smol:hover {
+    color:white;
+    background-color: rgb(255, 61, 61);
+    border-color: rgb(255, 61, 61);
+    transition: .15s;
+}
+
+.DisarmButton-Smol:active {
+    background-color: rgb(187, 0, 0);
+    border-color: rgb(187, 0, 0);
+}
+
+.ModeButton-Smol {
+    color:blue;
+    background-color: white;
+    border-color: blue;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    height: 26.5px;
+    width: 60px;
+}
+
+.ModeButton-Smol:hover {
+    color: white;
+    background-color: blue;
+    border-color: blue;
+    transition: .15s;
+}
+
+.ModeButton-Smol:active {
+    background-color: rgb(0, 0, 196);
+    border-color: rgb(0, 0, 196);
+}
+
+.ModeButton-Mid {
+    color:blue;
+    background-color: white;
+    border-color: blue;
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    height: 26.5px;
+    width: 90px;
+}
+
+.ModeButton-Mid:hover {
+    color: white;
+    background-color: blue;
+    border-color: blue;
+    transition: .15s;
+}
+
+.ModeButton-Mid:active {
+    background-color: rgb(0, 0, 196);
+    border-color: rgb(0, 0, 196);
+}

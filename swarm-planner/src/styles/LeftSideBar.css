@@ -1,9 +1,9 @@
 .LeftSideBar {
     position: fixed;
-    background-color: lightyellow;
+    background-color: white;
     top: 60px;
     bottom: 0px;
-    width: 310px;
+    width: 350px;
     left: 0px;
     display:flex;
     flex-direction: column;
@@ -11,18 +11,26 @@
 
 .TopBox {
     flex:1;
-    background-color: grey;
+    background-color: white;
 }
 
 .HRLManager {
     flex: 1;
-    background-color: lightskyblue;
+    margin: 5px;
+    background-color: white;
+    border-style: solid;
+    border-color: gray;
+    border-radius: 10px;
     padding: 5px;
 }
 
 .SwarmManager {
     flex: 1;
-    background-color: lightgreen;
+    margin: 5px;
+    background-color: white;
+    border-style: solid;
+    border-color: gray;
+    border-radius: 10px;
     padding: 5px;
 }
 

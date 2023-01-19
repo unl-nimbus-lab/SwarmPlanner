@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/ButtonStyles.css'
 
 class ArmButton extends React.Component {
 
@@ -12,7 +13,7 @@ class ArmButton extends React.Component {
     }
     render() {
         return (
-            <button onClick={this.arm}>ARM</button>
+            <button className={this.props.class} onClick={this.arm}>ARM</button>
         )
     }
 }

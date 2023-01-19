@@ -1,10 +1,14 @@
 import React from 'react'
 import DebugVectorButton from './DebugVectorButton';
 import ThreeValueInput from './ThreeValueInput';
-import '../styles/AgentStatusCard.css'
 import BasicSlider from './BasicSlider';
 import SingleValueInput from './SingleValueInput';
 import FourValueInput from './FourValueInput';
+import '../styles/common.css'
+import '../styles/TextStyles.css'
+import '../styles/InputTextStyles.css'
+import '../styles/SwarmManagerSlider.css'
+import '../styles/AgentStatusCard.css'
 
 class HRLButtons extends React.Component {
     constructor(props) {
@@ -40,34 +44,51 @@ class HRLButtons extends React.Component {
     render() {
         return(
             <div>
-                <div>
-                    <input onChange={this.handleChangeClusterId} type='text' defaultValue="C1" />
+                <div className="center-text">
+                    <p className="PanelLabel" >HRL Control Panel</p>
                 </div>
-
-                <DebugVectorButton title="START ROS"            clusterId={this.state.clusterId} clusterCommand={"1"}/>
-                <DebugVectorButton title="STOP ROS"             clusterId={this.state.clusterId} clusterCommand={"2"}/>
-                <DebugVectorButton title="CLUSTER GUIDED LOCAL" clusterId={this.state.clusterId} clusterCommand="3" option1="1" />
-                <DebugVectorButton title="ALTITUDE SEPARATION"  clusterId={this.state.clusterId} clusterCommand="3" option1="4" />
-                <DebugVectorButton title="TRACK"                clusterId={this.state.clusterId} clusterCommand="3" option1="5" />
-                <DebugVectorButton title="ENABLE ORBIT"         clusterId={this.state.clusterId} clusterCommand="11"/>
-                <DebugVectorButton title="DISABLE ORBIT"        clusterId={this.state.clusterId} clusterCommand="12"/>
+                <div className="center-input">
+                    <p className="PanelSubLabel">Target Group: </p>
+                    <input className="SmallInput" onChange={this.handleChangeClusterId} type='text' defaultValue="C1" />
+                </div>
+                <div className="center">
+                    <DebugVectorButton class="ArmButton" title="START ROS" clusterId={this.state.clusterId} clusterCommand={"1"}/>
+                    <DebugVectorButton class="DisarmButton" title="STOP ROS" clusterId={this.state.clusterId} clusterCommand={"2"}/>
+                </div>
                 <div>
-                    <div className="AgentStatusCardSection-Regular">CLUSTER POSITION</div>
+                    <DebugVectorButton class="ModeButton" title="GUIDED" clusterId={this.state.clusterId} clusterCommand="3" option1="1" />
+                    <DebugVectorButton class="ModeButton" title="ALT SEP" clusterId={this.state.clusterId} clusterCommand="3" option1="4" />
+                    <DebugVectorButton class="ModeButton" title="TRACK"   clusterId={this.state.clusterId} clusterCommand="3" option1="5" />
+                </div>
+                <div>
+                    <DebugVectorButton class="OrangeButton" title="ENABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="11"/>
+                    <DebugVectorButton class="OrangeButton" title="DISABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="12"/>
+                </div>
+                <div>
+                    <BasicSlider SliderStyle='SwarmManagerSlider' sliderClass="AgentStatusCardSection-Medium" ButtonClass="TakeoffButton" buttonFcn={this.orbitSpeedSend} min={4}  max={20} render={"render"} title="SET ORBIT SPEED" /> 
+                </div>
+                <div className="HRLSeparate">
+                    <div className="AgentStatusCardSection-Regular">
+                        <p className="PanelSubLabel">Set Cluster Target (Local X,Y,Z) </p>
+                    </div>
                     <ThreeValueInput buttonFcn={this.waypointSend}/>
                 </div>
-                <div>
-                    <div className="AgentStatusCardSection-Regular">SET CLUSTER ORIGIN</div>
+                <div className="HRLSeparate">
+                    <div className="AgentStatusCardSection-Regular">
+                        <p className="PanelSubLabel"> Set Cluster Origin (WGS84 LAT, LON, ALT)</p>
+                    </div>
                     <ThreeValueInput buttonFcn={this.originSend}/>
                 </div>
-                <div>
-                    <BasicSlider buttonFcn={this.orbitSpeedSend} min={4}  max={20} render={"render"} title="SET ORBIT SPEED" /> 
-                </div>
-                <div>
-                <div className="AgentStatusCardSection-Regular">SET TARGET SYSTEM</div>
-                    <SingleValueInput buttonFcn={this.targetVectorSend} title="SYSTEM ID" />
-                </div>
-                <div>
-                    <div className="AgentStatusCardSection-Regular">CUSTOM VECTOR</div>
+                <div className="HRLSeparate">
+                    <div className="AgentStatusCardSection-Regular">
+                        <p className="PanelSubLabel">SET TARGET SYSTEM</p>
+                    </div>
+                        <SingleValueInput buttonFcn={this.targetVectorSend} title="SYSTEM ID" />
+                    </div>
+                <div className="HRLSeparate">
+                    <div className="AgentStatusCardSection-Regular">
+                        <p className="PanelSubLabel">Send Custom Vector</p>
+                    </div>
                     <FourValueInput buttonFcn={this.normalVectorSend} />
                 </div>
 

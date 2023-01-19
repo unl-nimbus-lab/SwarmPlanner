@@ -16,7 +16,7 @@
     display: flex;
     background-color: lightgreen;
     padding: 0 10px 0 10px;
-    width: 290px;
+    width: 335px;
 }
 
 .tabs {
@@ -34,14 +34,14 @@
 
 .SwarmOverviewTab {
     height: 60px;
-    background-color: lightpink;
+    background-color: hsl(0, 0%, 95%);
     cursor: pointer;    
 }
 
 
 .ClusterControlTab {
     height: 60px;
-    background-color: lightgrey;
+    background-color: lightpink;
     cursor: pointer;
 }
 

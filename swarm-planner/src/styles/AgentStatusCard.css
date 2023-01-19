@@ -13,6 +13,14 @@
     align-items: center;
 }
 
+.AgentStatusCardSection-Medium {
+    background-color: white;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .AgentStatusCardSection-Large {
     background-color: white;
     display: flex;
@@ -23,8 +31,12 @@
 .AgentStatusCard {
     background-color: white;
     display: flex;
-    margin: 5px;
+    margin: 3px;
     flex-direction: column;
+    border-style: solid;
+    border-radius: 8px;
+    border-color:white;
+    padding: 3px;
 }
 
 
@@ -43,7 +55,7 @@
 
 .DockerIcon {
     height: 20px;
-    padding-left: 5px;
+    margin: 0 0 0 5px;
 }
 
 .ConnectIcon {
@@ -53,7 +65,6 @@
 .ExpandOptions {
     height: 20px;
     width: 20px;
-    background-color: green;
 
 }
 
@@ -72,4 +83,59 @@
 
 .SetAltButton {
     width: 60px;
+}
+
+.IdTag {
+    margin: 0 0 0 3px;
+    width: 80px;
+}
+
+.FlightModeTag {
+    display: flex;
+    margin: 0 0 0 3px;
+    width: 82px;
+    border-style: solid;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 4px;
+    justify-content: center;
+}
+
+.DISARMED {
+    display: flex;
+    margin: 0 0 0 3px;
+    width: 90px;
+    border-style: solid;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 4px;
+    justify-content: center;
+}
+
+.ARMED {
+    display: flex;
+    margin: 0 0 0 3px;
+    width: 90px;
+    border-style: solid;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 4px;
+    justify-content: center;
+    color: White;
+    background-color: red;
+    border-color: red;
+    font-weight: bold;
+}
+
+.AltTag {
+    width: 50px;
+    margin: 0 0 0 3px;
+}
+
+.DropArrow {
+    height: 10px;
+}
+
+.DropArrow:hover {
+    background-color: lightgrey;
 }

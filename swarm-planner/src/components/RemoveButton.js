@@ -1,5 +1,6 @@
 import React from 'react'
 import "../styles/RemoveButton.css"
+import "../styles/common.css"
 
 class RemoveButton extends React.Component {
 
@@ -7,7 +8,7 @@ class RemoveButton extends React.Component {
         var handleRemove = this.props.removeFun;
         return (
             <div className="RemoveButton" onClick={() => {handleRemove(this.props.compId)}}>
-                x
+                <p className="pain">x</p>
             </div>
         )
     }

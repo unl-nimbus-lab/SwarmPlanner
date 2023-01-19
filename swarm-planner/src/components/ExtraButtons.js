@@ -10,12 +10,12 @@ class ExtraButtons extends React.Component {
 
         return(
             <div className="AgentStatusCardSection-Regular">
-                <ModeButton mode="STABILIZE" agentId={this.props.agentId} compId={this.props.compId} />
-                <ModeButton mode="ALT_HOLD" agentId={this.props.agentId} compId={this.props.compId} />
-                <ModeButton mode="LOITER" agentId={this.props.agentId} compId={this.props.compId} />
-                <ModeButton mode="GUIDED" agentId={this.props.agentId} compId={this.props.compId} />
-                <ModeButton mode="AUTO" agentId={this.props.agentId} compId={this.props.compId} />
-                <ModeButton mode="THROW" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid" mode="STABILIZE" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid" mode="ALT_HOLD" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="LOITER" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="GUIDED" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="AUTO" agentId={this.props.agentId} compId={this.props.compId} />
+                <ModeButton class="ModeButton-Mid"  mode="THROW" agentId={this.props.agentId} compId={this.props.compId} />
             </div>
         );
     }

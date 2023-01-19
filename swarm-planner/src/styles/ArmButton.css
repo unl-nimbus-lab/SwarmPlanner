@@ -1,0 +1,26 @@
+.ArmButton {
+    color: rgb(0, 179, 0);
+    background-color: White;
+    border-color: rgb(0, 179, 0);
+    border-width: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 6px;
+    margin: 5px 0 0 3px;
+    padding: 5px 0 5px 0;
+    height: 35px;
+    width: 140px;
+}
+
+.ArmButton:hover {
+    color:white;
+    background-color: rgb(0, 179, 0);
+    border-color: rgb(0, 179, 0);
+    transition: .15s;
+}
+
+.ArmButton:active {
+    background-color: green;
+    border-color: green;
+}

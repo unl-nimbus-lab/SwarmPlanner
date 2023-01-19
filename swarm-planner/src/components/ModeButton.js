@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/ButtonStyles.css'
 
 class ModeButton extends React.Component {
 
@@ -13,7 +14,7 @@ class ModeButton extends React.Component {
 
     render() {
         return(
-            <button onClick={this.setMode}>{this.props.mode}</button>
+            <button className={this.props.class} onClick={this.setMode}>{this.props.mode}</button>
         );
     }
 }

@@ -1,8 +1,10 @@
 .BodyAgentView {
-    background-color: lightpink;
+    background-color: hsl(0, 0%, 89%);
     display: flex;
     flex-direction: column;
     flex:1;
+    box-shadow: -10px 0 5px hsl(0, 0%, 89%);
+    
 }
 
 .Body {
@@ -11,6 +13,6 @@
 
 .BodyMap {
     flex:1;
-    background-color: lightcoral;
+    background-color: lightblue;
     padding: 5px;
 }
