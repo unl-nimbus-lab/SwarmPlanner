@@ -25,7 +25,7 @@ class MapContainer extends React.Component {
         )
       })
 
-      const poop = <MarkerF label={'2'} icon={droneIcon} position={ {lat: 40.847, lng: -96.471667} }/>
+      const debug = <MarkerF label={'2'} icon={droneIcon} position={ {lat: 40.847, lng: -96.471667} }/>
 
     return (
         <LoadScript
