@@ -9,8 +9,18 @@ import BodySwarmConfig from './components/BodySwarmConfig';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {body: "SwarmOverview", checkedAgents: ['']}
+    this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: []}
   }
+
+  removeAgent= (input) => {
+    var blackListed = this.state.ignoreComps
+    blackListed.push(input)
+    //console.log(blackListed)
+    this.setState({
+        ingnoreComps: blackListed
+    })
+    return 
+}
 
   updateBody = (input) => {
     this.setState({body: input})
@@ -19,7 +29,7 @@ class App extends React.Component {
   getBody = () => {
     switch(this.state.body) {
       case "SwarmOverview":
-        return <BodyAgentView />
+        return <BodyAgentView removeFun={this.removeAgent} ignoreComps={this.state.ignoreComps}/>
       case "ClusterControl":
         return <BodyClusterControl />
       case "SwarmConfig":
@@ -33,7 +43,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Header buttonFcn={this.updateBody} selected={this.state.body}/>
+        <Header buttonFcn={this.updateBody} selected={this.state.body} />
         <LeftSideBar />
         {body}
       </div>

@@ -53,25 +53,50 @@ def testAgent():
     agent = {
         "agentId": "13",
         "compId": "1",
-        "armStatus": "true",
+        "armStatus": True,
         "mode": "STABILIZE",
         "timeout": "false",
-        "latitude": 0.0,
-        "longitude": 0.0,
-        "altitude": 0.0
+        "latitude": 40.8467,
+        "longitude": -96.4717,
+        "altitude": 60
     }
     agents.append(agent)
     agent = {
         "agentId": "5",
         "compId": "1",
-        "armStatus": "false",
+        "armStatus": False,
         "mode": "GUIDED",
         "timeout": "true",
-        "latitude": 0.0,
-        "longitude": 0.0,
-        "altitude": 0.0
+        "latitude": 40.8468,
+        "longitude": -96.4716,
+        "altitude": 42.0
     }
     agents.append(agent)
+    agent = {
+        "agentId": "4",
+        "compId": "2",
+        "armStatus": False,
+        "mode": "AUTO",
+        "timeout": "true",
+        "latitude": 40.8468,
+        "longitude": -96.4716,
+        "altitude": 42.0
+    }
+    agents.append(agent)
+    agent = {
+        "agentId": "7",
+        "compId": "2",
+        "armStatus": False,
+        "mode": "GUIDED",
+        "timeout": "true",
+        "latitude": 40.8466,
+        "longitude": -96.4715,
+        "altitude": 42.0
+    }
+    agents.append(agent)
+    
+
+
     return agents
 
 def convertAgentsToAgentID(listOfAgents):

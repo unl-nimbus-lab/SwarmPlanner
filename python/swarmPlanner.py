@@ -53,20 +53,20 @@ class MyServer(BaseHTTPRequestHandler):
                 
 
                 #generate random fake agents for easy testing
-                #agentInfo = testAgent()
+                agentInfo = testAgent()
 
-                for agent in mavswarm.agents:
-                    tempAgent = {
-                        "agentId": str(agent.system_id),
-                        "compId": str(agent.component_id),
-                        "armStatus": agent.armed.value,
-                        "mode": agent.mode.value,
-                        "timeout": agent.timeout.value,
-                        "latitude": agent.position.global_frame.x,
-                        "longitude": agent.position.global_frame.y,
-                        "altitude": agent.position.global_frame.z
-                    }
-                    agentInfo.append(tempAgent)
+                # for agent in mavswarm.agents:
+                #     tempAgent = {
+                #         "agentId": str(agent.system_id),
+                #         "compId": str(agent.component_id),
+                #         "armStatus": agent.armed.value,
+                #         "mode": agent.mode.value,
+                #         "timeout": agent.timeout.value,
+                #         "latitude": agent.position.global_frame.x,
+                #         "longitude": agent.position.global_frame.y,
+                #         "altitude": agent.position.global_frame.z
+                #     }
+                #     agentInfo.append(tempAgent)
                     
                     
                     #use these for gps shite

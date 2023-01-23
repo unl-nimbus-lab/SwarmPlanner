@@ -7,7 +7,7 @@ import MapContainer from './MapContainer';
 class BodyAgentView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {agentList: [], ignoreComps: []}
+        this.state = {agentList: []}
      }
     
      componentDidMount() {
@@ -31,19 +31,9 @@ class BodyAgentView extends React.Component {
         })
     }
 
-    removeAgent= (input) => {
-        var blackListed = this.state.ignoreComps
-        blackListed.push(input)
-        //console.log(blackListed)
-        this.setState({
-            ingnoreComps: blackListed
-        })
-        return 
-    }
-
     render() {
         let agents = this.state.agentList.map( (agent) => {
-            if (this.state.ignoreComps.includes(agent.getCId())) {
+            if (this.props.ignoreComps.includes(agent.getCId())) {
               return null
             }
             return  (
@@ -54,7 +44,7 @@ class BodyAgentView extends React.Component {
                                 armStatus={agent.getArmStatus()} 
                                 altitude={agent.getAltitude()} 
                                 timeout={agent.getTimeout()} 
-                                removeFun={this.removeAgent}  />
+                                removeFun={this.props.removeFun}  />
             )
           })
 
