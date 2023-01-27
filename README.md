@@ -5,7 +5,7 @@ A browser-based tool for managing swarms
 
 `cd swarmPlanner/React`
 
-`docker build -t swarm-panner .`
+`docker build -t swarm-planner .`
 
 `docker run -p 3000:3000 swarm-planner`
 
