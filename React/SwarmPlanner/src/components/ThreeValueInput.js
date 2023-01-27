@@ -28,14 +28,14 @@ class ThreeValueInput extends React.Component {
             <div className="AgentStatusCardSection-Regular">
 
                 {/* <label class="PanelSubLabel" for="X">X: </label> */}
-                <input placeHolder="X" id='x' onChange={this.handleChangeX} className="TextInput" type="text"></input>
+                <input placeholder="X" id='x' onChange={this.handleChangeX} className="TextInput" type="text"></input>
 {/* 
                 <label class="PanelSubLabel" for="Y">Y: </label> */}
-                <input placeHolder="Y" id='y' onChange={this.handleChangeY} className="TextInput" type="text"></input>
+                <input placeholder="Y" id='y' onChange={this.handleChangeY} className="TextInput" type="text"></input>
 
                 {/* <label class="PanelSubLabel" for="Z">Z: </label> */}
-                <input placeHolder="Z" id='z' onChange={this.handleChangeZ} className="TextInput" type="text"></input>
-                <button class="SendButton" onClick={()=>{handleClick(this.state.x, this.state.y, this.state.z)}}>SEND</button>
+                <input placeholder="Z" id='z' onChange={this.handleChangeZ} className="TextInput" type="text"></input>
+                <button className="SendButton" onClick={()=>{handleClick(this.state.x, this.state.y, this.state.z)}}>SEND</button>
             </div>
 
         );

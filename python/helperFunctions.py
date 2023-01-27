@@ -78,7 +78,7 @@ def testAgent():
         "armStatus": False,
         "mode": "AUTO",
         "timeout": "true",
-        "latitude": 40.8468,
+        "latitude": 40.8458,
         "longitude": -96.4716,
         "altitude": 42.0
     }

@@ -7,6 +7,7 @@ import socketserver
 from helperFunctions import *
 import json
 import cgi
+import sys
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID

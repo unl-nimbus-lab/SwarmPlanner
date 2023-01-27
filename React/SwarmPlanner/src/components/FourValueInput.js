@@ -30,15 +30,15 @@ class FourValueInput extends React.Component {
         return(
             <div className="AgentStatusCardSection-Regular">
 
-                <input id='name' onChange={this.handleChangeName} className="TextInput-Small" placeHolder="NAME" type="text"></input>
+                <input id='name' onChange={this.handleChangeName} className="TextInput-Small" placeholder="NAME" type="text"></input>
 
-                <input id='x' onChange={this.handleChangeX} className="TextInput-Small" placeHolder="X" type="text"></input>
+                <input id='x' onChange={this.handleChangeX} className="TextInput-Small" placeholder="X" type="text"></input>
 
-                <input id='y' onChange={this.handleChangeY} className="TextInput-Small" placeHolder="Y" type="text"></input>
+                <input id='y' onChange={this.handleChangeY} className="TextInput-Small" placeholder="Y" type="text"></input>
 
-                <input id='z' onChange={this.handleChangeZ} className="TextInput-Small" placeHolder="Z" type="text"></input>
+                <input id='z' onChange={this.handleChangeZ} className="TextInput-Small" placeholder="Z" type="text"></input>
 
-                <button class="SendButton" onClick={ ()=>{handleClick(this.state.name,this.state.x,this.state.y,this.state.z)} }>SEND</button>
+                <button className="SendButton" onClick={ ()=>{handleClick(this.state.name,this.state.x,this.state.y,this.state.z)} }>SEND</button>
             </div>
 
         );
