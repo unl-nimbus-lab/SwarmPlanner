@@ -38,6 +38,7 @@ class ConnectionManager extends React.Component {
         var baudrate = baud.value;
         fetch('http://127.0.0.1:8080/connect_to' + value + '/' + baudrate)
     }
+
     disconnectClick = () => {
         fetch('http://127.0.0.1:8080/disconnect')
     }
@@ -49,6 +50,7 @@ class ConnectionManager extends React.Component {
             const finalList = result.map( (device) => {
                 return device.Device;
             })
+            finalList.push("udpin:127.0.0.1:14551")
             this.setState({deviceList: finalList})
         })
     }
