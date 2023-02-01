@@ -50,34 +50,29 @@ class MyServer(BaseHTTPRequestHandler):
 
             case 'update_agents':
                 agentInfo = []
-
-                
-
                 #generate random fake agents for easy testing
-                agentInfo = testAgent()
+                #agentInfo = testAgent()
 
-                # for agent in mavswarm.agents:
-                #     tempAgent = {
-                #         "agentId": str(agent.system_id),
-                #         "compId": str(agent.component_id),
-                #         "armStatus": agent.armed.value,
-                #         "mode": agent.mode.value,
-                #         "timeout": agent.timeout.value,
-                #         "latitude": agent.position.global_frame.x,
-                #         "longitude": agent.position.global_frame.y,
-                #         "altitude": agent.position.global_frame.z
-                #     }
-                #     agentInfo.append(tempAgent)
+                for agent in mavswarm.agents:
+                    tempAgent = {
+                        "agentId": str(agent.system_id),
+                        "compId": str(agent.component_id),
+                        "armStatus": agent.armed.value,
+                        "mode": agent.mode.value,
+                        "timeout": agent.timeout.value,
+                        "latitude": agent.position.global_frame.x,
+                        "longitude": agent.position.global_frame.y,
+                        "altitude": agent.position.global_frame.z
+                    }
+                    agentInfo.append(tempAgent)
                     
-                    
-                    #use these for gps shite
+                    #use these for gps shite --Dont delete, just keep this here for reference
                     # print((agent.position.global_frame.x))
                     # print((agent.position.global_frame.y))
                     # print((agent.position.global_frame.z))
 
                 jagents = json.dumps(agentInfo)
                 self.wfile.write(bytes(jagents,encoding='utf8'))
-
 
             case 'update_connection_list':
                 devices = []
@@ -89,10 +84,17 @@ class MyServer(BaseHTTPRequestHandler):
                 self.wfile.write(bytes(jDevices,encoding='utf8'))
 
             case 'connect_to':
-                deviceLocation = splitURL[2]
-                deviceName = splitURL[3]
-                baudrate = splitURL[4]
-                url =  '/' + deviceLocation + '/' + deviceName
+
+                if (splitURL[2] == "UDP"):
+                    #FOUND A UDP PORT
+                    baudrate = "57600" #This doesn't matter but pymavswarm will bitch without it
+                    url = splitURL[3]
+                    print(url)
+                else:
+                    deviceLocation = splitURL[2]
+                    deviceName = splitURL[3]
+                    baudrate = splitURL[4]
+                    url =  '/' + deviceLocation + '/' + deviceName
                 print('Connecting to ' + url + " at " + baudrate + " baud ...")
                 mavswarm.connect(url, baudrate, 255, 0)
 

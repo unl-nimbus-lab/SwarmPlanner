@@ -50,7 +50,8 @@ class ConnectionManager extends React.Component {
             const finalList = result.map( (device) => {
                 return device.Device;
             })
-            finalList.push("udpin:127.0.0.1:14551")
+            //finalList.push("/udpin:127.0.0.1:14551")
+            finalList.push("/UDP")
             this.setState({deviceList: finalList})
         })
     }
@@ -64,7 +65,7 @@ class ConnectionManager extends React.Component {
     }
 
     render() {
-        const baudList = ["230400","57600","115200","921600"]
+        const baudList = ["230400","57600","115200","921600","udpin:127.0.0.1:14551"]
 
         let devices = this.state.deviceList.map( (device) => {
             return (
