@@ -3,6 +3,8 @@ A browser-based tool for managing swarms
 
 # To use:
 
+`git clone <this code>`
+
 `cd swarmPlanner/React`
 
 `docker build -t swarm-planner .`
