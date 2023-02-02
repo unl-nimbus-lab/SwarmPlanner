@@ -90,6 +90,11 @@ class MyServer(BaseHTTPRequestHandler):
                     baudrate = "57600" #This doesn't matter but pymavswarm will bitch without it
                     url = splitURL[3]
                     print(url)
+                elif (splitURL[2] == "TCP"):
+                    #FOUND A TCP PORT
+                    baudrate = "57600" #This doesn't matter but pymavswarm will bitch without it
+                    url = splitURL[3]
+                    print(url)
                 else:
                     deviceLocation = splitURL[2]
                     deviceName = splitURL[3]
