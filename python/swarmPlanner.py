@@ -238,15 +238,18 @@ class MyServer(BaseHTTPRequestHandler):
                         print('you did not send a valid flightmode')
             
             case 'takeoff':
-                if (len(splitURL) == 4):
-                    agents_to_work = [splitURL[2]]
-                    altitude = splitURL[3]   
+                if (len(splitURL) == 3):
+                    #case: all
+                    altitude = float(splitURL[2])
+                    future = mavswarm.takeoff(altitude)
+                    while not future.done():
+                        pass
                 else:
+                    #case: selected
                     agents_to_work = splitURL[2::2]
-                    altitude = splitURL[3::2]
-
-                agentsToTakeoff = convertAgentsToAgentID(agents_to_work)
-                future = mavswarm.takeoff(altitude,agentsToTakeoff)
+                    altitude = float(splitURL[3::2])
+                    agentsToTakeoff = convertAgentsToAgentID(agents_to_work)
+                    future = mavswarm.takeoff(altitude,agentsToTakeoff)
 
             case 'debug_vector':
                 match (len(splitURL)):
