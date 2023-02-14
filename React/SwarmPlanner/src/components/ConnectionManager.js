@@ -66,7 +66,7 @@ class ConnectionManager extends React.Component {
     }
 
     render() {
-        const baudList = ["230400","57600","115200","921600","udpin:127.0.0.1:14551","tcp:127.0.0.1:5760","tcp:127.0.0.1:6969","tcp:0.0.0.0:8100","udpin:127.0.0.1:6969"]
+        const baudList = ["230400","57600","115200","921600","udpin:127.0.0.1:14551","tcp:127.0.0.1:5760","tcp:0.0.0.0:8100","udpin:127.0.0.1:4242"]
 
         let devices = this.state.deviceList.map( (device) => {
             return (
