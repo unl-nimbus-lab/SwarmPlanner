@@ -50,7 +50,6 @@ class ConnectionManager extends React.Component {
             const finalList = result.map( (device) => {
                 return device.Device;
             })
-            //finalList.push("/udpin:127.0.0.1:14551")
             finalList.push("/UDP")
             finalList.push("/TCP")
             this.setState({deviceList: finalList})
@@ -66,7 +65,7 @@ class ConnectionManager extends React.Component {
     }
 
     render() {
-        const baudList = ["230400","57600","115200","921600","udpin:127.0.0.1:14551","tcp:127.0.0.1:5760","tcp:0.0.0.0:8100","udpin:127.0.0.1:4242"]
+        // const baudList = ["230400","57600","115200","921600","udpin:127.0.0.1:14551","tcp:127.0.0.1:5760","tcp:0.0.0.0:8100","udpin:127.0.0.1:4242"]
 
         let devices = this.state.deviceList.map( (device) => {
             return (
@@ -74,15 +73,16 @@ class ConnectionManager extends React.Component {
             )
         })
 
-        let bauds = baudList.map( (baud) => {
-            return (
-                <option value={baud} key={baud}>{baud}</option>
-            )
-        })
+        // let bauds = baudList.map( (baud) => {
+        //     return (
+        //         <option value={baud} key={baud}>{baud}</option>
+        //     )
+        // })
 
         const button = this.getButton();
 
         return(
+
             <div className="connection-manager-component">
                 <div>
                     <select className="connection-drop-box" name="Connection" id="SerialConnectList" onClick={this.get}>
@@ -90,9 +90,9 @@ class ConnectionManager extends React.Component {
                     </select>
                 </div>
                 <div>
-                    <select className="connection-drop-box" name="Baud" id="SerialBaudRate">
-                        {bauds}
-                    </select>
+                    <input className="connection-drop-box" name="Baud" id="SerialBaudRate" defaultValue="udpin:127.0.0.1:4242">
+                        
+                    </input>
                 </div>
                 {button}
             </div>

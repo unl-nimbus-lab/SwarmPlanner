@@ -11,6 +11,7 @@
     min-width: 150px;
     height: 35px;
     border: none;
+    padding: 0 0 0 4px;
     background-color: rgb(216, 216, 216);
     border-radius: 7px;
     margin-left: 3px;
