@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     net-tools \
     clang \
     g++ \
+    git \
     rsync \
     zip \
     make \
@@ -46,11 +47,11 @@ RUN pip3 install \
     scipy \
     matplotlib
 
-COPY pymavswarm ./pymavswarm
-RUN cd pymavswarm && pip3 install .
-COPY SwarmPlanner.py .
+RUN git clone https://github.com/unl-nimbus-lab/pymavswarm.git
+WORKDIR ${HOME}/pymavswarm
+RUN pip3 install .
+WORKDIR ${HOME}
+COPY swarmPlanner.py .
 COPY helperFunctions.py .
 
-EXPOSE 8080
-
-CMD ["python3", "/home/SwarmPlanner.py"]
+CMD ["python3", "/home/swarmPlanner.py"]
