@@ -1,0 +1,16 @@
+version: '3'
+#The only difference bewteen the "simulation" and "deployment" versions is that the
+#deployment verstsion has port sharing enabled 
+services:
+  swarmplanner_web:
+    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerreact
+    container_name: swarmplanner_web
+    network_mode: host
+
+  swarmplanner_python:
+    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython
+    container_name: swarmplanner_python
+    network_mode: host
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+
