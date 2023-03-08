@@ -9,11 +9,19 @@ let options = agentChoices.map( (agent) => {
     )
 })
 
+let endPointOptions = [1,2,3,4]
+
+let endpoints = endPointOptions.map( (end) => {
+    return (
+        <option value={end} key={end}>{end}</option>
+    )
+})
+
 
 class BodySwarmConfig extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {vehicles: '1', gazebo: '', defaultCompProcess: "", path: ""};
+        this.state = {vehicles: '1', gazebo: '', defaultCompProcess: "", path: "", alternateCompProcess: "", alternateCompProcessName: ""};
     }
 
     buildComposeString = () => {
@@ -51,6 +59,17 @@ class BodySwarmConfig extends React.Component {
         else {
             this.setState({defaultCompProcess: ""})
         }
+    }
+
+    setAltComp = () => {
+        if (document.getElementById("checkbox2").checked) {
+            this.setState({alternateCompProcess: "-d"})
+            this.setState({alternateCompProcessName: (document.getElementById("compContainerName").value + "")})
+        }
+        else {
+            this.setState({alternateCompProcess: ""})
+            this.setState({alternateCompProcessName: ""})
+        }        
     }
 
     render() {
@@ -99,7 +118,7 @@ class BodySwarmConfig extends React.Component {
                 <div className="Bodyblue">
                     <label>
                         <input type="checkbox" id="checkbox1" onChange={this.setDefaultComp}></input>
-                        Default Companion Process
+                        Include Companion Process
                     </label>
                 </div>
                 <div className="Bodypink">
@@ -107,7 +126,23 @@ class BodySwarmConfig extends React.Component {
                     <input type="text" id="pathInput"></input> 
                 </div>
                 <div className="Bodyblue">
-                    {"python3 generate_compose.py" + " " + this.state.vehicles + " " + this.state.gazebo + " "+ this.state.path + " " + this.state.defaultCompProcess}
+                    Number of GCS Endpoints: 
+                    <select onChange={this.endChange} id="numOfEndPoints">
+                        {endpoints}
+                    </select>
+                </div>
+                <div className="Bodypink">
+                    <label>
+                        <input type="checkbox" id="checkbox2" onChange={this.setAltComp}></input>
+                        Specify Companion Process
+                    </label>
+                    <label>
+                        Container Name: 
+                        <input type="text" id="compContainerName" onChange={this.setAltComp}></input>
+                    </label>
+                </div>
+                <div className="Bodyblue">
+                    {"python3 generate_compose.py" + " " + this.state.vehicles + " " + this.state.gazebo + " "+ this.state.path + " " + this.state.defaultCompProcess +" " + this.state.alternateCompProcess + " " + this.state.alternateCompProcessName}
                 </div>
                 <div className="Bodypink">
                         <button onClick={this.generateCompose}>Generate Compose</button>
