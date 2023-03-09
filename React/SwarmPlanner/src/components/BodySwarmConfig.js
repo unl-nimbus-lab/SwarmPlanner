@@ -74,8 +74,16 @@ class BodySwarmConfig extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="Bodymain">
+                <div className="Bodypink">
+                    <h1> Swarm Simulation Generator </h1>
+                    <p>Welcome to the swarm simulation generator. Customize your simulation by chaning the parameters below. Once all of your parameters are selected, the
+                        command to generate that simulation will appear below, starting with "python3 genearte_compose ...". Copy and run this command in a terminal, or simply
+                        press the "Generate Compose" button (beta) to genearte a docker-compose file for the swarm you have specified.
+                    </p>
+                </div>
                 <div className="Bodyblue">
+                    <h2>Simulation Options</h2>
                     Number of Agents to Simulate: 
                     <select onChange={this.numberChange} id="numOfAgents">
                         {options}
@@ -142,9 +150,11 @@ class BodySwarmConfig extends React.Component {
                     </label>
                 </div>
                 <div className="Bodyblue">
+                    <h2>Simulation Generate Command</h2>
                     {"python3 generate_compose.py" + " " + this.state.vehicles + " " + this.state.gazebo + " "+ this.state.path + " " + this.state.defaultCompProcess +" " + this.state.alternateCompProcess + " " + this.state.alternateCompProcessName}
                 </div>
                 <div className="Bodypink">
+                        <h2>Press to Generate the Compose File (beta)</h2>
                         <button onClick={this.generateCompose}>Generate Compose</button>
                 </div>
             </div>

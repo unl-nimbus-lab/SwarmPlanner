@@ -5,3 +5,8 @@
 .Bodypink {
     background-color: lightpink;
 }
+
+.Bodymain {
+    background-color: #F2F2F2;
+    padding: 2px 2px 2px 2px
+}
