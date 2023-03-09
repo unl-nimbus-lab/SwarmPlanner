@@ -34,7 +34,7 @@ class BodySwarmConfig extends React.Component {
     }
 
     generateCompose = () => {
-        fetch('http://127.0.0.1:8080/generate_compose/' + (this.state.vehicles + "") + this.state.gazebo)
+        fetch('http://127.0.0.1:8080/generate_compose/' + this.state.vehicles + "/"+ this.state.gazebo + "/"+ this.state.path +"/"+ this.state.defaultCompProcess +"/"+ this.state.alternateCompProcess +"/"+ this.state.alternateCompProcessName)
     }
 
     setNoGazebo = () => {
