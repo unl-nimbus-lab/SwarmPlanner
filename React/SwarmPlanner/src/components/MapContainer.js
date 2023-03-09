@@ -36,8 +36,9 @@ class MapContainer extends React.Component {
                     center={this.state.center} 
                     mapTypeId='satellite'
                     onRightClick={ev => {
-                            console.log("latitide = ", ev.latLng.lat());
-                            console.log("longitude = ", ev.latLng.lng());
+                      fetch('http://127.0.0.1:8080/debug_vector/C1$4/' + (ev.latLng.lat() + '/') + (ev.latLng.lng() + '/') + "0" );
+                            // console.log("latitide = ", ev.latLng.lat());
+                            // console.log("longitude = ", ev.latLng.lng());
                             //this.setState({ center: {lat: ev.latlng.lat() ,lng:ev.latlng.lng() } })
                             //fetch('http://127.0.0.1:8080/debug_vector/C1$4/' + '')
                         }}
