@@ -8,6 +8,9 @@ from helperFunctions import *
 import json
 import cgi
 import sys
+import subprocess
+import shlex
+
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID
@@ -270,6 +273,27 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
+           
+            case 'generate_compose':
+                
+                #Parse information from http request
+                agent_count = splitURL[2]
+                gazebo =  splitURL[3]
+                gazebo_absolute_path = splitURL[4]
+                companion_process = splitURL[5]
+                specific_compainion = splitURL[6] + " " + splitURL[7]
+
+                # Change the working directory to the directory containing the Python script you want to run and location to python3
+                script_dir = '/home/landenf/uav_simulator/swarm_simulator/'
+                python_dir = '/home/landenf/anaconda3/envs/pymavswarm/bin/python3'
+
+                #Generate and print command
+                cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
+                print("RUNNNING: " + cmd)
+
+                #Generate compose file using subprocessing
+                subprocess.run(shlex.split(cmd), cwd=script_dir)
+                
             case _:
                 print('you did not send a valid command')
                              
