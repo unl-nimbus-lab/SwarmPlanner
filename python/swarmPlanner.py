@@ -283,9 +283,14 @@ class MyServer(BaseHTTPRequestHandler):
                 companion_process = splitURL[5]
                 specific_compainion = splitURL[6] + " " + splitURL[7]
 
-                # Change the working directory to the directory containing the Python script you want to run and location to python3
-                script_dir = '/home/landenf/uav_simulator/swarm_simulator/'
-                python_dir = '/home/landenf/anaconda3/envs/pymavswarm/bin/python3'
+                # Change the working directory to the directory containing the generate_compose and location of python3 (including ACTIVE anaconda enviorment)
+                current_Username = os.environ.get('USERNAME')
+                envs_list = subprocess.check_output(['conda','env','list']).splitlines()
+                active_env = list(filter(lambda s: '*' in str(s), envs_list))[0]
+                env_name = str(active_env).split()[0][2:]
+
+                script_dir = '/home/%s/uav_simulator/swarm_simulator/' % (current_Username)
+                python_dir = '/home/%s/anaconda3/envs/%s/bin/python3' % (current_Username, env_name)
 
                 #Generate and print command
                 cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
