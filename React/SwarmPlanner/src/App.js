@@ -5,6 +5,8 @@ import LeftSideBar from './components/LeftSideBar';
 import BodyAgentView from './components/BodyAgentView';
 import BodyClusterControl from './components/BodyClusterControl';
 import BodySwarmConfig from './components/BodySwarmConfig';
+import BodyParameterControl from './components/BodyParameterControl';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -34,6 +36,8 @@ class App extends React.Component {
         return <BodyClusterControl />
       case "SwarmConfig":
         return <BodySwarmConfig />
+      case "ParameterControl":
+        return <BodyParameterControl />
     }
   }
 

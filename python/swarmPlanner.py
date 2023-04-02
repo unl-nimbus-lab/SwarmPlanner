@@ -270,6 +270,55 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
+            case 'fetch_parameters':
+                if (len(splitURL) == 3):
+                    #All Agents
+                    
+                else:
+                    #single agent
+                  
+            case 'set_parameters':
+                #single agent
+                agentId = splitURL[2]
+                agent_ids = convertAgentsToAgentID(agentId + '_1'])
+                parameterID = str(splitURL[3])
+                parameterValue = splitURL[4]
+                
+                future = mavswarm.set_parameter(
+                    parameterID,
+                    parameterValue,
+                    4,
+                    agent_ids,
+                    retry=True,
+                )
+                # Wait for the operation to finish
+                while not future.done():
+                    pass
+                # -- Implement Read Parameter to send back the changed parameter --
+                
+                future = mavswarm.read_parameter(parameterID, retry=True)
+
+                while not future.done():
+                    pass
+
+                responses = future.result()
+
+                for response in responses:
+                    print(
+                        f"Result of {response.message_type} message sent to "
+                        f"({response.target_agent_id}): {response.code}"
+                    )
+
+                    if response.result:
+                        agent = mavswarm.get_agent_by_id(response.target_agent_id)
+                        if agent is not None:
+                            print(
+                                f"Resulting value of parameter {response.target_agent_id} on agent ("
+                                f"{response.target_agent_id}): "
+                                f"{agent.last_params_read.parameters[-1]}"
+                            )
+                            
+                self.wfile.write(bytes('Success',encoding='utf8'))
             case _:
                 print('you did not send a valid command')
                              

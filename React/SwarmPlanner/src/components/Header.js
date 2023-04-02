@@ -13,6 +13,8 @@ class Header extends React.Component {
         var swarmOverviewStyle = "SwarmOverviewDefault"
         var clusterControlStyle = "ClusterControlDefault"
         var swarmConfigStyle = "SwarmConfigDefault"
+        var swarmParameterStyle = "SwarmConfigDefault"
+
 
         if (this.props.selected === "SwarmOverview") {
             swarmOverviewStyle = "SwarmOverviewSelected"
@@ -20,6 +22,8 @@ class Header extends React.Component {
             clusterControlStyle = "ClusterControlSelected"
         } else if (this.props.selected === "SwarmConfig") {
             swarmConfigStyle = "SwarmConfigSelected"
+        } else if (this.props.selected === "ParameterControl") {
+            swarmParameterStyle = "SwarmParameterSelected"
         }
 
 
@@ -32,6 +36,8 @@ class Header extends React.Component {
                     <TabButton image={Swarm} class={swarmOverviewStyle} title="SwarmOverview" buttonFcn={this.props.buttonFcn} message="Overview"/>
                     <TabButton image={Path} class={clusterControlStyle} title="ClusterControl" buttonFcn={this.props.buttonFcn} message="Mission"/>
                     <TabButton image={tool} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Setup"/>
+                    <TabButton image={tool} class={swarmConfigStyle} title="ParameterControl" buttonFcn={this.props.buttonFcn} message="Parameters"/>
+
                 </div>
                 <div>
                     <ConnectionManager />
