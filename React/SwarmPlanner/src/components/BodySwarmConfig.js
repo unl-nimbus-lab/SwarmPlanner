@@ -154,7 +154,7 @@ class BodySwarmConfig extends React.Component {
                     {"python3 generate_compose.py" + " " + this.state.vehicles + " " + this.state.gazebo + " "+ this.state.path + " " + this.state.defaultCompProcess +" " + this.state.alternateCompProcess + " " + this.state.alternateCompProcessName}
                 </div>
                 <div className="Bodypink">
-                        <h2>Press to Generate the Compose File (beta)</h2>
+                        <h2>Press to Generate the Compose File</h2>
                         <button onClick={this.generateCompose}>Generate Compose</button>
                 </div>
             </div>

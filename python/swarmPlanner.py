@@ -270,58 +270,115 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
+
             case 'fetch_parameters':
-                if (len(splitURL) == 3):
-                    #All Agents
-                    
-                else:
-                    #single agent
-                  
+                #Parse Request
+                agentNumber = splitURL[2]
+                agentId = convertAgentsToAgentID([agentNumber + '_1'])
+                parameterID = str(splitURL[3])
+
+                #Call and return message
+                return_message = self.read_agent_parameter(parameterID, agentId[0])
+                self.wfile.write(bytes(return_message,encoding='utf8'))         
+
             case 'set_parameters':
-                #single agent
-                agentId = splitURL[2]
-                agent_ids = convertAgentsToAgentID(agentId + '_1'])
+                #Parse Request
+                agentNumber = splitURL[2]
+                agent_ids = convertAgentsToAgentID([agentNumber + '_1'])
                 parameterID = str(splitURL[3])
                 parameterValue = splitURL[4]
                 
-                future = mavswarm.set_parameter(
-                    parameterID,
-                    parameterValue,
-                    4,
-                    agent_ids,
-                    retry=True,
-                )
-                # Wait for the operation to finish
-                while not future.done():
-                    pass
-                # -- Implement Read Parameter to send back the changed parameter --
-                
-                future = mavswarm.read_parameter(parameterID, retry=True)
+                #Call and return message
+                print(agent_ids)
+                return_message = self.set_agent_parameter(parameterID, agent_ids, parameterValue)
+                self.wfile.write(bytes(return_message,encoding='utf8'))
+            
+            case 'scan_critical_parameters':
+                #Scan All agents for every parameter and compare to CRITICAL list.
+                vulnerabilities = []
 
-                while not future.done():
-                    pass
+                for agent in mavswarm.agents:
+                    agentId = convertAgentsToAgentID([str(agent.system_id) + "_" + str(agent.component_id)])
+                    agent_vulnerabilities = self.compare_critical_agent_parameters(agentId)
+                    vulnerabilities.extend(agent_vulnerabilities)
 
-                responses = future.result()
+                #Return message
+                print("VUNERABILITIES")
+                print(vulnerabilities)
+                self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
 
-                for response in responses:
-                    print(
-                        f"Result of {response.message_type} message sent to "
-                        f"({response.target_agent_id}): {response.code}"
-                    )
-
-                    if response.result:
-                        agent = mavswarm.get_agent_by_id(response.target_agent_id)
-                        if agent is not None:
-                            print(
-                                f"Resulting value of parameter {response.target_agent_id} on agent ("
-                                f"{response.target_agent_id}): "
-                                f"{agent.last_params_read.parameters[-1]}"
-                            )
-                            
-                self.wfile.write(bytes('Success',encoding='utf8'))
             case _:
                 print('you did not send a valid command')
-                             
+
+    #----------------Helper Functions --------------------------------------------
+    def read_agent_parameter(self, parameterId, agentId):
+            #Read Parameter
+            future = mavswarm.read_parameter(parameterId, retry=True)
+            while not future.done():
+                pass
+            #Return Response
+            responses = future.result()
+            for response in responses:
+                if response.result:
+                    agent = mavswarm.get_agent_by_id(response.target_agent_id)
+                    if agent is not None:
+                        if response.target_agent_id == agentId:
+                            message = str(agent.last_params_read.parameters[-1])
+                            #print("Returned: " + message)
+                            return message
+            return "Error: No Agent Found"
+
+    def set_agent_parameter(self, parameterId, agentId, parameterValue):
+        #Set Parameter
+        future = mavswarm.set_parameter(
+            parameterId,
+            parameterValue,
+            9,
+            agentId,
+            retry=True,
+        )
+        while not future.done():
+            pass
+
+        agent_to_read_Id = agentId
+        if(parameterId == "SYSID_THISMAV"): #Change if setting Id to new value
+            agent_to_read_Id = convertAgentsToAgentID([parameterValue + '_1'])
+        print(agent_to_read_Id[0])     
+        return_message = self.read_agent_parameter(parameterId, agent_to_read_Id[0])
+        return return_message
+
+    def compare_critical_agent_parameters(self, agentId):
+        agent_vulnerabilities = []
+
+        agent_vulnerabilities.append("Agent: " + str(agentId))
+
+        with open('params/CRITICAL_PARAMETERS.param') as f:
+            parameter_list = f.read().splitlines()
+
+            for param in parameter_list:
+                print(param)
+                parameterId = param.split(',')[0]
+                expectedValue = float(param.split(',')[1])
+
+                result = self.read_agent_parameter(parameterId, agentId[0])
+
+                if result == "Error: No Agent Found":
+                    break
+
+                start_index = result.find("'value': ") + len("'value': ")
+                end_index = result.find(",", start_index)
+                value_str = result[start_index:end_index]
+                value = float(value_str)
+
+                if value != expectedValue:
+                    agent_vulnerabilities.append(parameterId)
+                    agent_vulnerabilities.append(expectedValue)
+                    agent_vulnerabilities.append(value)
+       
+            f.close()
+        return agent_vulnerabilities
+
+
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
