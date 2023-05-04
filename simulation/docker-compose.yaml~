@@ -6,11 +6,12 @@ services:
     container_name: swarmplanner_web
     network_mode: host
     logging:
-        driver: "json-file"
+	driver: "json-file"
         options:
           max-size: "10m"
           max-file: "3"
           compress: "true"
+          path: "/var/log/swarmplanner_web.log"
  
   swarmplanner_python:
     image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython

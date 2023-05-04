@@ -54,4 +54,4 @@ WORKDIR ${HOME}
 COPY swarmPlanner.py .
 COPY helperFunctions.py .
 
-CMD ["python3", "/home/swarmPlanner.py"]
+CMD ["python3", "/home/swarmPlanner.py",">","logfile.txt"]
