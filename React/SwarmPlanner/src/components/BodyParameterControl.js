@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/TestStyles.css'
 
-let parameterOptions = ['Select','SYSID_THISMAV', 'INITIAL_MODE', 'THROW_TYPE']
+let parameterOptions = ['Select','SYSID_THISMAV', 'INITIAL_MODE', 'THROW_TYPE','SERIAL1_BAUD','THROW_NEXTMODE']
 
 let parameters = parameterOptions.map( (param) => {
     return (
@@ -13,8 +13,9 @@ class BodyParameterControl extends React.Component {
     constructor(props) {
         super(props);
         this.state = {getAgentId: '1', getParameterId: '', getResult: '', setAgentId: "", setParameterId: "", setValue: "", 
-                      setResult: '', scanResult: ''};
+                      setResult: '', scanResult: '', tableEntries: []};
     }
+
 
     getParameters = () => {
         fetch('http://127.0.0.1:8080/fetch_parameters/' + this.state.getAgentId + "/" + this.state.getParameterId)
@@ -42,14 +43,34 @@ class BodyParameterControl extends React.Component {
         this.setState({scanResult: "Scanning......"})
         fetch('http://127.0.0.1:8080/scan_critical_parameters/')
         .then(response => response.text())
-        .then(data => {
-        console.log(data);
-        this.setState({scanResult: data});
+        .then(data => {  
+            //Clean and format the string from fetch.
+            let cleanedStr = data.replace(/[[\]']/g, "");
+            const regex = /Agent \((\d+), (\d+)\) : , (?:'([^']*)'|(\S+)), (\d+\.\d+), (\d+\.\d+)/g;
+            let resultArray = [...cleanedStr.matchAll(regex)];
+            
+            //Map data to respective table column. 
+            let tableArray = resultArray.map(match => ({
+            agent: `Agent (${match[1]},${match[2]})`,
+            parameter: match[4],
+            expected: match[5],
+            actual: match[6],
+            }));
+
+            //Set the states. 
+            this.setState({...this.state, tableEntries: tableArray});
+            this.setState({scanResult: " Scan Complete"});
+
         })
         .catch(error => {
             console.error(error);
         })
     }
+    fixCriticalParameters = () =>{
+        this.setState({scanResult: "Fixing Parameters......"})
+        //WIP
+    }
+
 
     setGetAgentId = () => {
         this.setState({getAgentId: (document.getElementById("getAgentId").value + "")})
@@ -129,9 +150,30 @@ class BodyParameterControl extends React.Component {
                 </div>
                 <div className="Bodyblue">
                     <button onClick={this.scanCriticalParameters}>Scan Agents</button>
-                    <button onClick={this.scanCriticalParameters}>Fix Agents (beta)</button>
+                    <button onClick={this.fixCriticalParameters}>Fix Agents (beta)</button>
                     <br/><br/>
-                    {this.state.scanResult}
+                    {"    Result: " + this.state.scanResult}
+                     <table>
+                        <thead>
+                            <th>Agent</th>
+                            <th>Parameter</th>
+                            <th>Expected Value</th>
+                            <th>Actual Value</th>
+                        </thead>
+                        <tbody>
+                            {this.state.tableEntries.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row.agent}</td>
+                                <td>{row.parameter}</td>
+                                <td>{row.expected}</td>
+                                <td>{row.actual}</td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table> 
+                    <div>
+                    </div>
+                    <br/><br/>
                     <br/><br/>
                 </div>
             </div>

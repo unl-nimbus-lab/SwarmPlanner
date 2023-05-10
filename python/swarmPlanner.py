@@ -331,10 +331,9 @@ class MyServer(BaseHTTPRequestHandler):
     def set_agent_parameter(self, parameterId, agentId, parameterValue):
         #Set Parameter
         future = mavswarm.set_parameter(
-            parameterId,
-            parameterValue,
-            9,
-            agentId,
+            parameter_id=parameterId,
+            parameter_value=parameterValue,
+            agent_ids= agentId,
             retry=True,
         )
         while not future.done():
@@ -350,7 +349,6 @@ class MyServer(BaseHTTPRequestHandler):
     def compare_critical_agent_parameters(self, agentId):
         agent_vulnerabilities = []
 
-        agent_vulnerabilities.append("Agent: " + str(agentId))
 
         with open('params/CRITICAL_PARAMETERS.param') as f:
             parameter_list = f.read().splitlines()
@@ -364,16 +362,18 @@ class MyServer(BaseHTTPRequestHandler):
 
                 if result == "Error: No Agent Found":
                     break
-
+                    
                 start_index = result.find("'value': ") + len("'value': ")
                 end_index = result.find(",", start_index)
                 value_str = result[start_index:end_index]
                 value = float(value_str)
 
                 if value != expectedValue:
-                    agent_vulnerabilities.append(parameterId)
+                    agent_vulnerabilities.append("Agent " + str(agentId) + " : ")
+                    agent_vulnerabilities.append(parameterId.strip())
                     agent_vulnerabilities.append(expectedValue)
                     agent_vulnerabilities.append(value)
+                    print(agent_vulnerabilities)
        
             f.close()
         return agent_vulnerabilities
