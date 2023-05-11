@@ -289,8 +289,7 @@ class MyServer(BaseHTTPRequestHandler):
                 parameterValue = splitURL[4]
                 
                 #Call and return message
-                print(agent_ids)
-                return_message = self.set_agent_parameter(parameterID, agent_ids, parameterValue)
+                return_message = self.set_agent_parameter(parameterID, agent_ids[0], parameterValue)
                 self.wfile.write(bytes(return_message,encoding='utf8'))
             
             case 'scan_critical_parameters':
@@ -330,19 +329,21 @@ class MyServer(BaseHTTPRequestHandler):
 
     def set_agent_parameter(self, parameterId, agentId, parameterValue):
         #Set Parameter
+        agents_array = [agentId]
         future = mavswarm.set_parameter(
-            parameter_id=parameterId,
-            parameter_value=parameterValue,
-            agent_ids= agentId,
+            str(parameterId),
+            float(parameterValue),
+            9,
+            agent_ids=agents_array,
             retry=True,
         )
+        
         while not future.done():
             pass
 
-        agent_to_read_Id = agentId
+        agent_to_read_Id = agents_array
         if(parameterId == "SYSID_THISMAV"): #Change if setting Id to new value
             agent_to_read_Id = convertAgentsToAgentID([parameterValue + '_1'])
-        print(agent_to_read_Id[0])     
         return_message = self.read_agent_parameter(parameterId, agent_to_read_Id[0])
         return return_message
 
