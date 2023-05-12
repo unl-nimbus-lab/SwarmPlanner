@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/TestStyles.css'
 
-let parameterOptions = ['Select','SYSID_THISMAV', 'INITIAL_MODE', 'THROW_TYPE','SERIAL1_BAUD','THROW_NEXTMODE']
+let parameterOptions = ['Select','SYSID_THISMAV', 'INITIAL_MODE', 'THROW_TYPE','SERIAL1_BAUD','THROW_NEXTMODE','GPS_TYPE']
 
 let parameters = parameterOptions.map( (param) => {
     return (
@@ -13,7 +13,7 @@ class BodyParameterControl extends React.Component {
     constructor(props) {
         super(props);
         this.state = {getAgentId: '1', getParameterId: '', getResult: '', setAgentId: "", setParameterId: "", setValue: "", 
-                      setResult: '', scanResult: '', tableEntries: []};
+                      setResult: '', scanResult: '', tableEntries: [], scanCount: '0'};
     }
 
 
@@ -59,7 +59,8 @@ class BodyParameterControl extends React.Component {
 
             //Set the states. 
             this.setState({...this.state, tableEntries: tableArray});
-            this.setState({scanResult: " Scan Complete"});
+            this.setState({scanResult: " Scan Complete - Found " + tableArray.length + " vulnerabilities."});
+            this.setState({scanCount: tableArray.length});
 
         })
         .catch(error => {
@@ -67,8 +68,23 @@ class BodyParameterControl extends React.Component {
         })
     }
     fixCriticalParameters = () =>{
-        this.setState({scanResult: "Fixing Parameters......"})
-        //WIP
+        this.setState({scanResult: "Fixing Parameters......"});
+        console.log(this.state.tableEntries);
+
+        let ErrorArray = this.state.tableEntries; 
+        
+        for(let index = 0; index < ErrorArray.length; index++){
+            let CurrentError = ErrorArray[index];
+
+            let agentString = CurrentError.agent;
+            let agentId = parseInt(agentString.substring(agentString.indexOf('(') + 1, agentString.indexOf(',')));
+
+            fetch('http://127.0.0.1:8080/set_parameters/' + agentId + "/" + CurrentError.parameter + "/" + CurrentError.expected)
+            .catch(error => {
+                console.error(error);
+            })
+        }
+        this.setState({scanResult: "Fixed " + ErrorArray.length + " vulnerabilities."});
     }
 
 
@@ -150,15 +166,16 @@ class BodyParameterControl extends React.Component {
                 </div>
                 <div className="Bodyblue">
                     <button onClick={this.scanCriticalParameters}>Scan Agents</button>
-                    <button onClick={this.fixCriticalParameters}>Fix Agents (beta)</button>
+                    <button onClick={this.fixCriticalParameters}>Fix Agents</button>
                     <br/><br/>
-                    {"    Result: " + this.state.scanResult}
+                    {this.state.scanResult}
                      <table>
                         <thead>
                             <th>Agent</th>
                             <th>Parameter</th>
                             <th>Expected Value</th>
                             <th>Actual Value</th>
+                            <th>{this.state.scanCount}</th>
                         </thead>
                         <tbody>
                             {this.state.tableEntries.map((row, index) => (
