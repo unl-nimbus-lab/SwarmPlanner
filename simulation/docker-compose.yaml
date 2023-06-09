@@ -5,12 +5,6 @@ services:
     image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerreact
     container_name: swarmplanner_web
     network_mode: host
-    logging:
-        driver: "json-file"
-        options:
-          max-size: "10m"
-          max-file: "3"
-          compress: "true"
  
   swarmplanner_python:
     image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython
