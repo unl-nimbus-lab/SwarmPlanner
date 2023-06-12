@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Terminal
+Comment=Gnome Terminal
+Exec=/usr/bin/gnome-terminal
+Icon=computer
+Path=
+Terminal=false
+StartupNotify=false
