@@ -53,5 +53,6 @@ RUN pip3 install .
 WORKDIR ${HOME}
 COPY swarmPlanner.py .
 COPY helperFunctions.py .
+COPY generate_compose.py .
 
 CMD ["python3", "/home/swarmPlanner.py"]

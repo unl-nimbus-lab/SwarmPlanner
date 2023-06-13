@@ -5,6 +5,8 @@ services:
     image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerreact
     container_name: swarmplanner_web
     network_mode: host
+    volumes:
+      - ../uav_simulator:/home
  
   swarmplanner_python:
     image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython
