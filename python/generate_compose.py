@@ -5,18 +5,14 @@ import sys
 startingMavrosPort = 14551
 startingMavrosBind = 14555
 startingCommsPort = 5762
-startingCommsPortX = 4440
 portIncrement = 10
-portIncrementX = 1
 gazeboFlagHost = False
 gazeboFlagCont = False
 companionProcess = False
-defaultCompanionImage = "ghcr.io/unl-nimbus-lab/arl-swarm/docker/drone_clustering"
+defaultCompanionImage = "grantphllps/arl_swarm_sim"
 hostCatkinLocation = "home/gphillip/catkin_ws/src/iq_sim/worlds"
-
-
-pathToSwarmSimulator = "../uav_simulator/swarm_simulator"
 pathToUAVSimulator = "../uav_simulator"
+pathToSwarmSimulator = "../uav_simulator/swarm_simulator"
 
 #check that the first input is an integer
 try:
@@ -96,13 +92,14 @@ for i in range(1,n + 1):
     rally1Lon =         "RALLY1LON=30\n"
     rally2Lat =         "RALLY2LAT=30\n"
     rally2Lon =         "RALLY2LON=0\n"
-    f.writelines([port,sysId,compId,clusterId,clusterPos,clusterSize,clusterRad,agentAlt,homeLat,homeLon,homeAlt,rally1Lat,rally1Lon,rally2Lat,rally2Lon])
+    swarmComp =         'SWARM_COMP="/home/catkin_ws/src/clustering_control/src/HRL_Sys_4_4_4.json"'
+    f.writelines([port,sysId,compId,clusterId,clusterPos,clusterSize,clusterRad,agentAlt,homeLat,homeLon,homeAlt,rally1Lat,rally1Lon,rally2Lat,rally2Lon,swarmComp])
     f.close()
 
 print("Companion process files generated successfully!")
 
 #Generate the mavlink router file
-mavlinkConfig = pathToSwarmSimulator + "/mavlink_router/mavlink/main.conf"
+mavlinkConfig = pathToSwarmSimulator + "/mavlink_router/main.conf"
 f = open(mavlinkConfig,"w")
 
 name = "[TcpServer Default]\n"
@@ -124,7 +121,7 @@ address =   "Address = 0.0.0.0\n"
 port =      "Port = 4242\n"
 f.writelines([name,mode,address,port])
 
-#Add the secondary UPD connection for collision avoidance
+#Add the secondary UPD connection
 name =      "[UdpEndpoint collision]\n"
 mode =      "Mode=Normal\n"
 address =   "Address = 0.0.0.0\n"
@@ -135,42 +132,8 @@ f.close()
 
 print("Mavlink router configuration generated successfully!")
 
-# #Generate the xbee router file
-# mavlinkConfig = "./mavlink_router/xbee/main.conf"
-# f = open(mavlinkConfig,"w")
-
-# name = "[TcpServer XBEE]\n"
-# address = "Address = 0.0.0.0\n"
-# port = "Port = 4440\n\n"
-
-# f.writelines([name,address,port])
-
-# for i in range(1,n + 1):
-#     name =      "[TcpEndpoint xbee_" + str(i) + "]\n"
-#     address =   "Address = 0.0.0.0\n"
-#     port =      "Port = " + str(startingCommsPortX + i*portIncrementX) + "\n\n"
-#     f.writelines([name,address,port])
-
-# #Add the main UPD connection
-# name =      "[UdpEndpoint omega]\n"
-# mode =      "Mode=Normal\n"
-# address =   "Address = 0.0.0.0\n"
-# port =      "Port = 4439\n"
-# f.writelines([name,mode,address,port])
-
-# #Add the secondary UPD connection for collision avoidance
-# name =      "[UdpEndpoint collision]\n"
-# mode =      "Mode=Normal\n"
-# address =   "Address = 0.0.0.0\n"
-# port =      "Port = 4438\n"
-# f.writelines([name,mode,address,port])
-
-# f.close()
-
-# print("Mavlink router configuration generated successfully!")
-
 #Create a docker-compose file Header
-f = open(pathToSwarmSimulator + "/docker-compose.yaml","w")
+f = open( pathToSwarmSimulator + "/docker-compose.yaml","w")
 f.writelines(["version: '3'\n\n","services:\n"])
 
 #SITL Images:
@@ -179,7 +142,7 @@ for i in range(1,n+1):
     #nvar = str(i-1)
 
     container =         "  sitl_" + var + ":\n"
-    image =             "    image: ghcr.io/unl-nimbus-lab/uav_simulator/ardupilot_docker\n"
+    image =             "    image: grantphllps/ardupilot\n"
     containerName =     "    container_name: sitl_" + var + "\n"
     network =           "    network_mode: host\n"
     volumes =           '    volumes:\n'
@@ -209,15 +172,15 @@ for i in range(1,n+1):
         comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
         comman2 =           '                    export $$(cat /root/home/env_files/ros_env' + var +')\n'
         if (i > 1):
-            comman3 =           '                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
+            comman3 =           '                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"\n'
         else: 
-            comman3 =           '                    roslaunch src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
+            comman3 =           '                    roslaunch src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"\n'
 
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
 #Mavlink router for Mavlink Comms
 container =         "  mavlink_router:\n"
-image =             "    image: ghcr.io/unl-nimbus-lab/uav_simulator/mavlink_router\n"
+image =             "    image: grantphllps/mavlink_router\n"
 containerName =     "    container_name: mavlink_router\n"
 depends =           "    depends_on:\n"
 f.writelines([container,image,containerName,depends])
@@ -230,36 +193,13 @@ options1 =          "    stdin_open: true\n"
 options2 =          "    tty: true\n"
 network =           '    network_mode: "host"\n'
 volume =            '    volumes:\n'
-volume1 =           '      - ./mavlink_router/mavlink:/root/home/mavlink_router_files\n'
+volume1 =           '      - ./mavlink_router:/root/home/mavlink_router_files\n'
 command =           '    command: >\n'
-command1 =          '      /bin/bash -c "mavlink-routerd -c /root/home/mavlink_router_files/main.conf"\n\n'
+command1 =          '      /bin/bash -c "mavlink-routerd -c /root/home/mavlink_router_files/main.conf"'
 
 
 f.writelines([options1,options2,network,volume,volume1,command,command1])
-
-
-# #Mavlink router for Xbee Comms
-# container =         "  xbee_router:\n"
-# image =             "    image: ghcr.io/unl-nimbus-lab/uav_simulator/mavlink_router\n"
-# containerName =     "    container_name: xbee_router\n"
-# depends =           "    depends_on:\n"
-# f.writelines([container,image,containerName,depends])
-# #Mavlink router depends
-# for i in range(1,n+1):
-#     var = str(i)    
-#     depend =           "      - sitl_" + var + "\n"
-#     f.write(depend)
-# options1 =          "    stdin_open: true\n"
-# options2 =          "    tty: true\n"
-# network =           '    network_mode: "host"\n'
-# volume =            '    volumes:\n'
-# volume1 =           '      - ./mavlink_router/xbee:/root/home/mavlink_router_files\n'
-# command =           '    command: >\n'
-# command1 =          '      /bin/bash -c "mavlink-routerd -c /root/home/mavlink_router_files/main.conf"\n\n'
-
-
-# f.writelines([options1,options2,network,volume,volume1,command,command1])
-# f.close()
+f.close()
 
 if (gazeboFlagCont):
     ##Generate Gazebo world
