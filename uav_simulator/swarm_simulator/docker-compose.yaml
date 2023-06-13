@@ -9,7 +9,7 @@ services:
       - ./env_files:/root/home/env_files
     command: >
       /bin/bash -c "export $$(cat /root/home/env_files/env1) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -f gazebo-drone1 -I1 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm"
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm"
 
   sitl_2:
     image: ghcr.io/unl-nimbus-lab/uav_simulator/ardupilot_docker
@@ -19,27 +19,7 @@ services:
       - ./env_files:/root/home/env_files
     command: >
       /bin/bash -c "export $$(cat /root/home/env_files/env2) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -f gazebo-drone2 -I2 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone2.parm"
-
-  sitl_3:
-    image: ghcr.io/unl-nimbus-lab/uav_simulator/ardupilot_docker
-    container_name: sitl_3
-    network_mode: host
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "export $$(cat /root/home/env_files/env3) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -f gazebo-drone3 -I3 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone3.parm"
-
-  sitl_4:
-    image: ghcr.io/unl-nimbus-lab/uav_simulator/ardupilot_docker
-    container_name: sitl_4
-    network_mode: host
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "export $$(cat /root/home/env_files/env4) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -f gazebo-drone4 -I4 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone4.parm"
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I2 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone2.parm"
 
   mavlink_router:
     image: ghcr.io/unl-nimbus-lab/uav_simulator/mavlink_router
@@ -47,8 +27,6 @@ services:
     depends_on:
       - sitl_1
       - sitl_2
-      - sitl_3
-      - sitl_4
     stdin_open: true
     tty: true
     network_mode: "host"

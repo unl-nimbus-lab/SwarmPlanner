@@ -14,6 +14,10 @@ companionProcess = False
 defaultCompanionImage = "ghcr.io/unl-nimbus-lab/arl-swarm/docker/drone_clustering"
 hostCatkinLocation = "home/gphillip/catkin_ws/src/iq_sim/worlds"
 
+
+pathToSwarmSimulator = "../uav_simulator/swarm_simulator"
+pathToUAVSimulator = "../uav_simulator"
+
 #check that the first input is an integer
 try:
     try:
@@ -58,7 +62,7 @@ if numberOfArgs > 2:
 #Generate the env_files if asked
 #These files configure sitl
 for i in range(1,n + 1):
-    filename = "./env_files/env" + str(i)
+    filename = pathToSwarmSimulator + "/env_files/env" + str(i)
     f = open(filename,"w")
     instance =  "INSTANCE=0\n"
     lat =       "LAT=40.846\n"
@@ -75,7 +79,7 @@ print("Ardupilot env files generated sucessuflly!")
 #Generate the ros_envs
 #These files configure the clustering control
 for i in range(1,n + 1):
-    filename = "./env_files/ros_env" + str(i)
+    filename = pathToSwarmSimulator + "/env_files/ros_env" + str(i)
     f = open(filename,"w")
     port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
     sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
@@ -98,7 +102,7 @@ for i in range(1,n + 1):
 print("Companion process files generated successfully!")
 
 #Generate the mavlink router file
-mavlinkConfig = "./mavlink_router/mavlink/main.conf"
+mavlinkConfig = pathToSwarmSimulator + "/mavlink_router/mavlink/main.conf"
 f = open(mavlinkConfig,"w")
 
 name = "[TcpServer Default]\n"
@@ -166,7 +170,7 @@ print("Mavlink router configuration generated successfully!")
 # print("Mavlink router configuration generated successfully!")
 
 #Create a docker-compose file Header
-f = open("./docker-compose.yaml","w")
+f = open(pathToSwarmSimulator + "/docker-compose.yaml","w")
 f.writelines(["version: '3'\n\n","services:\n"])
 
 #SITL Images:
