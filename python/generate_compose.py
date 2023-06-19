@@ -11,8 +11,8 @@ gazeboFlagCont = False
 companionProcess = False
 defaultCompanionImage = "grantphllps/arl_swarm_sim"
 hostCatkinLocation = "home/gphillip/catkin_ws/src/iq_sim/worlds"
-pathToUAVSimulator = "../uav_simulator"
-pathToSwarmSimulator = "../uav_simulator/swarm_simulator"
+pathToUAVSimulator = "./uav_simulator"
+pathToSwarmSimulator = "./uav_simulator/swarm_simulator"
 
 #check that the first input is an integer
 try:

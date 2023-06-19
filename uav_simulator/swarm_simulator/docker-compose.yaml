@@ -11,108 +11,11 @@ services:
       /bin/bash -c "export $$(cat /root/home/env_files/env1) &&
                     /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm"
 
-  clustering_1:
-    depends_on:
-      - sitl_1
-      - mavlink_router
-    network_mode: host
-    image: grantphllps/arl_swarm_sim
-    container_name: clustering_1
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/ros_env1)
-                    roslaunch src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"
-
-  sitl_2:
-    image: grantphllps/ardupilot
-    container_name: sitl_2
-    network_mode: host
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "export $$(cat /root/home/env_files/env2) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I2 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone2.parm"
-
-  clustering_2:
-    depends_on:
-      - sitl_2
-      - mavlink_router
-    network_mode: host
-    image: grantphllps/arl_swarm_sim
-    container_name: clustering_2
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/ros_env2)
-                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"
-
-  sitl_3:
-    image: grantphllps/ardupilot
-    container_name: sitl_3
-    network_mode: host
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "export $$(cat /root/home/env_files/env3) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I3 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone3.parm"
-
-  clustering_3:
-    depends_on:
-      - sitl_3
-      - mavlink_router
-    network_mode: host
-    image: grantphllps/arl_swarm_sim
-    container_name: clustering_3
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/ros_env3)
-                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"
-
-  sitl_4:
-    image: grantphllps/ardupilot
-    container_name: sitl_4
-    network_mode: host
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "export $$(cat /root/home/env_files/env4) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I4 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone4.parm"
-
-  clustering_4:
-    depends_on:
-      - sitl_4
-      - mavlink_router
-    network_mode: host
-    image: grantphllps/arl_swarm_sim
-    container_name: clustering_4
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/ros_env4)
-                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"
-
   mavlink_router:
     image: grantphllps/mavlink_router
     container_name: mavlink_router
     depends_on:
       - sitl_1
-      - sitl_2
-      - sitl_3
-      - sitl_4
     stdin_open: true
     tty: true
     network_mode: "host"

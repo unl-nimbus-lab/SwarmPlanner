@@ -298,6 +298,11 @@ class MyServer(BaseHTTPRequestHandler):
                 #print(subprocessCommand)
                 subprocess.run(subprocessCommand)
 
+            case 'startSim':
+                #Start the simulation with subprocess
+                #subprocess.run(["docker-compose", "-f", "/home/uav_simulator/swarm_simulator/docker-compose.yaml", "up"])
+                print("starting Sim")
+
             case _:
 
                 print('you did not send a valid command')
