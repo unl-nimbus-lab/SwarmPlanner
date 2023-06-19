@@ -2,12 +2,12 @@ version: '3'
 
 services:
   swarmplanner_web:
-    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerreact
+    image: grantphllps/swarmplanner_react
     container_name: swarmplanner_web
     network_mode: host
  
   swarmplanner_python:
-    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython
+    image: grantphllps/swarmplanner_python
     container_name: swarmplanner_python
     stdin_open: true # docker run -i
     tty: true        # docker

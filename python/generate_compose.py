@@ -9,7 +9,7 @@ portIncrement = 10
 gazeboFlagHost = False
 gazeboFlagCont = False
 companionProcess = False
-defaultCompanionImage = "grantphllps/arl_swarm_sim"
+defaultCompanionImage = "grantphllps/mavros_docker"
 hostCatkinLocation = "home/gphillip/catkin_ws/src/iq_sim/worlds"
 pathToUAVSimulator = "./uav_simulator"
 pathToSwarmSimulator = "./uav_simulator/swarm_simulator"
@@ -172,9 +172,9 @@ for i in range(1,n+1):
         comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
         comman2 =           '                    export $$(cat /root/home/env_files/ros_env' + var +')\n'
         if (i > 1):
-            comman3 =           '                    roslaunch --wait src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"\n'
+            comman3 =           '                    roslaunch --wait mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
         else: 
-            comman3 =           '                    roslaunch src/clustering_control/launch/clustering_control_sim.launch system_ID:=$${SYS_ID} clusterID:=$${CLUSTER_ID} clusterPosition:=$${CLUSTER_POSITION} clusterSize:=$${CLUSTER_SIZE} clusterRadius:=$${CLUSTER_RADIUS} agentAlt:=$${AGENT_ALT} homeLat:=$${HOME_LAT} homeLon:=$${HOME_LON} homeAlt:=$${HOME_ALT} rally1Lat:=$${RALLY1LAT} rally1Lon:=$${RALLY1LON} rally2Lat:=$${RALLY2LAT} rally2Lon:=$${RALLY2LON} fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID} swarm_comp:=$${SWARM_COMP}"\n'
+            comman3 =           '                    roslaunch mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
 
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
