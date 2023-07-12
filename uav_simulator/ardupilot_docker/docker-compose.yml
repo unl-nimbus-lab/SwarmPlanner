@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  sitl1:
+    image: sitl:latest
+    container_name: sitl1
+    stdin_open: true
+    tty: true
+    ports:
+      - "4201:5760"
+      - "4301:5763"
+    # command: >
+    #   /bin/bash -c "/ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -f ${FILE1} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP} --add-param-file=/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm"

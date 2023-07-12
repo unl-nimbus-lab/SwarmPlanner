@@ -8,6 +8,7 @@ from helperFunctions import *
 import json
 import cgi
 import sys
+import subprocess
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID
@@ -270,7 +271,40 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
+
+            case 'generate_compose':
+
+                #There are 4 additional arguments to handle here
+                print(str(splitURL) + "\n")
+                subprocessCommand = ["python3", "./generate_compose.py"]
+                
+                #number of Drones argument, this is only one that is required
+                numberOfDrones = str(splitURL[2])
+                subprocessCommand.append(numberOfDrones)
+                
+                #build for gazebo or not
+                if (splitURL[3] != ''):
+                    if (splitURL[3] == '-gh'):
+                        subprocessCommand.append('-gh')
+                    if (splitURL[3] == '-gc'):
+                        subprocessCommand.append('-gc')
+
+                #include mavros or not
+                if (splitURL[5] != ''):
+                    if (splitURL[5] == '-c'):
+                        subprocessCommand.append('-c')
+                
+                    
+                #print(subprocessCommand)
+                subprocess.run(subprocessCommand)
+
+            case 'startSim':
+                #Start the simulation with subprocess
+                #subprocess.run(["docker-compose", "-f", "/home/uav_simulator/swarm_simulator/docker-compose.yaml", "up"])
+                print("starting Sim")
+
             case _:
+
                 print('you did not send a valid command')
                              
 if __name__ == "__main__":        
@@ -284,5 +318,3 @@ if __name__ == "__main__":
 
     webServer.server_close()
     print("Server stopped.")
-
-    
