@@ -72,6 +72,7 @@ add_message_files(
   WaypointReached.msg
   WheelOdomStamped.msg
   SwarmGPS.msg
+  SwarmVel.msg
 )
 
 add_service_files(

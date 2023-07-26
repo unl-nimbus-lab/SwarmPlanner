@@ -11,22 +11,6 @@ services:
       /bin/bash -c "export $$(cat /root/home/env_files/env1) &&
                     /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/home/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm"
 
-  clustering_1:
-    depends_on:
-      - sitl_1
-      - mavlink_router
-    network_mode: host
-    image: grantphllps/mavros_docker
-    container_name: clustering_1
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./env_files:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/ros_env1)
-                    roslaunch mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"
-
   mavlink_router:
     image: grantphllps/mavlink_router
     container_name: mavlink_router

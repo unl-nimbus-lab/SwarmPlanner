@@ -32,6 +32,7 @@
 #include <geographic_msgs/GeoPointStamped.h>
 
 #include <mavros_msgs/SwarmGPS.h>
+#include <mavros_msgs/SwarmVel.h>
 #include <mavros_msgs/HomePosition.h>
 
 namespace mavros {
@@ -84,6 +85,7 @@ public:
 		gp_rel_alt_pub = gp_nh.advertise<std_msgs::Float64>("rel_alt", 10);
 		gp_hdg_pub = gp_nh.advertise<std_msgs::Float64>("compass_hdg", 10);
 		gp_swarm_fix_pub = gp_nh.advertise<mavros_msgs::SwarmGPS>("swarm", 10);
+		gp_swarm_vel_pub = gp_nh.advertise<mavros_msgs::SwarmVel>("swarm_vel",10);
 
 		// global origin
 		gp_global_origin_pub = gp_nh.advertise<geographic_msgs::GeoPointStamped>("gp_origin", 10);
@@ -121,6 +123,7 @@ private:
 	ros::Publisher gp_global_origin_pub;
 	ros::Publisher gp_global_offset_pub;
 	ros::Publisher gp_swarm_fix_pub;
+	ros::Publisher gp_swarm_vel_pub;
 
 	ros::Subscriber gp_set_global_origin_sub;
 	ros::Subscriber hp_sub;
@@ -156,6 +159,14 @@ private:
 		fix->latitude = msg.lat / 1E7;		// deg
 		fix->longitude = msg.lon / 1E7;		// deg
 		fix->altitude = msg.alt / 1E3 + m_uas->geoid_to_ellipsoid_height(fix);	// in meters
+	}
+
+	template<typename MsgT>
+	inline void fill_lla(MsgT &msg, mavros_msgs::SwarmVel::Ptr fix)
+	{
+		fix->x = msg.vx / 100; 		// m/s
+		fix->y = msg.vy / 100;		// m/s
+		fix->z = msg.vz / 100;		// m/s
 	}
 
 	inline void fill_unknown_cov(sensor_msgs::NavSatFix::Ptr fix)
@@ -269,6 +280,7 @@ private:
 		auto relative_alt = boost::make_shared<std_msgs::Float64>();
 		auto compass_heading = boost::make_shared<std_msgs::Float64>();
 		auto swarm_fix = boost::make_shared<mavros_msgs::SwarmGPS>();
+		auto swarm_vel = boost::make_shared<mavros_msgs::SwarmVel>();
 
 		auto header = m_uas->synchronized_header(child_frame_id, gpos.time_boot_ms);
 
@@ -280,8 +292,14 @@ private:
 		swarm_fix->system_id = msg->sysid;
 		swarm_fix->component_id = msg->compid;
 
+		// Populate general swarm vel data
+		swarm_vel->header = header;
+		swarm_vel->system_id = msg->sysid;
+		swarm_vel->component_id = msg->compid;
+
 		fill_lla(gpos, fix);
 		fill_lla(gpos, swarm_fix);
+		fill_lla(gpos, swarm_vel);
 
 		// fill GPS status fields using GPS_RAW data
 		auto raw_fix = m_uas->get_gps_fix();
@@ -398,6 +416,7 @@ private:
 		gp_rel_alt_pub.publish(relative_alt);
 		gp_hdg_pub.publish(compass_heading);
 		gp_swarm_fix_pub.publish(swarm_fix);
+		gp_swarm_vel_pub.publish(swarm_vel);
 
 		// TF
 		if (tf_send) {
