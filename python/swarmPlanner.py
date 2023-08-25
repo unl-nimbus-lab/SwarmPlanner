@@ -9,6 +9,8 @@ import json
 import cgi
 import sys
 import subprocess
+import shlex
+
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID
@@ -307,6 +309,13 @@ class MyServer(BaseHTTPRequestHandler):
                 print(vulnerabilities)
                 self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
 
+                #Generate and print command
+                cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
+                print("RUNNNING: " + cmd)
+
+                #Generate compose file using subprocessing
+                subprocess.run(shlex.split(cmd), cwd=script_dir)
+                
             case _:
 
                 print('you did not send a valid command')
