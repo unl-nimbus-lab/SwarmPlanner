@@ -9,6 +9,8 @@ import json
 import cgi
 import sys
 import subprocess
+import shlex
+
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID
@@ -271,38 +273,32 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
-
+           
             case 'generate_compose':
-
-                #There are 4 additional arguments to handle here
-                print(str(splitURL) + "\n")
-                subprocessCommand = ["python3", "./generate_compose.py"]
                 
-                #number of Drones argument, this is only one that is required
-                numberOfDrones = str(splitURL[2])
-                subprocessCommand.append(numberOfDrones)
+                #Parse information from http request
+                agent_count = splitURL[2]
+                gazebo =  splitURL[3]
+                gazebo_absolute_path = splitURL[4]
+                companion_process = splitURL[5]
+                specific_compainion = splitURL[6] + " " + splitURL[7]
+
+                # Change the working directory to the directory containing the generate_compose and location of python3 (including ACTIVE anaconda enviorment)
+                current_Username = os.environ.get('USERNAME')
+                envs_list = subprocess.check_output(['conda','env','list']).splitlines()
+                active_env = list(filter(lambda s: '*' in str(s), envs_list))[0]
+                env_name = str(active_env).split()[0][2:]
+
+                script_dir = '/home/%s/uav_simulator/swarm_simulator/' % (current_Username)
+                python_dir = '/home/%s/anaconda3/envs/%s/bin/python3' % (current_Username, env_name)
+
+                #Generate and print command
+                cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
+                print("RUNNNING: " + cmd)
+
+                #Generate compose file using subprocessing
+                subprocess.run(shlex.split(cmd), cwd=script_dir)
                 
-                #build for gazebo or not
-                if (splitURL[3] != ''):
-                    if (splitURL[3] == '-gh'):
-                        subprocessCommand.append('-gh')
-                    if (splitURL[3] == '-gc'):
-                        subprocessCommand.append('-gc')
-
-                #include mavros or not
-                if (splitURL[5] != ''):
-                    if (splitURL[5] == '-c'):
-                        subprocessCommand.append('-c')
-                
-                    
-                #print(subprocessCommand)
-                subprocess.run(subprocessCommand)
-
-            case 'startSim':
-                #Start the simulation with subprocess
-                #subprocess.run(["docker-compose", "-f", "/home/uav_simulator/swarm_simulator/docker-compose.yaml", "up"])
-                print("starting Sim")
-
             case _:
 
                 print('you did not send a valid command')
