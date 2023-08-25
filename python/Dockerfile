@@ -47,11 +47,15 @@ RUN pip3 install \
     scipy \
     matplotlib
 
+#RUN alias python=python3
+
 RUN git clone https://github.com/unl-nimbus-lab/pymavswarm.git
 WORKDIR ${HOME}/pymavswarm
 RUN pip3 install .
 WORKDIR ${HOME}
 COPY swarmPlanner.py .
 COPY helperFunctions.py .
+COPY generate_compose.py .
 
 CMD ["python3", "/home/swarmPlanner.py"]
+#CMD ['bash']

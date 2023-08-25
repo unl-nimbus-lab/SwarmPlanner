@@ -8,6 +8,7 @@ from helperFunctions import *
 import json
 import cgi
 import sys
+import subprocess
 
 from pymavswarm import MavSwarm
 from pymavswarm.types import AgentID
@@ -307,6 +308,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
 
             case _:
+
                 print('you did not send a valid command')
 
     #----------------Helper Functions --------------------------------------------
@@ -391,5 +393,3 @@ if __name__ == "__main__":
 
     webServer.server_close()
     print("Server stopped.")
-
-    

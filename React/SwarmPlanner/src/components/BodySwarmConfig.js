@@ -72,6 +72,14 @@ class BodySwarmConfig extends React.Component {
         }        
     }
 
+    startSim = () => {
+        fetch('http://127.0.0.1:8080/startSim/')
+    }
+
+    stopSim = () => {
+        fetch('http://127.0.0.1:8080/stopSim/')
+    }
+
     render() {
         return(
             <div className="Bodymain">
@@ -156,6 +164,11 @@ class BodySwarmConfig extends React.Component {
                 <div className="Bodypink">
                         <h2>Press to Generate the Compose File</h2>
                         <button onClick={this.generateCompose}>Generate Compose</button>
+                </div>
+                <div className="Bodyblue">
+                        <h2> Press to start simulation (beta)</h2>
+                        <button onClick={this.startSim}>Start Simulation</button>
+                        <button onClick={this.stopSim}>Stop Simulation</button>
                 </div>
             </div>
 

@@ -61,6 +61,11 @@ class HRLButtons extends React.Component {
                     <DebugVectorButton class="ModeButton" title="TRACK"   clusterId={this.state.clusterId} clusterCommand="3" option1="5" />
                 </div>
                 <div className="center">
+                    <DebugVectorButton class="ModeButton" title="HRL NAV" clusterId={this.state.clusterId} clusterCommand="3" option1="9" />
+                    <DebugVectorButton class="ModeButton" title="RALLY" clusterId={this.state.clusterId} clusterCommand="3" option1="1" />
+                    <DebugVectorButton class="ModeButton" title="SEND IT"   clusterId={this.state.clusterId} clusterCommand="3" option1="5" />
+                </div>
+                <div className="center">
                     <DebugVectorButton class="OrangeButton" title="ENABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="11"/>
                     <DebugVectorButton class="OrangeButton" title="DISABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="12"/>
                 </div>
