@@ -2,11 +2,18 @@ version: '3'
 
 services:
   swarmplanner_web:
-    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerreact
+    image: grantphllps/swarmplanner_react
     container_name: swarmplanner_web
     network_mode: host
-
+ 
   swarmplanner_python:
-    image: ghcr.io/unl-nimbus-lab/swarmplanner/swarmplannerpython
+    image: grantphllps/swarmplanner_python
     container_name: swarmplanner_python
+    stdin_open: true # docker run -i
+    tty: true        # docker
     network_mode: host
+    volumes:
+      - ../uav_simulator:/home/uav_simulator
+      - /usr/bin/docker:/usr/bin/docker
+#      - /usr/bin/docker-compose:/usr/bin/docker-compose
+#      - /var/run/docker.sock:/var/run/docker.sock

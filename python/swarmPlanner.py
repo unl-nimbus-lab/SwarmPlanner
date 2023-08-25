@@ -300,6 +300,7 @@ class MyServer(BaseHTTPRequestHandler):
                 subprocess.run(shlex.split(cmd), cwd=script_dir)
                 
             case _:
+
                 print('you did not send a valid command')
                              
 if __name__ == "__main__":        
@@ -313,5 +314,3 @@ if __name__ == "__main__":
 
     webServer.server_close()
     print("Server stopped.")
-
-    
