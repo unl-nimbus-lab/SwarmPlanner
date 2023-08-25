@@ -273,24 +273,41 @@ class MyServer(BaseHTTPRequestHandler):
                         mavswarm.send_debug_message(splitURL[2],[x,y,z])
                     case _:
                         print('Vector is too big')
-           
-            case 'generate_compose':
+
+            case 'fetch_parameters':
+                #Parse Request
+                agentNumber = splitURL[2]
+                agentId = convertAgentsToAgentID([agentNumber + '_1'])
+                parameterID = str(splitURL[3])
+
+                #Call and return message
+                return_message = self.read_agent_parameter(parameterID, agentId[0])
+                self.wfile.write(bytes(return_message,encoding='utf8'))         
+
+            case 'set_parameters':
+                #Parse Request
+                agentNumber = splitURL[2]
+                agent_ids = convertAgentsToAgentID([agentNumber + '_1'])
+                parameterID = str(splitURL[3])
+                parameterValue = splitURL[4]
                 
-                #Parse information from http request
-                agent_count = splitURL[2]
-                gazebo =  splitURL[3]
-                gazebo_absolute_path = splitURL[4]
-                companion_process = splitURL[5]
-                specific_compainion = splitURL[6] + " " + splitURL[7]
+                #Call and return message
+                return_message = self.set_agent_parameter(parameterID, agent_ids[0], parameterValue)
+                self.wfile.write(bytes(return_message,encoding='utf8'))
+            
+            case 'scan_critical_parameters':
+                #Scan All agents for every parameter and compare to CRITICAL list.
+                vulnerabilities = []
 
-                # Change the working directory to the directory containing the generate_compose and location of python3 (including ACTIVE anaconda enviorment)
-                current_Username = os.environ.get('USERNAME')
-                envs_list = subprocess.check_output(['conda','env','list']).splitlines()
-                active_env = list(filter(lambda s: '*' in str(s), envs_list))[0]
-                env_name = str(active_env).split()[0][2:]
+                for agent in mavswarm.agents:
+                    agentId = convertAgentsToAgentID([str(agent.system_id) + "_" + str(agent.component_id)])
+                    agent_vulnerabilities = self.compare_critical_agent_parameters(agentId)
+                    vulnerabilities.extend(agent_vulnerabilities)
 
-                script_dir = '/home/%s/uav_simulator/swarm_simulator/' % (current_Username)
-                python_dir = '/home/%s/anaconda3/envs/%s/bin/python3' % (current_Username, env_name)
+                #Return message
+                print("VUNERABILITIES")
+                print(vulnerabilities)
+                self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
 
                 #Generate and print command
                 cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
@@ -302,7 +319,78 @@ class MyServer(BaseHTTPRequestHandler):
             case _:
 
                 print('you did not send a valid command')
-                             
+
+    #----------------Helper Functions --------------------------------------------
+    def read_agent_parameter(self, parameterId, agentId):
+            #Read Parameter
+            future = mavswarm.read_parameter(parameterId, retry=True)
+            while not future.done():
+                pass
+            #Return Response
+            responses = future.result()
+            for response in responses:
+                if response.result:
+                    agent = mavswarm.get_agent_by_id(response.target_agent_id)
+                    if agent is not None:
+                        if response.target_agent_id == agentId:
+                            message = str(agent.last_params_read.parameters[-1])
+                            #print("Returned: " + message)
+                            return message
+            return "Error: No Agent Found"
+
+    def set_agent_parameter(self, parameterId, agentId, parameterValue):
+        #Set Parameter
+        agents_array = [agentId]
+        future = mavswarm.set_parameter(
+            str(parameterId),
+            float(parameterValue),
+            9,
+            agent_ids=agents_array,
+            retry=True,
+        )
+        
+        while not future.done():
+            pass
+
+        agent_to_read_Id = agents_array
+        if(parameterId == "SYSID_THISMAV"): #Change if setting Id to new value
+            agent_to_read_Id = convertAgentsToAgentID([parameterValue + '_1'])
+        return_message = self.read_agent_parameter(parameterId, agent_to_read_Id[0])
+        return return_message
+
+    def compare_critical_agent_parameters(self, agentId):
+        agent_vulnerabilities = []
+
+
+        with open('params/CRITICAL_PARAMETERS.param') as f:
+            parameter_list = f.read().splitlines()
+
+            for param in parameter_list:
+                print(param)
+                parameterId = param.split(',')[0]
+                expectedValue = float(param.split(',')[1])
+
+                result = self.read_agent_parameter(parameterId, agentId[0])
+
+                if result == "Error: No Agent Found":
+                    break
+                    
+                start_index = result.find("'value': ") + len("'value': ")
+                end_index = result.find(",", start_index)
+                value_str = result[start_index:end_index]
+                value = float(value_str)
+
+                if value != expectedValue:
+                    agent_vulnerabilities.append("Agent " + str(agentId) + " : ")
+                    agent_vulnerabilities.append(parameterId.strip())
+                    agent_vulnerabilities.append(expectedValue)
+                    agent_vulnerabilities.append(value)
+                    print(agent_vulnerabilities)
+       
+            f.close()
+        return agent_vulnerabilities
+
+
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))

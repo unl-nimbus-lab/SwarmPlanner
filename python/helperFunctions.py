@@ -6,6 +6,7 @@ import json
 import random
 from pymavswarm.types import AgentID
 
+
 def serial_ports():
     """ Lists serial port names
 
