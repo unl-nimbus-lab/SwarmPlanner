@@ -1,11 +1,14 @@
-FROM node:16-alpine
+# Use an official Node.js runtime as the base image
+FROM node:16
 
+# Set the working directory inside the container
 WORKDIR /app
-COPY ./SwarmPlanner .
 
-RUN npm ci
-RUN npm run build
+# Copy package.json and package-lock.json to the container
+COPY ./SwarmPlanner ./
 
-ENV NODE_ENV production
-EXPOSE 3000
-CMD ["npx","serve","build"]
+# Install app dependencies
+RUN npm install
+
+# Start the development server
+CMD ["npm", "start"]

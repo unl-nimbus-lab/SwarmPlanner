@@ -1,16 +1,34 @@
 # swarmplanner
 A browser-based tool for managing swarms
 
-# To use:
+# To use the application as is:
 
-`git clone <this code>`
+`git clone <this repository>`
 
-`cd swarmPlanner/React`
+## If you want to use Swarmplanner with USB devices:
 
-`docker build -t swarm-planner .`
+`cd SwarmPlanner/deployment`
 
-`docker run -p 3000:3000 swarm-planner`
+## then start the app:
 
-## open a browser and go to
+`docker-compose up`
 
-`localhost:3000`
+## If you want to use SwarmPlanner in simulation:
+
+`cd SwarmPlanner/simulation`
+
+## then start the app:
+
+`docker-compose up`
+
+# To use the application in `Development mode`: 
+
+`cd SwarmPlanner/React/SwarmPlanner`
+
+## Build the development image:
+
+`docker build -t swarmplanner_devel .`
+
+## then start the development image:
+
+`docker run -p 3000:3000 --mount type=bind,source="$(pwd)",target=/app swarmplanner_devel`
