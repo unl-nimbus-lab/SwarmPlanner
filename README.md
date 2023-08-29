@@ -1,7 +1,7 @@
 # swarmplanner
 A browser-based tool for managing swarms
 
-# To use the application as is:
+# To use the application:
 
 `git clone <this repository>`
 

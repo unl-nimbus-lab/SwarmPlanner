@@ -30,7 +30,7 @@ class Header extends React.Component {
         return(
             <div className="header">
                 <div className="logo">
-                    <p className="logoText" >Swarm RUnner</p>
+                    <p className="logoText" >Swarm Planner</p>
                 </div>
                 <div className="tabs">
                     <TabButton image={Swarm} class={swarmOverviewStyle} title="SwarmOverview" buttonFcn={this.props.buttonFcn} message="Overview"/>
