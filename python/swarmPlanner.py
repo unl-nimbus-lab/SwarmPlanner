@@ -274,6 +274,16 @@ class MyServer(BaseHTTPRequestHandler):
                     case _:
                         print('Vector is too big')
 
+            case "debug_int":
+                val = int(splitURL[2])
+                mavswarm.send_debug_message("", val)
+
+            case "goto":
+                lat = float(splitURL[2])
+                lon = float(splitURL[3])
+                alt = float(splitURL[4])
+                mavswarm.goto(x=lat,y=lon,z=alt,frame=MavSwarm.GLOBAL_RELATIVE_FRAME)
+
             case 'fetch_parameters':
                 #Parse Request
                 agentNumber = splitURL[2]
