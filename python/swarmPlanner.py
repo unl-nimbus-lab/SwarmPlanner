@@ -318,13 +318,32 @@ class MyServer(BaseHTTPRequestHandler):
                 print("VUNERABILITIES")
                 print(vulnerabilities)
                 self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
+            
+            case 'generate_compose':
 
-                #Generate and print command
-                cmd = "%s generate_compose.py %s %s %s %s %s" % (python_dir, agent_count, gazebo, gazebo_absolute_path, companion_process, specific_compainion)
-                print("RUNNNING: " + cmd)
+                #There are 4 additional arguments to handle here
+                print(str(splitURL) + "\n")
+                subprocessCommand = ["python3", "./generate_compose.py"]
 
-                #Generate compose file using subprocessing
-                subprocess.run(shlex.split(cmd), cwd=script_dir)
+                #number of Drones argument, this is only one that is required
+                numberOfDrones = str(splitURL[2])
+                subprocessCommand.append(numberOfDrones)
+
+                #build for gazebo or not
+                if (splitURL[3] != ''):
+                    if (splitURL[3] == '-gh'):
+                        subprocessCommand.append('-gh')
+                    if (splitURL[3] == '-gc'):
+                        subprocessCommand.append('-gc')
+
+                #include mavros or not
+                if (splitURL[5] != ''):
+                    if (splitURL[5] == '-c'):
+                        subprocessCommand.append('-c')
+
+
+                #print(subprocessCommand)
+                subprocess.run(subprocessCommand)
                 
             case _:
 
