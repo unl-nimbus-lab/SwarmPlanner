@@ -57,7 +57,6 @@ class BodyAgentView extends React.Component {
                     <MapContainer agents={this.state.agentList}/>
                 </div>
             </div>
-
         );
     }
 }
