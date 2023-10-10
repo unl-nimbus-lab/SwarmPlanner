@@ -6,13 +6,31 @@ import BodyAgentView from './components/BodyAgentView';
 import BodyClusterControl from './components/BodyClusterControl';
 import BodySwarmConfig from './components/BodySwarmConfig';
 import BodyParameterControl from './components/BodyParameterControl';
+import { createContext } from "react";
 
+class LocationStore {
+  gloabalPinLocationX =  1;
+  gloabalPinLocationY = 1;
+
+  setLocation = (X, Y) => {
+    this.gloabalPinLocationX = X;
+    this.gloabalPinLocationY = Y;
+  }
+}
+
+export const LocationContext = createContext();
 
 class App extends React.Component {
+  
   constructor(props) {
+    console.log("const");
+
     super(props)
-    this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: []}
+    this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: [], LocationStore: new LocationStore()}
+
   }
+
+  
 
   removeAgent= (input) => {
     var blackListed = this.state.ignoreComps
@@ -42,15 +60,17 @@ class App extends React.Component {
   }
 
   render() {
-    
-    const body = this.getBody();
+    console.log("test");
 
+    const body = this.getBody();
     return (
-      <div>
-        <Header buttonFcn={this.updateBody} selected={this.state.body} />
-        <LeftSideBar />
-        {body}
-      </div>
+      <LocationContext.Provider value={this.state.LocationStore}>
+        <div>
+          <Header buttonFcn={this.updateBody} selected={this.state.body} />
+          <LeftSideBar />
+          {body}
+        </div>
+      </LocationContext.Provider>
     );
   }
 }

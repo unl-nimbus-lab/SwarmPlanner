@@ -1,19 +1,24 @@
 import React, { Component } from 'react'
 import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
 import droneIcon from '../resources/images/Simple_drone_small.svg';
-import pinIcon from '../resources/images/DroppedPin.svg'
+import pinIcon from '../resources/images/DroppedPin.svg';
+import '../styles/Map.css';
 
 class MapContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            center: { lat: 40.84667, lng: -96.471667}, pin : {lat: 40.847, lng: -96.471667}
+            center: { lat: 40.84667, lng: -96.471667}, pin : {pinLat: 40.847, pinLng: -96.471667}, pinLabel: "Start" 
         }
+    }
+
+    setIsHovered = (string) =>{
+      this.setState({pinLabel: string})
     }
 
     updatePinLocation = (newLat, newLng) => {
       this.setState({
-        pin: { lat: newLat, lng: newLng}
+        pin: { pinLat: newLat, pinLng: newLng}
       });
     }
 
@@ -33,8 +38,12 @@ class MapContainer extends React.Component {
       })
 
       const debugDrone = <MarkerF label={'2'} icon={droneIcon} position={ {lat: 40.847, lng: -96.471667} }/>
-      const {lat, lng} = this.state.pin;
-      const markerPin = <MarkerF label={'2'} icon={pinIcon} position={{lat: lat, lng: lng}}/>
+      const {pinLat, pinLng} = this.state.pin;
+      const locationPin = <MarkerF label={this.state.pinLabel} icon={pinIcon} position={{lat: pinLat, lng: pinLng}} onClick={ ev => {
+                        fetch('http://127.0.0.1:8080/goto/' + pinLat + '/' + pinLng + '/' + 10);     //alt?   
+                        console.log("Sending to: ", pinLat, pinLng)
+                        }} 
+                        />
 
 
     return (
@@ -52,9 +61,10 @@ class MapContainer extends React.Component {
                             this.updatePinLocation(ev.latLng.lat(), ev.latLng.lng());
                             fetch('http://127.0.0.1:8080/debug_vector/C1$4/' + '');
                         }}
+                    
                     >
             {agentMarkers}
-            {markerPin}
+            {locationPin}
             {debugDrone}
             </GoogleMap>
         </LoadScript>

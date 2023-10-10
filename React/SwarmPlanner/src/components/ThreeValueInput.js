@@ -3,12 +3,17 @@ import '../styles/AgentStatusCard.css'
 import '../styles/ThreeValueInput.css'
 import '../styles/ButtonStyles.css'
 import '../styles/TextStyles.css'
+import { useContext } from "react";
+import { LocationContext } from '../App'
+
 
 class ThreeValueInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {x: 0, y: 0, z: 0}
     }
+
+    static locationStore = LocationContext;
 
     handleChangeX = (event) => {
         this.setState({x: event.target.value})
@@ -28,7 +33,7 @@ class ThreeValueInput extends React.Component {
             <div className="AgentStatusCardSection-Regular">
 
                 {/* <label class="PanelSubLabel" for="X">X: </label> */}
-                <input placeholder="X" id='x' onChange={this.handleChangeX} className="TextInput" type="text"></input>
+                <input placeholder={this.locationStore.x} id='x' onChange={this.handleChangeX} className="TextInput" type="text"></input>
 {/* 
                 <label class="PanelSubLabel" for="Y">Y: </label> */}
                 <input placeholder="Y" id='y' onChange={this.handleChangeY} className="TextInput" type="text"></input>
