@@ -7,30 +7,17 @@ import BodyClusterControl from './components/BodyClusterControl';
 import BodySwarmConfig from './components/BodySwarmConfig';
 import BodyParameterControl from './components/BodyParameterControl';
 import { createContext } from "react";
-
-class LocationStore {
-  gloabalPinLocationX =  1;
-  gloabalPinLocationY = 1;
-
-  setLocation = (X, Y) => {
-    this.gloabalPinLocationX = X;
-    this.gloabalPinLocationY = Y;
-  }
-}
+import LocationStore from './classes/LocationStore'
 
 export const LocationContext = createContext();
 
 class App extends React.Component {
   
   constructor(props) {
-    console.log("const");
-
     super(props)
     this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: [], LocationStore: new LocationStore()}
 
   }
-
-  
 
   removeAgent= (input) => {
     var blackListed = this.state.ignoreComps
@@ -60,8 +47,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log("test");
-
     const body = this.getBody();
     return (
       <LocationContext.Provider value={this.state.LocationStore}>
