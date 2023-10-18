@@ -282,7 +282,6 @@ class MyServer(BaseHTTPRequestHandler):
                 lat = float(splitURL[2])
                 lon = float(splitURL[3])
                 alt = float(splitURL[4])
-                print("Sending swarm to:", lat, lon, alt)
                 mavswarm.goto(x=lat,y=lon,z=alt,frame=MavSwarm.GLOBAL_RELATIVE_FRAME)
 
             case 'fetch_parameters':
