@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  simulator:
+    image: gazebo_docker:latest
+    container_name: gazebo_docker
+    network_mode: "host"
+    deploy:
+      resources:
+        limits:
+          gpus: all
+    stdin_open: true
+    tty: true
+    environment: 
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  

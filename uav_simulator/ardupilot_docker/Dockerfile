@@ -1,71 +1,101 @@
-FROM ubuntu:18.04
+# syntax=docker/dockerfile:1
+FROM ubuntu:22.04
 
-# Setup timezone
-RUN echo 'Etc/UTC' > /etc/timezone \
-    && ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime \
-    && apt-get update \
-    && apt-get install -q -y --no-install-recommends tzdata \
-    && rm -rf /var/lib/apt/lists/*
+ENV HOME=/home
 
-# Setup the environments
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
-ENV HOME=/home/
-
-# install git 
-RUN apt-get update && apt-get install -y git; git config --global url."https://github.com/".insteadOf git://github.com/
-
-# Now grab ArduPilot from GitHub
-RUN git clone https://github.com/ArduPilot/ardupilot.git /home/ardupilot
-WORKDIR /home/ardupilot
-
-# Now start build instructions from http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html
-RUN git submodule update --init --recursive
-
-RUN apt install -y \
-    python-matplotlib \
-    python-serial \
-    python-wxgtk3.0 \
-    python-wxtools \
-    python-lxml \
-    python-scipy \
-    python-opencv \
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+    lsb-release \
+    sudo \
+    wget \
+    software-properties-common \
+    astyle \
+    build-essential  \
     ccache \
+    g++ \
+    gdb \
     gawk \
-    python-pip \
-    python-pexpect
+    git \
+    make \
+    cmake \
+    ninja-build \
+    libtool \
+    libxml2-dev \
+    libxslt1-dev \
+    python3-numpy \
+    python3-pyparsing \
+    python3-serial \
+    python-is-python3 \
+    libpython3-stdlib \
+    libtool-bin \
+    zip \
+    && apt-get clean \
+    && apt-get -y autoremove \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN pip install \
-    future \
-    pymavlink \
-    MAVProxy \
-    empy
+# TAKEN from https://github.com/docker-library/python/blob/a58630aef106c8efd710011c6a2a0a1d551319a0/3.11/bullseye/Dockerfile
+# if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
+ENV PYTHON_PIP_VERSION 23.1.2
+# https://github.com/docker-library/python/issues/365
+ENV PYTHON_SETUPTOOLS_VERSION 65.5.1
+# https://github.com/pypa/get-pip
+ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/9af82b715db434abb94a0a6f3569f43e72157346/public/get-pip.py
+ENV PYTHON_GET_PIP_SHA256 45a2bb8bf2bb5eff16fdd00faef6f29731831c7c59bd9fc2bf1f3bed511ff1fe
 
-RUN echo "export PATH=$PATH:$HOME/ardupilot/Tools/autotest" >> /home/.bashrc
-RUN echo "export PATH=/usr/lib/ccache:$PATH" >> /home/.bashrc
-RUN . /home/.bashrc
+RUN set -eux; \
+	\
+	wget -O get-pip.py "$PYTHON_GET_PIP_URL"; \
+	echo "$PYTHON_GET_PIP_SHA256 *get-pip.py" | sha256sum -c -; \
+	\
+	export PYTHONDONTWRITEBYTECODE=1; \
+	\
+	python get-pip.py \
+		--disable-pip-version-check \
+		--no-cache-dir \
+		--no-compile \
+		"pip==$PYTHON_PIP_VERSION" \
+		"setuptools==$PYTHON_SETUPTOOLS_VERSION" \
+	; \
+	rm -f get-pip.py; \
+	\
+	pip --version
 
+RUN python -m pip install --no-cache-dir -U future lxml pexpect flake8 pycodestyle empy pyelftools tabulate pre-commit
 
-#Now for some ArduCopter file tuning :)
-#First is the modified vehicle info file
-RUN rm /home/ardupilot/Tools/autotest/pysim/vehicleinfo.py
-RUN rm /home/ardupilot/Tools/autotest/sim_vehicle.py
+RUN mkdir -p /__w/ardupilot/ardupilot && git config --global --add safe.directory /__w/ardupilot/ardupilot && git config --system --add safe.directory /__w/ardupilot/ardupilot
+
+# Set ccache to the PATH
+ENV PATH="/usr/lib/ccache:$PATH"
+
+# Gain some time by disabling mavnative
+ENV DISABLE_MAVNATIVE=True
+
+# Set the buildlogs directory into /tmp as other directory aren't accessible
+ENV BUILDLOGS=/tmp/buildlogs
+
+ENV TZ=UTC
+
+#Add in arduCopter -- Start of Grant Changes:
+WORKDIR /home
+RUN git clone https://github.com/ArduPilot/ardupilot.git
+WORKDIR /home/ardupilot
+RUN pip install MAVproxy
+RUN git submodule update --init --recursive
 
 COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
 COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
-COPY ./modified_files/sim_vehicle.py /home/ardupilot/Tools/autotest/
 
 RUN ./waf configure --board sitl
 RUN ./waf copter
 
-# TCP 5760 is what the sim exposes by default
 EXPOSE 5760
 EXPOSE 5763
 EXPOSE 14550/udp
 
-WORKDIR /home
+#docker run -it --net=host ardupilot_docker
 
-RUN chmod +x /home/ardupilot/Tools/autotest/sim_vehicle.py
+#Tools/autotest/sim_vehicle.py -v ArduCopter -m --daemon
 
-# Finally the command
-#ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}asdf
+#Tools/autotest/sim_vehicle.py -v ArduCopter -m --daemon -f gazebo-iris --console
