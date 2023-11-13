@@ -84,8 +84,8 @@ WORKDIR /home/ardupilot
 RUN pip install MAVproxy
 RUN git submodule update --init --recursive
 
-COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
-COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
+#COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
+#COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
 
 RUN ./waf configure --board sitl
 RUN ./waf copter

@@ -10,16 +10,19 @@ useMavros = False
 #Networking starting options
 startingCommsPort = 5762
 portIncrement = 10
+startingMavrosPort = 14550
+startingMavrosBind = 14555
 
-helpMsg = "HELP!!!"
 
 #ArduPilot Image
 defaultArduPilotImage = "ardupilot_docker"
+defaultMavrosImage = "grantphllps/mavros_docker"
 
 pathToParamFiles = "../uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
 pathToSimSettings = "../uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
 pathToCompose = "../uav_simulator/swarm_simulator/"
 pathToRouter = "../uav_simulator/swarm_simulator/simulator_generated_files/mavlink_router/"
+pathToMavrosEnvs = "../uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
 
 #####################
 #Begin argument parse
@@ -55,6 +58,7 @@ if numberOfArgs > 6:
                 case "-g":
                     print("Building simulator for Gazebo")
                 case "-m":
+                    useMavros = True
                     print("Adding MAVROS")
                 case "-s":
                     print("Using custom starting location")
@@ -110,6 +114,19 @@ print("Mavlink router configuration generated successfully!")
 
 #End Mavlink Router Configuration
 ###################################
+
+####################################
+#Begin Generate the MAVROS env files
+for i in range(1,numberOfCopters + 1):
+    filename = pathToMavrosEnvs + "/env" + str(i)
+    f = open(filename,"w")
+    port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
+    sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
+    compId =            "COMP_ID=1\n"                           #Same across all vehicles
+    f.writelines([port,sysId,compId])
+    f.close()
+#End Generate the MAVROS env files
+##################################
 
 ####################################
 #Begin SITL Default Copter Setttings
@@ -176,20 +193,20 @@ for i in range(1,numberOfCopters+1):
     f.writelines([container,image,containerName,network,volumes,envVol1,envVol2,command,comman1,comman2,"\n"])
 
     if (useMavros == True):
-        container =         "  clustering_" + var + ":\n"
+        container =         "  mavros" + var + ":\n"
         depends =           "    depends_on:\n"
         depend1 =           "      - sitl_" + var + "\n"
         depend2 =           "      - mavlink_router\n"
         network =           "    network_mode: host\n"
-        image =             "    image: " + defaultCompanionImage + "\n"
-        containerName =     "    container_name: clustering_" + var + "\n"
+        image =             "    image: " + defaultMavrosImage + "\n"
+        containerName =     "    container_name: mavros_" + var + "\n"
         options1 =          "    stdin_open: true\n"
         options2 =          "    tty: true\n"
         volumes =           '    volumes:\n'
-        envVol =            '      - ./env_files:/root/home/env_files\n'
+        envVol =            '      - ./simulator_generated_files/mavros_envs:/root/home/env_files\n'
         command =           '    command: >\n'
         comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
-        comman2 =           '                    export $$(cat /root/home/env_files/ros_env' + var +')\n'
+        comman2 =           '                    export $$(cat /root/home/env_files/env' + var +')\n'
         if (i > 1):
             comman3 =           '                    roslaunch --wait mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
         else: 
@@ -198,8 +215,8 @@ for i in range(1,numberOfCopters+1):
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
 
-#End SITL
-####################
+#End SITL for Copters
+#####################
 
 #####################
 #Begin Mavlink Router
