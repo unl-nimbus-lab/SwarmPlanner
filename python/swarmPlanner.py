@@ -321,28 +321,18 @@ class MyServer(BaseHTTPRequestHandler):
             
             case 'generate_compose':
 
-                #There are 4 additional arguments to handle here
-                print(str(splitURL) + "\n")
+                simulatorArguments = splitURL[2:]
+
+                print("Simulator Arguments:")
+                print(simulatorArguments)
+                
+                #Basic generate compose command
                 subprocessCommand = ["python3", "./generate_compose.py"]
 
-                #number of Drones argument, this is only one that is required
-                numberOfDrones = str(splitURL[2])
-                subprocessCommand.append(numberOfDrones)
+                #Add simulator arguments to basic generate compose command
+                for command in simulatorArguments:
+                    subprocessCommand.append(command)
 
-                #build for gazebo or not
-                if (splitURL[3] != ''):
-                    if (splitURL[3] == '-gh'):
-                        subprocessCommand.append('-gh')
-                    if (splitURL[3] == '-gc'):
-                        subprocessCommand.append('-gc')
-
-                #include mavros or not
-                if (splitURL[5] != ''):
-                    if (splitURL[5] == '-c'):
-                        subprocessCommand.append('-c')
-
-
-                #print(subprocessCommand)
                 subprocess.run(subprocessCommand)
                 
             case _:

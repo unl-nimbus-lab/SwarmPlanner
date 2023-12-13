@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/TestStyles.css'
 
-let agentChoices = [1,2,3,4,5,6,7,8,9,10,11,12]
+let agentChoices = [0,1,2,3,4,5,6,7,8,9,10,11,12]
 
 let options = agentChoices.map( (agent) => {
     return (
@@ -21,20 +21,46 @@ let endpoints = endPointOptions.map( (end) => {
 class BodySwarmConfig extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {vehicles: '1', gazebo: '', defaultCompProcess: "", path: "", alternateCompProcess: "", alternateCompProcessName: ""};
+        this.state = {copters: '1', helis: '0', blimps: '0', planes: '0', rovers: '0', subs: '0', defaultCompProcess: ""};
     }
 
     buildComposeString = () => {
         console.log(this.state.vehicles)
     }
 
-    numberChange = () => {
-        const number = document.getElementById("numOfAgents").value;
-        this.setState({vehicles: number})
+    coptersChange = () => {
+        const number = document.getElementById("numCopters").value;
+        this.setState({copters: number})
+
+    }
+
+    helisChange = () => { 
+        const number = document.getElementById("numHelis").value;
+        this.setState({helis: number})
+    }
+
+    blimpsChange = () => { 
+        const number = document.getElementById("numBlimps").value;
+        this.setState({blimps: number})
+    }
+
+    planesChange = () => {
+        const number = document.getElementById("numPlanes").value;
+        this.setState({planes: number})
+    }
+
+    roversChange = () => {
+        const number = document.getElementById("numRovers").value;
+        this.setState({rovers: number})
+    }
+
+    subsChange = () => {
+        const number = document.getElementById("numSubs").value;
+        this.setState({subs: number})
     }
 
     generateCompose = () => {
-        fetch('http://127.0.0.1:8080/generate_compose/' + this.state.vehicles + "/"+ this.state.gazebo + "/"+ this.state.path +"/"+ this.state.defaultCompProcess +"/"+ this.state.alternateCompProcess +"/"+ this.state.alternateCompProcessName)
+        fetch('http://127.0.0.1:8080/generate_compose/' + this.state.copters + "/"+ this.state.helis + "/"+ this.state.blimps +"/"+ this.state.planes +"/"+ this.state.rovers +"/"+ this.state.subs +"/"+ this.state.defaultCompProcess)
     }
 
     setNoGazebo = () => {
@@ -54,7 +80,7 @@ class BodySwarmConfig extends React.Component {
 
     setDefaultComp = () => {
         if (document.getElementById("checkbox1").checked) {
-            this.setState({defaultCompProcess: "-c"})
+            this.setState({defaultCompProcess: "-m"})
         }
         else {
             this.setState({defaultCompProcess: ""})
@@ -92,13 +118,49 @@ class BodySwarmConfig extends React.Component {
                 </div>
                 <div className="Bodyblue">
                     <h2>Simulation Options</h2>
-                    Number of Agents to Simulate: 
-                    <select onChange={this.numberChange} id="numOfAgents">
-                        {options}
-                    </select>
-                </div>
 
-                <div className="Bodypink">
+                    <div className="Bodypink">
+                        Number of Copters to Simulate: 
+                        <select onChange={this.copterChange} id="numCopters">
+                            {options}
+                        </select>
+                    </div>
+
+                    <div className="Bodyblue">
+                        Number of Helis to Simulate: 
+                        <select onChange={this.helisChange} id="numHelis">
+                            {options}
+                        </select>
+                    </div>
+
+                    <div className="Bodypink">
+                        Number of Blimps to Simulate: 
+                        <select onChange={this.blimpsChange} id="numBlimps">
+                            {options}
+                        </select>
+                    </div>
+                    <div className="Bodyblue">
+                        Number of Planes to Simulate: 
+                        <select onChange={this.planesChange} id="numPlanes">
+                            {options}
+                        </select>
+                    </div>
+                    <div className="Bodypink">
+                        Number of Rovers to Simulate: 
+                        <select onChange={this.roversChange} id="numRovers">
+                            {options}
+                        </select>
+                    </div>
+                    <div className="Bodyblue">
+                        Number of Subs to Simulate: 
+                        <select onChange={this.subsChange} id="numSubs">
+                            {options}
+                        </select>
+                    </div>
+                </div>
+                
+
+                {/* <div className="Bodypink">
                     <div>
                         <label>
                             <input 
@@ -130,24 +192,24 @@ class BodySwarmConfig extends React.Component {
                         </label>
                         
                     </div>
-                </div>
+                </div> */}
                 <div className="Bodyblue">
                     <label>
                         <input type="checkbox" id="checkbox1" onChange={this.setDefaultComp}></input>
-                        Include Companion Process
+                        MAVROS
                     </label>
                 </div>
-                <div className="Bodypink">
+                {/* <div className="Bodypink">
                     For host gazebo, Input the absolute path the the "multi_drone.world" file:
                     <input type="text" id="pathInput"></input> 
-                </div>
-                <div className="Bodyblue">
+                </div> */}
+                {/* <div className="Bodyblue">
                     Number of GCS Endpoints: 
                     <select onChange={this.endChange} id="numOfEndPoints">
                         {endpoints}
                     </select>
-                </div>
-                <div className="Bodypink">
+                </div> */}
+                {/* <div className="Bodypink">
                     <label>
                         <input type="checkbox" id="checkbox2" onChange={this.setAltComp}></input>
                         Specify Companion Process
@@ -156,10 +218,10 @@ class BodySwarmConfig extends React.Component {
                         Container Name: 
                         <input type="text" id="compContainerName" onChange={this.setAltComp}></input>
                     </label>
-                </div>
+                </div> */}
                 <div className="Bodyblue">
                     <h2>Simulation Generate Command</h2>
-                    {"python3 generate_compose.py" + " " + this.state.vehicles + " " + this.state.gazebo + " "+ this.state.path + " " + this.state.defaultCompProcess +" " + this.state.alternateCompProcess + " " + this.state.alternateCompProcessName}
+                    {"python3 generate_compose.py" + " " + this.state.copters + " " + this.state.helis + " "+ this.state.blimps + " " + this.state.planes +" " + this.state.rovers + " " + this.state.subs + " " + this.state.defaultCompProcess}
                 </div>
                 <div className="Bodypink">
                         <h2>Press to Generate the Compose File</h2>

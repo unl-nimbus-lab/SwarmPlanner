@@ -18,16 +18,22 @@ startingMavrosBind = 14555
 defaultArduPilotImage = "ardupilot_docker"
 defaultMavrosImage = "grantphllps/mavros_docker"
 
-pathToParamFiles = "../uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
-pathToSimSettings = "../uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
-pathToCompose = "../uav_simulator/swarm_simulator/"
-pathToRouter = "../uav_simulator/swarm_simulator/simulator_generated_files/mavlink_router/"
-pathToMavrosEnvs = "../uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
+pathToParamFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
+pathToSimSettings = "./uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
+pathToCompose = "./uav_simulator/swarm_simulator/"
+pathToRouter = "./uav_simulator/swarm_simulator/simulator_generated_files/mavlink_router/"
+pathToMavrosEnvs = "./uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
 
 #####################
 #Begin argument parse
 
 numberOfArgs = len(sys.argv)
+
+helpMsg = "Usage: python generate_compose.py <number of copters> <number of helicopters> <number of blimps> <number of planes> <number of rovers> <number of subs> [-g] [-m] [-s] [-l] [-h]"
+
+for i in range(0,numberOfArgs):
+    print("Arg " + str(i) + ": " + sys.argv[i])
+
 
 if (numberOfArgs <= 6):
     print(helpMsg)
@@ -51,24 +57,23 @@ numberOfVehicles = numberOfCopters + numberOfHelicopters + numberOfBlimps + numb
 
 if numberOfArgs > 6:
     for i in range(7,numberOfArgs):
-        if (sys.argv[i][0] != "-"): #Dont parse non "-" cli arguments
-            sys.exit("Error: Unknown argument provided: " + sys.argv[i])
-        else:
-            match(sys.argv[i]):
-                case "-g":
-                    print("Building simulator for Gazebo")
-                case "-m":
-                    useMavros = True
-                    print("Adding MAVROS")
-                case "-s":
-                    print("Using custom starting location")
-                case "-l":
-                    print("Logging Enabled")
-                case "-h":
-                    print(helpMsg)
-                case _:
-                    print(helpMsg)
-                    sys.exit("Error: Unknown argument provided: " + sys.argv[i])
+        match(sys.argv[i]):
+            case "-g":
+                print("Building simulator for Gazebo")
+            case "-m":
+                useMavros = True
+                print("Adding MAVROS")
+            case "-s":
+                print("Using custom starting location")
+            case "-l":
+                print("Logging Enabled")
+            case "-h":
+                print(helpMsg)
+            case "":
+                1+1
+            case _:
+                print(helpMsg)
+                sys.exit("Error: Unknown argument provided: " + sys.argv[i])
 
 
 #End argument parse
@@ -165,6 +170,7 @@ if (numberOfCopters > 0):
 
 #End SITL Default Copter Parameters
 ###################################
+
 
 #####################
 #Begin docker-compose
