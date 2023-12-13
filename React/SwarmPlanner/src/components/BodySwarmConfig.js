@@ -121,12 +121,12 @@ class BodySwarmConfig extends React.Component {
 
                     <div className="Bodypink">
                         Number of Copters to Simulate: 
-                        <select onChange={this.copterChange} id="numCopters">
+                        <select onChange={this.coptersChange} id="numCopters">
                             {options}
                         </select>
                     </div>
 
-                    <div className="Bodyblue">
+                    {/* <div className="Bodyblue">
                         Number of Helis to Simulate: 
                         <select onChange={this.helisChange} id="numHelis">
                             {options}
@@ -156,7 +156,7 @@ class BodySwarmConfig extends React.Component {
                         <select onChange={this.subsChange} id="numSubs">
                             {options}
                         </select>
-                    </div>
+                    </div> */}
                 </div>
                 
 
