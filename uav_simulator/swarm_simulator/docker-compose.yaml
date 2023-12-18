@@ -1,86 +1,23 @@
 version: '3'
 
 services:
-  sitl_1:
-    image: ardupilot_docker
-    container_name: sitl_1
+  gazebo:
+    image: gazebo_docker
+    container_name: gazebo
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
     network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param"
 
-  sitl_2:
-    image: ardupilot_docker
-    container_name: sitl_2
-    network_mode: host
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
     volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../gazebo_docker/packages/iq_sim/worlds:/home/catkin_ws/src/iq_sim/worlds
+      # - ./simulator_generated_files/vehicle_worlds/swarm_world.world:/home/catkin_ws/src/uav_sim/worlds/swarm_world.world
     command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter2) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I2 --add-param-file=/root/home/param_files/default_params_copter2.param"
+      /bin/bash -c "source ~/catkin_ws/devel/setup.bash && bash"
+   
 
-  sitl_3:
-    image: ardupilot_docker
-    container_name: sitl_3
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter3) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I3 --add-param-file=/root/home/param_files/default_params_copter3.param"
 
-  sitl_4:
-    image: ardupilot_docker
-    container_name: sitl_4
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter4) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I4 --add-param-file=/root/home/param_files/default_params_copter4.param"
-
-  sitl_5:
-    image: ardupilot_docker
-    container_name: sitl_5
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter5) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I5 --add-param-file=/root/home/param_files/default_params_copter5.param"
-
-  sitl_6:
-    image: ardupilot_docker
-    container_name: sitl_6
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter6) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I6 --add-param-file=/root/home/param_files/default_params_copter6.param"
-
-  mavlink_router:
-    image: grantphllps/mavlink_router
-    container_name: mavlink_router
-    depends_on:
-      - sitl_1
-      - sitl_2
-      - sitl_3
-      - sitl_4
-      - sitl_5
-      - sitl_6
-    stdin_open: true
-    tty: true
-    network_mode: "host"
-    volumes:
-      - ./simulator_generated_files/mavlink_router:/root/home/mavlink_router_files
-    command: >
-      /bin/bash -c "mavlink-routerd -c /root/home/mavlink_router_files/main.conf"
+# roslaunch ~/catkin_ws/src/uav_sim/launch/runway.launch"

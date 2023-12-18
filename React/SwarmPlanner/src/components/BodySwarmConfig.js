@@ -21,7 +21,7 @@ let endpoints = endPointOptions.map( (end) => {
 class BodySwarmConfig extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {copters: '1', helis: '0', blimps: '0', planes: '0', rovers: '0', subs: '0', defaultCompProcess: ""};
+        this.state = {copters: '1', helis: '0', blimps: '0', planes: '0', rovers: '0', subs: '0', defaultCompProcess: "", gazebo: ""};
     }
 
     buildComposeString = () => {
@@ -60,22 +60,16 @@ class BodySwarmConfig extends React.Component {
     }
 
     generateCompose = () => {
-        fetch('http://127.0.0.1:8080/generate_compose/' + this.state.copters + "/"+ this.state.helis + "/"+ this.state.blimps +"/"+ this.state.planes +"/"+ this.state.rovers +"/"+ this.state.subs +"/"+ this.state.defaultCompProcess)
-    }
-
-    setNoGazebo = () => {
-        this.setState({gazebo: ""})
-        this.setState({path: ("")})
-    }
-
-    setHostGazebo = () => {
-        this.setState({gazebo: "-gh"})
-        this.setState({path: (document.getElementById("pathInput").value + "")})
+        fetch('http://127.0.0.1:8080/generate_compose/' + this.state.copters + "/"+ this.state.helis + "/"+ this.state.blimps +"/"+ this.state.planes +"/"+ this.state.rovers +"/"+ this.state.subs +"/"+ this.state.defaultCompProcess + "/" + this.state.gazebo)
     }
 
     setContainerGazebo = () => {
-        this.setState({gazebo: "-gc"})
-        this.setState({path: ("")})
+        if (document.getElementById("checkbox2").checked) {
+            this.setState({gazebo: "-g"})
+        }
+        else {
+            this.setState({gazebo: ""})
+        }
     }
 
     setDefaultComp = () => {
@@ -199,6 +193,12 @@ class BodySwarmConfig extends React.Component {
                         MAVROS
                     </label>
                 </div>
+                <div className="Bodypink">
+                    <label>
+                        <input type="checkbox" id="checkbox2" onChange={this.setContainerGazebo}></input>
+                        gazebo
+                    </label>
+                </div>
                 {/* <div className="Bodypink">
                     For host gazebo, Input the absolute path the the "multi_drone.world" file:
                     <input type="text" id="pathInput"></input> 
@@ -221,7 +221,7 @@ class BodySwarmConfig extends React.Component {
                 </div> */}
                 <div className="Bodyblue">
                     <h2>Simulation Generate Command</h2>
-                    {"python3 generate_compose.py" + " " + this.state.copters + " " + this.state.helis + " "+ this.state.blimps + " " + this.state.planes +" " + this.state.rovers + " " + this.state.subs + " " + this.state.defaultCompProcess}
+                    {"python3 generate_compose.py" + " " + this.state.copters + " " + this.state.helis + " "+ this.state.blimps + " " + this.state.planes +" " + this.state.rovers + " " + this.state.subs + " " + this.state.defaultCompProcess + " " + this.state.gazebo}
                 </div>
                 <div className="Bodypink">
                         <h2>Press to Generate the Compose File</h2>

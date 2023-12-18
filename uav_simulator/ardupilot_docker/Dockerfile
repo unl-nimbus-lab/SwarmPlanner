@@ -96,6 +96,8 @@ EXPOSE 14550/udp
 
 #docker run -it --net=host ardupilot_docker
 
+#Normal
 #Tools/autotest/sim_vehicle.py -v ArduCopter -m --daemon
 
+#Gazebo
 #Tools/autotest/sim_vehicle.py -v ArduCopter -m --daemon -f gazebo-iris --console

@@ -18,11 +18,16 @@ startingMavrosBind = 14555
 defaultArduPilotImage = "ardupilot_docker"
 defaultMavrosImage = "grantphllps/mavros_docker"
 
+#Gazebo world
+defaultGazeboWorld = "runway.world"
+swarmWorld = "swarm_world.world"
+
 pathToParamFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
 pathToSimSettings = "./uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
 pathToCompose = "./uav_simulator/swarm_simulator/"
 pathToRouter = "./uav_simulator/swarm_simulator/simulator_generated_files/mavlink_router/"
 pathToMavrosEnvs = "./uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
+pathToWorldFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/vehicle_worlds/"
 
 #####################
 #Begin argument parse
@@ -59,6 +64,7 @@ if numberOfArgs > 6:
     for i in range(7,numberOfArgs):
         match(sys.argv[i]):
             case "-g":
+                useGazebo = True
                 print("Building simulator for Gazebo")
             case "-m":
                 useMavros = True
@@ -92,6 +98,7 @@ port = "Port = 5759\n\n"
 
 f.writelines([name,address,port])
 
+#Add the TCP connections for each vehicle
 for i in range(1,numberOfVehicles + 1):
     name =      "[TcpEndpoint sitl_" + str(i) + "]\n"
     address =   "Address = 0.0.0.0\n"
@@ -148,7 +155,7 @@ if (numberOfCopters > 0):
         f.writelines([lat,lon,alt,dir,model,vehicle])
         f.close()
 
-print("Ardupilot env files generated sucessuflly!")
+    print("Ardupilot setting files generated sucessuflly!")
 
 #End SITL Default Copter Setttings
 ##################################
@@ -168,8 +175,33 @@ if (numberOfCopters > 0):
         f.writelines([frameClass,frameType,sysId,SR0_POSITION,SR1_POSITION,SR0_POSITION])
         f.close()
 
+    print("Ardupilot parameter files generated sucessuflly!")
+
 #End SITL Default Copter Parameters
 ###################################
+
+################################
+#Begin gazebo world file editing
+if (useGazebo == True):
+    f = open(pathToWorldFiles + swarmWorld,"w")
+    f.write('<?xml version="1.0"?> \n')
+    f.write('<sdf version="1.5"> \n')
+    f.write('  <world name="swarm_world"> \n')
+
+    for i in range(1,numberOfCopters+1):
+        f.write("    <include> \n")
+        f.write("      <uri>model://drone" + str(i) + "</uri> \n")
+        f.write("      <pose>" + str(i) + " 0 0 0 0 0 0</pose> \n")
+        f.write("    </include> \n")
+
+    f.write("  </world> \n")
+    f.write("</sdf> \n")
+
+    f.close()
+
+    print("Gazebo world generated sucessuflly!")
+#End gazebo world file editing
+##############################
 
 
 #####################
@@ -194,7 +226,10 @@ for i in range(1,numberOfCopters+1):
     envVol2 =           '      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings\n'
     command =           '    command: >\n'
     comman1 =           '      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter' + var + ') &&\n'
-    comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
+    if (useGazebo == True):
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param'  +  ' -f gazebo-drone' + var + '"\n'
+    else:
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
     
     f.writelines([container,image,containerName,network,volumes,envVol1,envVol2,command,comman1,comman2,"\n"])
 
@@ -222,6 +257,26 @@ for i in range(1,numberOfCopters+1):
 
 
 #End SITL for Copters
+#####################
+
+#####################
+#Begin gazebo
+
+if (useGazebo == True):
+    container =         "  gazebo:\n"
+    image =             "    image: gazebo_docker\n"
+    containerName =     "    container_name: gazebo\n"
+    network =           "    network_mode: host\n"
+    volumes =           '    volumes:\n'
+    volume1 =           '      - ../gazebo_docker/packages/uav_sim/worlds:/home/catkin_ws/src/uav_sim/worlds\n'
+    volume2 =           '      - ./simulator_generated_files/vehicle_worlds/swarm_world.world:/home/catkin_ws/src/uav_sim/worlds/swarm_world.world\n'
+    command =           '    command: >\n'
+    comman1 =           '      /bin/bash -c "source ~/catkin_ws/devel/setup.bash &&\n'
+    comman2 =           '             roslaunch ~/catkin_ws/src/uav_sim/launch/runway.launch"\n'
+
+    f.writelines([container,image,containerName,network,volumes,volume1,volume2,command,comman1,comman2,"\n"])
+
+#End gazebo
 #####################
 
 #####################

@@ -96,6 +96,15 @@
       </include>
       <pose> 0 0 0 0 0 0</pose>
     </model>
+
+    <!-- <model name="iris">
+      <include>
+        <uri>model://iris_with_ardupilot</uri>
+      </include>
+      <pose> 0 0 0 0 0 0</pose>
+    </model> -->
+
+
   </world>
 </sdf>
 
