@@ -96,7 +96,10 @@ RUN apt upgrade libignition-math2 -y
 
 WORKDIR /home/catkin_ws/
 
-COPY ./packages/iq_sim /home/catkin_ws/src/iq_sim
+#Add more models
+RUN git clone https://github.com/osrf/gazebo_models.git
+
+# COPY ./packages/iq_sim /home/catkin_ws/src/iq_sim
 
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
     && catkin build -j4

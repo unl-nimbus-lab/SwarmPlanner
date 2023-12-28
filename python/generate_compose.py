@@ -266,15 +266,20 @@ if (useGazebo == True):
     container =         "  gazebo:\n"
     image =             "    image: gazebo_docker\n"
     containerName =     "    container_name: gazebo\n"
+    opt1 =              "    stdin_open: true\n"
+    opt2 =              "    tty: true\n"
     network =           "    network_mode: host\n"
+    environment =       '    environment:\n'
+    env1 =              '      - DISPLAY=${DISPLAY}\n'
+    env2 =              '      - QT_X11_NO_MITSHM=1\n'
     volumes =           '    volumes:\n'
-    volume1 =           '      - ../gazebo_docker/packages/uav_sim/worlds:/home/catkin_ws/src/uav_sim/worlds\n'
-    volume2 =           '      - ./simulator_generated_files/vehicle_worlds/swarm_world.world:/home/catkin_ws/src/uav_sim/worlds/swarm_world.world\n'
+    volume1 =           '      - /tmp/.X11-unix:/tmp/.X11-unix\n'
+    volume2 =           '      - ../gazebo_docker/packages/iq_sim/worlds:/home/catkin_ws/src/iq_sim/worlds\n'
     command =           '    command: >\n'
     comman1 =           '      /bin/bash -c "source ~/catkin_ws/devel/setup.bash &&\n'
     comman2 =           '             roslaunch ~/catkin_ws/src/uav_sim/launch/runway.launch"\n'
 
-    f.writelines([container,image,containerName,network,volumes,volume1,volume2,command,comman1,comman2,"\n"])
+    f.writelines([container,image,containerName,opt1,opt2,network,environment,env1,env2,volumes,volume1,volume2,command,comman1,comman2,"\n"])
 
 #End gazebo
 #####################

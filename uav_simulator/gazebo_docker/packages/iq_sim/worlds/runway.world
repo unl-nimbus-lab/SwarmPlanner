@@ -92,10 +92,17 @@
 
     <model name="iris">
       <include>
-        <uri>model://drone_with_camera</uri>
+        <uri>model://drone1</uri>
       </include>
       <pose> 0 0 0 0 0 0</pose>
     </model>
+
+    <!-- <model name="iris">
+      <include>
+        <uri>model://basic_drone</uri>
+      </include>
+      <pose> 0 0 0 0 0 0</pose>
+    </model> -->
 
     <!-- <model name="iris">
       <include>
@@ -104,6 +111,12 @@
       <pose> 0 0 0 0 0 0</pose>
     </model> -->
 
+    <!-- <model name="iris">
+      <include>
+        <uri>model://iris_with_standoffs_demo</uri>
+      </include>
+      <pose> 0 0 0 0 0 0</pose>
+    </model> -->
 
   </world>
 </sdf>

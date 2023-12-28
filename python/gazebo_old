@@ -13,7 +13,7 @@ services:
       - QT_X11_NO_MITSHM=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ../gazebo_docker/packages/iq_sim:/home/catkin_ws/src/iq_sim/
+      - ../gazebo_docker/packages/iq_sim/worlds:/home/catkin_ws/src/iq_sim/worlds
       # - ./simulator_generated_files/vehicle_worlds/swarm_world.world:/home/catkin_ws/src/uav_sim/worlds/swarm_world.world
     command: >
       /bin/bash -c "source ~/catkin_ws/devel/setup.bash && bash"

@@ -2,7 +2,7 @@
 <sdf version="1.6" >
   <model name="drone_with_camera">
     <include>
-      <uri>model://iris_base</uri>
+      <uri>model://iris_with_standoffs</uri>
     </include>
 
     <link name="cam_link">
@@ -58,6 +58,7 @@
       </plugin>
     </sensor>
     </link>
+    
     <joint name="camera_mount" type="fixed">
       <child>cam_link</child>
       <parent>iris::base_link</parent>
