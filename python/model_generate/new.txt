@@ -1,3 +1,7 @@
+    <plugin name="arducopter_plugin" filename="libArduPilotPlugin.so">
+      <fdm_addr>127.0.0.1</fdm_addr>
+      <fdm_port_in>9002</fdm_port_in>
+      <fdm_port_out>9003</fdm_port_out>
       <!--
           Require by APM :
           Only change model and gazebo from XYZ to XY-Z coordinates
@@ -13,7 +17,7 @@
           and divide max target by 1.
           offset = 0
           multiplier = 838 max rpm / 1 = 838
-        -->
+        -->reutrn
         <type>VELOCITY</type>
         <offset>0</offset>
         <p_gain>0.20</p_gain>
@@ -70,4 +74,3 @@
         <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
       </control>
     </plugin>
-
