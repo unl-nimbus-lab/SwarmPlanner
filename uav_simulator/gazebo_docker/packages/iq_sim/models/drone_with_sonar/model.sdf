@@ -14,7 +14,7 @@
               <size>.01 .01 .01</size>
             </box>
           </geometry>
-        </collision>
+        </collisio n>
 
         <visual name="visual">
           <geometry>
