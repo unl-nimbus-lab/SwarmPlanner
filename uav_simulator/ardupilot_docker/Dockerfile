@@ -77,15 +77,13 @@ ENV BUILDLOGS=/tmp/buildlogs
 
 ENV TZ=UTC
 
-#Add in arduCopter -- Start of Grant Changes:
+#Add in arduCopter
 WORKDIR /home
 RUN git clone https://github.com/ArduPilot/ardupilot.git
 WORKDIR /home/ardupilot
+RUN git checkout Copter-4.3
 RUN pip install MAVproxy
 RUN git submodule update --init --recursive
-
-#COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
-#COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
 
 RUN ./waf configure --board sitl
 RUN ./waf copter
