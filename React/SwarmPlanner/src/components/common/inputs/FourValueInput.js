@@ -1,6 +1,6 @@
 import React from 'react'
-import '../styles/AgentStatusCard.css'
-import '../styles/ButtonStyles.css'
+import '../../../styles/AgentStatusCard.css'
+import '../../../styles/ButtonStyles.css'
 
 class FourValueInput extends React.Component {
     constructor(props) {

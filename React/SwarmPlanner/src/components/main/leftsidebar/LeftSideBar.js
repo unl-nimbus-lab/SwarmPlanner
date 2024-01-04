@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/LeftSideBar.css'
+import '../../../styles/LeftSideBar.css'
 import HRLButtons from './HRLButtons';
 import SwarmManager from './SwarmManager'
 
@@ -15,8 +15,8 @@ class LeftSideBar extends React.Component {
                     <SwarmManager />
                 </div>
                 <div className="TopBox">
-                    
-                    </div>
+
+                </div>
             </div>
         );
     }

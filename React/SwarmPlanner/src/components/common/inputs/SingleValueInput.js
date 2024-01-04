@@ -1,7 +1,7 @@
 import React from 'react'
-import '../styles/AgentStatusCard.css'
-import '../styles/ButtonStyles.css'
-import '../styles/TextStyles.css'
+import '../../../styles/AgentStatusCard.css'
+import '../../../styles/ButtonStyles.css'
+import '../../../styles/TextStyles.css'
 
 class SingleValueInput extends React.Component {
     constructor(props) {

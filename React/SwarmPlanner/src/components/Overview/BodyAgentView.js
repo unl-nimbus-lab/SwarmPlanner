@@ -1,7 +1,7 @@
 import React from 'react'
-import AgentStatusCard from '../components/AgentStatusCard';
-import SwarmAgent from '../classes/SwarmAgent'
-import '../styles/BodyAgentView.css'
+import AgentStatusCard from './AgentStatusCard';
+import SwarmAgent from '../../classes/SwarmAgent'
+import '../../styles/BodyAgentView.css'
 import MapContainer from './MapContainer';
 
 class BodyAgentView extends React.Component {

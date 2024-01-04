@@ -1,11 +1,11 @@
 import React from 'react'
-import ArmButton from './ArmButton';
-import ModeButton from './ModeButton'
-import DisarmButton from './DisarmButton';
-import BasicSlider from './BasicSlider';
-import '../styles/SwarmManagerSlider.css'
-import '../styles/common.css'
-import '../styles/TextStyles.css'
+import ArmButton from '../../common/buttons/ArmButton';
+import ModeButton from '../../common/buttons/ModeButton'
+import DisarmButton from '../../common/buttons/DisarmButton';
+import BasicSlider from '../../common/sliders/BasicSlider';
+import '../../../styles/SwarmManagerSlider.css'
+import '../../../styles/common.css'
+import '../../../styles/TextStyles.css'
 
 class SwarmManager extends React.Component {
 

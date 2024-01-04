@@ -1,6 +1,6 @@
 import React from 'react'
-import "../styles/RemoveButton.css"
-import "../styles/common.css"
+import "../../../styles/RemoveButton.css"
+import "../../../styles/common.css"
 
 class RemoveButton extends React.Component {
 

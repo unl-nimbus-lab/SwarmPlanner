@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/ButtonStyles.css'
+import '../../../styles/ButtonStyles.css'
 
 class DebugVectorButton extends React.Component {
 

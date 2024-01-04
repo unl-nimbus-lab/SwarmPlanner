@@ -1,6 +1,6 @@
 import React from 'react'
-import '../styles/Connection.css'
-import '../styles/ButtonStyles.css'
+import '../../../styles/Connection.css'
+import '../../../styles/ButtonStyles.css'
 class DisconnectButton extends React.Component {
     render() {
         return (

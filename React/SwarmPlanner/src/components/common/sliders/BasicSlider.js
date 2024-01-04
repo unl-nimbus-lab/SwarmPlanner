@@ -1,6 +1,6 @@
 import React from 'react'
-import '../styles/ButtonStyles.css'
-import '../styles/SwarmManagerSlider.css'
+import '../../../styles/ButtonStyles.css'
+import '../../../styles/SwarmManagerSlider.css'
 
 class BasicSlider extends React.Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/Connection.css'
-import ConnectButton from './ConnectButton';
-import DisconnectButton from './DisconnectButton';
+import '../../../styles/Connection.css'
+import ConnectButton from '../../common/buttons/ConnectButton';
+import DisconnectButton from '../../common/buttons/DisconnectButton';
 
 class ConnectionManager extends React.Component {
     constructor(props) {

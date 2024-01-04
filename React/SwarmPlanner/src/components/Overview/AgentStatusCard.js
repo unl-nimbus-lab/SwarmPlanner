@@ -1,22 +1,22 @@
 import React from 'react';
-import "../styles/AgentStatusCard.css"
-import dockerPlain from "../resources/images/docker-1.svg"
-import dockerBlue from "../resources/images/docker-3.svg"
-import connectPlain from "../resources/images/wireless-plain.svg"
-import connectBlue from "../resources/images/wireless-blue.svg"
-import pi from "../resources/images/Raspberry_Pi-Logo.wine.svg"
-import BasicSlider from './BasicSlider'
-import ExtraButtons from './ExtraButtons'
-import ModeButton from './ModeButton'
-import ArmButton from './ArmButton'
-import DisarmButton from './DisarmButton';
-import RemoveButton from './RemoveButton';
-import ExpandButton from './ExpandButton';
-import StatusTag from './StatusTag';
-import DroneLogo from './DroneLogo';
-import DropArrow from '../resources/images/Arrow-down.svg'
-import '../styles/ButtonStyles.css'
-import '../styles/common.css'
+import "../../styles/AgentStatusCard.css"
+import dockerPlain from "../../resources/images/docker-1.svg"
+import dockerBlue from "../../resources/images/docker-3.svg"
+import connectPlain from "../../resources/images/wireless-plain.svg"
+import connectBlue from "../../resources/images/wireless-blue.svg"
+import pi from "../../resources/images/Raspberry_Pi-Logo.wine.svg"
+import BasicSlider from '../common/sliders/BasicSlider'
+import ExtraButtons from '../common/buttons/ExtraButtons'
+import ModeButton from '../common/buttons/ModeButton'
+import ArmButton from '../common/buttons/ArmButton'
+import DisarmButton from '../common/buttons/DisarmButton';
+import RemoveButton from '../common/buttons/RemoveButton';
+import ExpandButton from '../common/buttons/ExpandButton';
+import StatusTag from '../StatusTag';
+import DroneLogo from '../DroneLogo';
+import DropArrow from '../../resources/images/Arrow-down.svg'
+import '../../styles/ButtonStyles.css'
+import '../../styles/common.css'
 
 class AgentStatusCard extends React.Component {
     constructor (props) {

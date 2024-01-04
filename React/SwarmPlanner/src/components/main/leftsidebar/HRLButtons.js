@@ -1,15 +1,15 @@
 import React from 'react'
-import DebugVectorButton from './DebugVectorButton';
-import ThreeValueInput from './ThreeValueInput';
-import BasicSlider from './BasicSlider';
-import SingleValueInput from './SingleValueInput';
-import FourValueInput from './FourValueInput';
-import DebugIntButton  from './DebugIntButton';
-import '../styles/common.css'
-import '../styles/TextStyles.css'
-import '../styles/InputTextStyles.css'
-import '../styles/SwarmManagerSlider.css'
-import '../styles/AgentStatusCard.css'
+import DebugVectorButton from '../../common/buttons/DebugVectorButton';
+import ThreeValueInput from '../../common/inputs/ThreeValueInput';
+import BasicSlider from '../../common/sliders/BasicSlider';
+import SingleValueInput from '../../common/inputs/SingleValueInput';
+import FourValueInput from '../../common/inputs/FourValueInput';
+import DebugIntButton  from '../../common/buttons/DebugIntButton';
+import '../../../styles/common.css'
+import '../../../styles/TextStyles.css'
+import '../../../styles/InputTextStyles.css'
+import '../../../styles/SwarmManagerSlider.css'
+import '../../../styles/AgentStatusCard.css'
 
 class HRLButtons extends React.Component {
     constructor(props) {

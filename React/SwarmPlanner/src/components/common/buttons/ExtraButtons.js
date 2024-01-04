@@ -1,6 +1,6 @@
 import React from 'react'
 import ModeButton from './ModeButton'
-import '../styles/AgentStatusCard.css'
+import '../../../styles/AgentStatusCard.css'
 
 class ExtraButtons extends React.Component {
     render() {

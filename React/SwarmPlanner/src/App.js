@@ -1,12 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import Header from './components/Header';
-import LeftSideBar from './components/LeftSideBar';
-import BodyAgentView from './components/BodyAgentView';
-import BodyClusterControl from './components/BodyClusterControl';
-import BodySwarmConfig from './components/BodySwarmConfig';
-import BodyParameterControl from './components/BodyParameterControl';
+import Header from './components/main/header/Header';
+import LeftSideBar from './components/main/leftsidebar/LeftSideBar';
+import BodyAgentView from './components/Overview/BodyAgentView';
+// import BodyClusterControl from './components/BodyClusterControl';
+import BodySwarmConfig from './components/Setup/BodySwarmConfig';
+import BodyParameterControl from './components/Parameters/BodyParameterControl';
 
+// function App() {
+
+//   const [body, setBody] = useState("SwarmOverview");
+//   const [checkedAgents, setCheckedAgents] = useState(['']);
+//   const [ignoreComps, setIgnoreComps] = useState([]);
+
+//   const removeAgent = (input) => {
+//     var blackListed = ignoreComps
+//     blackListed.push(input)
+//     //console.log(blackListed)
+//     setIgnoreComps(blackListed)
+//     return 
+// }
+
+//   const updateBody = (input) => {
+//     setBody(input)
+//   }
+
+//   const getBody = () => {
+//     switch(body) {
+//       case "SwarmOverview":
+//         return <BodyAgentView removeFun={removeAgent} ignoreComps={ignoreComps}/>
+//       // case "ClusterControl":
+//       //   return <BodyClusterControl />
+//       case "SwarmConfig":
+//         return <BodySwarmConfig />
+//       case "ParameterControl":
+//         return <BodyParameterControl />
+//     }
+//   }
+
+//   return (
+//     <div>
+//       <Header buttonFcn={updateBody} selected={body} />
+//       <LeftSideBar />
+//       {body}
+//     </div>
+//   );
+// }
 
 class App extends React.Component {
   constructor(props) {
@@ -32,8 +71,8 @@ class App extends React.Component {
     switch(this.state.body) {
       case "SwarmOverview":
         return <BodyAgentView removeFun={this.removeAgent} ignoreComps={this.state.ignoreComps}/>
-      case "ClusterControl":
-        return <BodyClusterControl />
+      // case "ClusterControl":
+      //   return <BodyClusterControl />
       case "SwarmConfig":
         return <BodySwarmConfig />
       case "ParameterControl":

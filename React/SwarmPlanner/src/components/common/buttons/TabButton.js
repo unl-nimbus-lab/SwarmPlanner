@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Header.css'
+import '../../../styles/Header.css'
 
 class TabButton extends React.Component {
     render() {

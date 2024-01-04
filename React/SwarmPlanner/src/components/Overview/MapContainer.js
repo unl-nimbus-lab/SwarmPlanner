@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
-import droneIcon from '../resources/images/Simple_drone_small.svg'
+import droneIcon from '../../resources/images/Simple_drone_small.svg'
 
 class MapContainer extends React.Component {
     constructor(props) {

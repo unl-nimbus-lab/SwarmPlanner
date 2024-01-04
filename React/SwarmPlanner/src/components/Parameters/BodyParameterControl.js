@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/TestStyles.css'
+import '../../styles/TestStyles.css'
 
 let parameterOptions = ['Select','SYSID_THISMAV', 'INITIAL_MODE', 'THROW_TYPE','SERIAL1_BAUD','THROW_NEXTMODE','GPS_TYPE']
 
