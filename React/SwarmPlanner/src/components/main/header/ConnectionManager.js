@@ -23,7 +23,7 @@ const ConnectionManager = () => {
     //Check the MAVLINK connection status
     const checkConnection = async () => {
         if (devMode === true) {
-            
+
         } else {
             try {
                 const response = await fetch(gcsAddress + '/update_connection_data');
@@ -92,31 +92,23 @@ const ConnectionManager = () => {
     const button = getButton();
 
     //Get the list of devices from the GCS
-    const get = async () => {
-        try {
-            const response = await fetch(gcsAddress + '/update_connection_list');
-            
-            if (!response.ok) {
-                throw new Error('HTTP error! Status: ${response.status');
-            }
-
-            const finalList = response.map( (device) => {
+    const get = () => {
+        fetch(gcsAddress + '/update_connection_list')
+        .then((result) => result.json())
+        .then((result) => {
+            const finalList = result.map( (device) => {
                 return device.Device;
             })
             finalList.push("/UDP")
             finalList.push("/TCP")
-            setDeviceList(finalList);
-        
-        } catch (error) {
-            console.error("Is the GCS running?")
-            return;
-        }
-    }
+            setDeviceList(finalList)
+        })
+    };
 
     return(
         <div className="connection-manager-component">
             <div>
-                <select className="connection-drop-box" name="Connection" id="SerialConnectList" onClick={get}>
+                <select className="connection-drop-box" name="Connection" id="SerialConnectList" defaultValue="/UPD" onClick={get}>
                     {devices}
                 </select>
             </div>
