@@ -6,15 +6,22 @@ import '../../styles/TestStyles.css'
 function SimAgentConfig() {
 
     const [vehicle, setVehicle] = useState('quadcopter');
-    const [sensors, setSensors] = useState([<SensorConfig />]);
+    const [sensors, setSensors] = useState([]);
 
-    const addSensor = () => {
-        var newSensor = sensors;
-        newSensor.push(<SensorConfig />);
-        setSensors(newSensor)
-        console.log("added sensor")
+
+    const removeSensor = (index) => {
+        const updatedSensors = sensors.filter((_,i) => i !== index);
+        setSensors(updatedSensors);
+        console.log("removing")
     }
 
+    const addSensor = () => {
+        const newSensor = <div key={sensors.length}><SensorConfig removeFunctoin={ () => removeSensor() }/></div>;
+        setSensors([...sensors, newSensor]);
+        console.log("adding")
+     };
+ 
+    
     return (
         <div className='Bodypink'>
             <div>
@@ -27,9 +34,6 @@ function SimAgentConfig() {
             </div>
             <div>
                 <button onClick={addSensor} >add sensor</button>
-            </div>
-            <div>
-                {sensors}
             </div>
             <div>
                 <button>remove vehicle</button>

@@ -13,7 +13,7 @@ class BodyAgentView extends React.Component {
      componentDidMount() {
         this.timerID = setInterval(
           () => this.check(),
-          500
+          5000
         );}
       
     check = () => {
@@ -61,5 +61,6 @@ class BodyAgentView extends React.Component {
         );
     }
 }
+
 
 export default BodyAgentView;

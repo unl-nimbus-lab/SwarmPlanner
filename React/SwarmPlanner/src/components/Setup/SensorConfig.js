@@ -1,10 +1,11 @@
 import react from 'react'
 import '../../styles/TestStyles.css'
 
-function SensorConfig() {
+function SensorConfig(props) {
     return (
         <div className="Bodyblue">
-            Sensor
+            sensor
+            <button onClick={props.removefunction}>X</button>
         </div>    
     )
 }

@@ -1,10 +1,12 @@
-import React from 'react';
+import React , {useContext} from 'react';
 import ConnectionManager from './ConnectionManager';
 import TabButton from '../../common/buttons/TabButton';
 import '../../../styles/Header.css'
 import Swarm from '../../../resources/images/swarm.svg'
 import Path from '../../../resources/images/location-path.svg'
 import tool from '../../../resources/images/wrench.svg'
+import {appContext} from '../../../App'
+
 
 
 class Header extends React.Component {
@@ -32,9 +34,8 @@ class Header extends React.Component {
                 </div>
                 <div className="tabs">
                     <TabButton image={Swarm} class={swarmOverviewStyle} title="SwarmOverview" buttonFcn={this.props.buttonFcn} message="Overview"/>
-                    <TabButton image={tool} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Setup"/>
+                    <TabButton image={tool} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Simulator Setup"/>
                     <TabButton image={tool} class={swarmConfigStyle} title="ParameterControl" buttonFcn={this.props.buttonFcn} message="Parameters"/>
-
                 </div>
                 <div>
                     <ConnectionManager />
