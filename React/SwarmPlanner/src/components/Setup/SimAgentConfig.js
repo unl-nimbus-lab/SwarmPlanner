@@ -3,43 +3,40 @@ import SensorConfig from './SensorConfig';
 import '../../styles/TestStyles.css'
 
 
-function SimAgentConfig() {
+const SimAgentConfig = ({ id }) => {
 
-    const [vehicle, setVehicle] = useState('quadcopter');
     const [sensors, setSensors] = useState([]);
-
-
-    const removeSensor = (index) => {
-        const updatedSensors = sensors.filter((_,i) => i !== index);
-        setSensors(updatedSensors);
-        console.log("removing")
-    }
+    const [idTrack, setIDTrack] = useState(1);
 
     const addSensor = () => {
-        const newSensor = <div key={sensors.length}><SensorConfig removeFunctoin={ () => removeSensor() }/></div>;
-        setSensors([...sensors, newSensor]);
-        console.log("adding")
-     };
- 
-    
+        
+        const newId = idTrack;
+        setIDTrack(idTrack + 1);
+
+        setSensors(prevSensors => [
+            ...prevSensors, {id: newId}
+        ]);
+    };
+
+    const removeSensor = (idToRemove) => {
+        setSensors(prevSensors => 
+            prevSensors.filter(child => child.id !== idToRemove)
+        );
+    };
+
     return (
-        <div className='Bodypink'>
-            <div>
-                get even more fukt
-            </div>
-            <div>
-                <select id="vehicle" onChange={e => setVehicle(e.target.value)}>
-                    <option value="quadcopter">quadcopter</option>
-                </select>
-            </div>
-            <div>
-                <button onClick={addSensor} >add sensor</button>
-            </div>
-            <div>
-                <button>remove vehicle</button>
-            </div>
+      <div className="Bodypink">
+        SimAgent {id}
+        <button onClick={addSensor}>
+                Add Sensor
+        </button>
+        <div>
+            {sensors.map(sensor => (
+                <SensorConfig key={sensor.id} id={sensor.id} onRemove={removeSensor}/>
+            ))}
         </div>
+      </div>
     );
-}
+  };
 
 export default SimAgentConfig
