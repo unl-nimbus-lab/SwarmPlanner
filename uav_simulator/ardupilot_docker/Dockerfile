@@ -81,7 +81,7 @@ ENV TZ=UTC
 WORKDIR /home
 RUN git clone https://github.com/ArduPilot/ardupilot.git
 WORKDIR /home/ardupilot
-RUN git checkout Copter-4.3
+RUN git checkout Copter-4.4
 RUN pip install MAVproxy
 RUN git submodule update --init --recursive
 

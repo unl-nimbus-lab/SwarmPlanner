@@ -1,23 +1,42 @@
 version: '3'
 
 services:
-  gazebo:
-    image: gazebo_docker
-    container_name: gazebo
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
+  sitl_1:
+    image: ardupilot_docker
+    container_name: sitl_1
     network_mode: host
-
-    environment:
-      - DISPLAY=$DISPLAY
-      - QT_X11_NO_MITSHM=1
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ../gazebo_docker/packages/iq_sim:/home/catkin_ws/src/iq_sim/
-      # - ./simulator_generated_files/vehicle_worlds/swarm_world.world:/home/catkin_ws/src/uav_sim/worlds/swarm_world.world
+      - ./simulator_generated_files/param_files:/root/home/param_files
+      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
     command: >
-      /bin/bash -c "source ~/catkin_ws/devel/setup.bash && bash"
-   
+      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=10' --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param"
 
+  mavros1:
+    depends_on:
+      - sitl_1
+      - mavlink_router
+    network_mode: host
+    image: grantphllps/mavros_docker
+    container_name: mavros_1
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./simulator_generated_files/mavros_envs:/root/home/env_files
+    command: >
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env1)
+                    roslaunch mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"
 
-# roslaunch ~/catkin_ws/src/uav_sim/launch/runway.launch"
+  mavlink_router:
+    image: grantphllps/mavlink_router
+    container_name: mavlink_router
+    depends_on:
+      - sitl_1
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    volumes:
+      - ./simulator_generated_files/mavlink_router:/root/home/mavlink_router_files
+    command: >
+      /bin/bash -c "mavlink-routerd -c /root/home/mavlink_router_files/main.conf"
