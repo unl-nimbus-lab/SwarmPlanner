@@ -10,7 +10,7 @@ services:
       - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
     command: >
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=10' --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param"
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param"
 
   mavros1:
     depends_on:

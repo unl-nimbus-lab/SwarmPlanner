@@ -22,6 +22,8 @@ defaultMavrosImage = "grantphllps/mavros_docker"
 defaultGazeboWorld = "runway.world"
 swarmWorld = "swarm_world.world"
 
+mavproxy_options = "'--daemon --streamrate=-1'"
+
 pathToParamFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
 pathToSimSettings = "./uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
 pathToCompose = "./uav_simulator/swarm_simulator/"
@@ -227,9 +229,9 @@ for i in range(1,numberOfCopters+1):
     command =           '    command: >\n'
     comman1 =           '      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter' + var + ') &&\n'
     if (useGazebo == True):
-        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param'  +  ' -f gazebo-drone' + var + '"\n'
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param'  +  ' -f gazebo-drone' + var + '"\n'
     else:
-        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m --daemon -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
     
     f.writelines([container,image,containerName,network,volumes,envVol1,envVol2,command,comman1,comman2,"\n"])
 
