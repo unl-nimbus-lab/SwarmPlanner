@@ -5,10 +5,10 @@ services:
     image: gazebo_docker:latest
     container_name: gazebo_docker
     network_mode: "host"
-    deploy:
-      resources:
-        limits:
-          gpus: all
+    # deploy:
+    #   resources:
+    #     limits:
+    #       gpus: all
     stdin_open: true
     tty: true
     environment: 
