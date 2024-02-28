@@ -33,9 +33,9 @@ class BodyAgentView extends React.Component {
 
     render() {
         let agents = this.state.agentList.map( (agent) => {
-            if (this.props.ignoreComps.includes(agent.getCId())) {
-              return null
-            }
+            // if (this.props.ignoreComps.includes(agent.getCId())) {
+            //   return null
+            // }
             return  (
               <AgentStatusCard  key={agent.getId()} 
                                 agentId={agent.getId()} 

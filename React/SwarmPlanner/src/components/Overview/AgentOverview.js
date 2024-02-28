@@ -41,9 +41,9 @@ function BodyAgentView(props) {
     }
 
     let agents = agentList.map( (agent) => {
-        if (props.ignoreComps.includes(agent.getCId())) {
-          return null
-        }
+        // if (props.ignoreComps.includes(agent.getCId())) {
+        //   return null
+        // }
         return  (
           <AgentStatusCard  key={agent.getId()} 
                             agentId={agent.getId()} 

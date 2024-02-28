@@ -20,6 +20,10 @@ class HRLButtons extends React.Component {
         fetch('http://127.0.0.1:8080/goto/' + x + '/' + y + '/' + z);
     }
 
+    normalVectorSend = (name,x,y,z) => {
+        fetch('http://127.0.0.1:8080/debug_vector/' + name + '/' + x + '/' + y + '/' + z);
+
+    }
 
     render() {
         return(
@@ -70,12 +74,12 @@ class HRLButtons extends React.Component {
                     </div>
                         <SingleValueInput buttonFcn={this.targetVectorSend} title="SYSTEM ID" />
                 </div> */}
-                {/* <div className="HRLSeparate">
+                <div className="HRLSeparate">
                     <div className="AgentStatusCardSection-Regular">
                         <p className="PanelSubLabel">Send Custom Vector</p>
                     </div>
                     <FourValueInput buttonFcn={this.normalVectorSend} />
-                </div> */}
+                </div>
 
 
             </div>
