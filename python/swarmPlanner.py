@@ -344,7 +344,11 @@ class MyServer(BaseHTTPRequestHandler):
 
                 #print(subprocessCommand)
                 subprocess.run(subprocessCommand)
-                
+
+            case 'ROS_Agents':
+                Nodes = splitURL[2]
+                Nodes_Array = splitURL[2].split("-")
+                print(Nodes_Array)
             case _:
 
                 print('you did not send a valid command')
