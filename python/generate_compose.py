@@ -157,6 +157,22 @@ for i in range(1,numberOfCopters + 1):
         sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
         compId =            "COMP_ID=1\n"                           #Same across all vehicles
         f.writelines([port,sysId,compId])
+    
+'''
+Things to add:
+Port
+Baud (not need for Simulation)
+SysID
+CompID
+ClusterID
+ClusterPosition?
+ClusterSize?
+ClusterRadius
+AgentAlt
+HomeLat
+HomeLon
+HomeAlt
+'''
 
 
 #End Generate the HRL env files
