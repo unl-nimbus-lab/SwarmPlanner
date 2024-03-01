@@ -6,6 +6,7 @@ import sys
 #Flags for simulation options
 useGazebo = False
 useMavros = False
+useCustomCompanion = False
 
 #Networking starting options
 startingCommsPort = 5762
@@ -30,6 +31,7 @@ pathToCompose = "./uav_simulator/swarm_simulator/"
 pathToRouter = "./uav_simulator/swarm_simulator/simulator_generated_files/mavlink_router/"
 pathToMavrosEnvs = "./uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
 pathToWorldFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/vehicle_worlds/"
+pathToHRLfiles = "./uav_simulator/swarm_simulator/simulator_generated_files/hrl_envs/"
 
 #####################
 #Begin argument parse
@@ -71,6 +73,9 @@ if numberOfArgs > 6:
             case "-m":
                 useMavros = True
                 print("Adding MAVROS")
+            case "-c":
+                print("Adding Custom Companion Processes")
+                useCustomCompanion = True  
             case "-s":
                 print("Using custom starting location")
             case "-l":
@@ -141,6 +146,21 @@ for i in range(1,numberOfCopters + 1):
     f.close()
 #End Generate the MAVROS env files
 ##################################
+    
+#################################
+#Begin Generate the HRL env files
+    
+for i in range(1,numberOfCopters + 1):
+    filename = pathToHRLfiles + "/env" + str(i)
+    f = open(filename,"w")
+        port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
+        sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
+        compId =            "COMP_ID=1\n"                           #Same across all vehicles
+        f.writelines([port,sysId,compId])
+
+
+#End Generate the HRL env files
+################################
 
 ####################################
 #Begin SITL Default Copter Setttings
@@ -256,6 +276,23 @@ for i in range(1,numberOfCopters+1):
             comman3 =           '                    roslaunch mavros apm.launch fcu_url:=$${PORT} tgt_system:=$${SYS_ID} tgt_component:=$${COMP_ID}"\n'
 
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
+
+    elif (useCustomCompanion == True):
+        container =         "    hrl_" + var + ":\n"
+        depends =           "    depends_on:\n"
+        depend1 =           "      - sitl_" + var + "\n"
+        depend2 =           "      - mavlink_router\n"
+        network =           "    network_mode: host\n"
+        image =             "    image: hrl_docker\n"
+        containerName =     "    container_name: hrl_" + var + "\n"
+        options1 =          "    stdin_open: true\n"
+        options2 =          "    tty: true\n"
+        volumes =           '    volumes:\n'
+        envVol =            '      - ./simulator_generated_files/hrl_envs:/root/home/env_files\n'
+        command =           '    command: >\n'
+        comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
+        comman2 =           '                    export $$(cat /root/home/env_files/env' + var +')\n'
+        comman3 =           '                    roslaunch hrl_control hrl_control.launch"\n'
 
 
 #End SITL for Copters
