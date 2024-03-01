@@ -14,6 +14,9 @@ portIncrement = 10
 startingMavrosPort = 14550
 startingMavrosBind = 14555
 
+#physical things
+minimumAltitude = 400
+
 
 #ArduPilot Image
 defaultArduPilotImage = "ardupilot_docker"
@@ -149,14 +152,21 @@ for i in range(1,numberOfCopters + 1):
     
 #################################
 #Begin Generate the HRL env files
+#This will only work with a 4-4 swarm 
     
 for i in range(1,numberOfCopters + 1):
     filename = pathToHRLfiles + "/env" + str(i)
     f = open(filename,"w")
-        port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
-        sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
-        compId =            "COMP_ID=1\n"                           #Same across all vehicles
-        f.writelines([port,sysId,compId])
+    port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
+    sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
+    compId =            "COMP_ID=1\n"                           #Same across all vehicles
+    agentIdx =          "AGENT_IDX=" + str(i) + "\n"
+    agentAlt =          "AGENT_ALT=" + str(minimumAltitude + 3 * i) + "\n"
+    homeLat =           "HOME_LAT=40.846740\n"
+    homeLon =           "HOME_LON=-96.471819\n"
+    homeAlt =           "HOME_ALT=390\n"
+    f.writelines([port,sysId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
+    f.close()
     
 '''
 Things to add:
@@ -309,6 +319,8 @@ for i in range(1,numberOfCopters+1):
         comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
         comman2 =           '                    export $$(cat /root/home/env_files/env' + var +')\n'
         comman3 =           '                    roslaunch hrl_control hrl_control.launch"\n'
+
+        f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
 
 #End SITL for Copters
