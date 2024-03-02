@@ -162,8 +162,8 @@ for i in range(1,numberOfCopters + 1):
     compId =            "COMP_ID=1\n"                           #Same across all vehicles
     agentIdx =          "AGENT_IDX=" + str(i) + "\n"
     agentAlt =          "AGENT_ALT=" + str(minimumAltitude + 3 * i) + "\n"
-    homeLat =           "HOME_LAT=40.846740\n"
-    homeLon =           "HOME_LON=-96.471819\n"
+    homeLat =           "HOME_LAT=40.84861\n"
+    homeLon =           "HOME_LON=-96.47194\n"
     homeAlt =           "HOME_ALT=390\n"
     f.writelines([port,sysId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
     f.close()
@@ -217,10 +217,10 @@ if (numberOfCopters > 0):
         frameClass = "FRAME_CLASS\t1\n"
         frameType = "FRAME_TYPE\t1\n"
         sysId = "SYSID_THISMAV\t" + str(i) + "\n"
-        SR0_POSITION = "SR0_POSITION\t5\n"
+        SR0_POSITION = "SR0_POSITION\t30\n"
         SR1_POSITION = "SR1_POSITION\t5\n"
-        SR0_POSITION = "SR2_POSITION\t5\n"
-        f.writelines([frameClass,frameType,sysId,SR0_POSITION,SR1_POSITION,SR0_POSITION])
+        SR2_POSITION = "SR2_POSITION\t5\n"
+        f.writelines([frameClass,frameType,sysId,SR0_POSITION,SR1_POSITION,SR2_POSITION])
         f.close()
 
     print("Ardupilot parameter files generated sucessuflly!")
@@ -304,7 +304,7 @@ for i in range(1,numberOfCopters+1):
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
     elif (useCustomCompanion == True):
-        container =         "    hrl_" + var + ":\n"
+        container =         "  hrl_" + var + ":\n"
         depends =           "    depends_on:\n"
         depend1 =           "      - sitl_" + var + "\n"
         depend2 =           "      - mavlink_router\n"
@@ -318,7 +318,10 @@ for i in range(1,numberOfCopters+1):
         command =           '    command: >\n'
         comman1 =           '      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&\n'
         comman2 =           '                    export $$(cat /root/home/env_files/env' + var +')\n'
-        comman3 =           '                    roslaunch hrl_control hrl_control.launch"\n'
+        if (i > 1):
+            comman3 =           '                    roslaunch --wait hrl_control hrl_control.launch"\n'
+        else:
+            comman3 =           '                    roslaunch hrl_control hrl_control.launch"\n'
 
         f.writelines([container,depends,depend1,depend2,network,image,containerName,options1,options2,volumes,envVol,command,comman1,comman2,comman3,"\n"])
 
