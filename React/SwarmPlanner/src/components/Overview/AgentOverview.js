@@ -13,7 +13,7 @@ function BodyAgentView(props) {
     useEffect( 
         () =>{
             const agentUpdateTimer = setInterval(
-                () => check(),5000
+                () => check(),250
             );
         },
         []
