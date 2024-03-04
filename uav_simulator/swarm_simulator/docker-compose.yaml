@@ -217,6 +217,114 @@ services:
                     export $$(cat /root/home/env_files/env8)
                     roslaunch --wait hrl_control hrl_control.launch"
 
+  sitl_9:
+    image: ardupilot_docker
+    container_name: sitl_9
+    network_mode: host
+    volumes:
+      - ./simulator_generated_files/param_files:/root/home/param_files
+      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
+    command: >
+      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter9) &&
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I9 --add-param-file=/root/home/param_files/default_params_copter9.param"
+
+  hrl_9:
+    depends_on:
+      - sitl_9
+      - mavlink_router
+    network_mode: host
+    image: hrl_docker
+    container_name: hrl_9
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./simulator_generated_files/hrl_envs:/root/home/env_files
+    command: >
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env9)
+                    roslaunch --wait hrl_control hrl_control.launch"
+
+  sitl_10:
+    image: ardupilot_docker
+    container_name: sitl_10
+    network_mode: host
+    volumes:
+      - ./simulator_generated_files/param_files:/root/home/param_files
+      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
+    command: >
+      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter10) &&
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I10 --add-param-file=/root/home/param_files/default_params_copter10.param"
+
+  hrl_10:
+    depends_on:
+      - sitl_10
+      - mavlink_router
+    network_mode: host
+    image: hrl_docker
+    container_name: hrl_10
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./simulator_generated_files/hrl_envs:/root/home/env_files
+    command: >
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env10)
+                    roslaunch --wait hrl_control hrl_control.launch"
+
+  sitl_11:
+    image: ardupilot_docker
+    container_name: sitl_11
+    network_mode: host
+    volumes:
+      - ./simulator_generated_files/param_files:/root/home/param_files
+      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
+    command: >
+      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter11) &&
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I11 --add-param-file=/root/home/param_files/default_params_copter11.param"
+
+  hrl_11:
+    depends_on:
+      - sitl_11
+      - mavlink_router
+    network_mode: host
+    image: hrl_docker
+    container_name: hrl_11
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./simulator_generated_files/hrl_envs:/root/home/env_files
+    command: >
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env11)
+                    roslaunch --wait hrl_control hrl_control.launch"
+
+  sitl_12:
+    image: ardupilot_docker
+    container_name: sitl_12
+    network_mode: host
+    volumes:
+      - ./simulator_generated_files/param_files:/root/home/param_files
+      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
+    command: >
+      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter12) &&
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I12 --add-param-file=/root/home/param_files/default_params_copter12.param"
+
+  hrl_12:
+    depends_on:
+      - sitl_12
+      - mavlink_router
+    network_mode: host
+    image: hrl_docker
+    container_name: hrl_12
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./simulator_generated_files/hrl_envs:/root/home/env_files
+    command: >
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env12)
+                    roslaunch --wait hrl_control hrl_control.launch"
+
   mavlink_router:
     image: grantphllps/mavlink_router
     container_name: mavlink_router
@@ -229,6 +337,10 @@ services:
       - sitl_6
       - sitl_7
       - sitl_8
+      - sitl_9
+      - sitl_10
+      - sitl_11
+      - sitl_12
     stdin_open: true
     tty: true
     network_mode: "host"

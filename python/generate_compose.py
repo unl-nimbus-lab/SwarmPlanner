@@ -163,8 +163,12 @@ for i in range(1,numberOfCopters + 1):
     sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
     if ( i < 5):
         clsId =             "CLS_ID=1\n"
-    else:
+    elif (i < 9):
         clsId =             "CLS_ID=2\n"
+    elif (i < 13):
+        clsId =             "CLS_ID=3\n"
+    elif (i < 17):
+        clsId =             "CLS_ID=4\n"
     compId =            "COMP_ID=1\n"                           #Same across all vehicles
     agentIdx =          "AGENT_IDX=" + str(i) + "\n"
     agentAlt =          "AGENT_ALT=" + str(minimumAltitude + 3 * i) + "\n"
