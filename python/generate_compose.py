@@ -139,6 +139,7 @@ print("Mavlink router configuration generated successfully!")
 
 ####################################
 #Begin Generate the MAVROS env files
+
 for i in range(1,numberOfCopters + 1):
     filename = pathToMavrosEnvs + "/env" + str(i)
     f = open(filename,"w")
@@ -147,6 +148,7 @@ for i in range(1,numberOfCopters + 1):
     compId =            "COMP_ID=1\n"                           #Same across all vehicles
     f.writelines([port,sysId,compId])
     f.close()
+
 #End Generate the MAVROS env files
 ##################################
     
@@ -159,13 +161,17 @@ for i in range(1,numberOfCopters + 1):
     f = open(filename,"w")
     port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
     sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
+    if ( i < 5):
+        clsId =             "CLS_ID=1\n"
+    else:
+        clsId =             "CLS_ID=2\n"
     compId =            "COMP_ID=1\n"                           #Same across all vehicles
     agentIdx =          "AGENT_IDX=" + str(i) + "\n"
     agentAlt =          "AGENT_ALT=" + str(minimumAltitude + 3 * i) + "\n"
     homeLat =           "HOME_LAT=40.84861\n"
     homeLon =           "HOME_LON=-96.47194\n"
     homeAlt =           "HOME_ALT=390\n"
-    f.writelines([port,sysId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
+    f.writelines([port,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
     f.close()
     
 '''
