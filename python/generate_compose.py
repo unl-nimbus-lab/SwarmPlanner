@@ -16,6 +16,8 @@ startingMavrosBind = 14555
 
 #physical things
 minimumAltitude = 400
+defalutStartingLat = 40.851932
+defaultStartingLon = -96.608755
 
 
 #ArduPilot Image
@@ -173,10 +175,11 @@ for i in range(1,numberOfCopters + 1):
     compId =            "COMP_ID=1\n"                           #Same across all vehicles
     agentIdx =          "AGENT_IDX=" + str(i) + "\n"
     agentAlt =          "AGENT_ALT=" + str(minimumAltitude + 3 * i) + "\n"
-    homeLat =           "HOME_LAT=40.84861\n"
-    homeLon =           "HOME_LON=-96.47194\n"
+    homeLat =           "HOME_LAT=" + str(defalutStartingLat) + "\n"
+    homeLon =           "HOME_LON=" + str(defaultStartingLon) + "\n"
     homeAlt =           "HOME_ALT=390\n"
-    f.writelines([port,baud,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
+    thrustScalar =      "THRUST_SCALAR=1.0\n"
+    f.writelines([port,baud,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt,thrustScalar])
     f.close()
     
 '''
@@ -205,8 +208,8 @@ HomeAlt
 if (numberOfCopters > 0):
     for i in range(1,numberOfCopters+1):
         f = open(pathToSimSettings + "default_sim_settings_copter" + str(i),"w")
-        lat =       "LAT=40.846\n"
-        lon =       "LON=-96.471" + str(i) + "\n"
+        lat =       "LAT=" + str(defalutStartingLat) + "\n"
+        lon =       "LON=" + str(defaultStartingLon) + str(i) + "\n"
         alt =       "ALT=390\n"
         dir =       "DIR=0\n"
         model =     "MODEL=+\n"
