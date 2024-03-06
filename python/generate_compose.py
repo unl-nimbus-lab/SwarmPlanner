@@ -159,7 +159,8 @@ for i in range(1,numberOfCopters + 1):
 for i in range(1,numberOfCopters + 1):
     filename = pathToHRLfiles + "/env" + str(i)
     f = open(filename,"w")
-    port =              "PORT=udp://127.0.0.1:" + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
+    port =              "PORT=udp://127.0.0.1\n"
+    baud =              "BAUD="  + str(startingMavrosPort + (i)*portIncrement) + "@" + str(startingMavrosBind + (i)*10) + "\n"             #Same across all vehicles
     sysId =             "SYS_ID=" + str(i) + "\n"               #Different for each vehicle
     if ( i < 5):
         clsId =             "CLS_ID=1\n"
@@ -175,7 +176,7 @@ for i in range(1,numberOfCopters + 1):
     homeLat =           "HOME_LAT=40.84861\n"
     homeLon =           "HOME_LON=-96.47194\n"
     homeAlt =           "HOME_ALT=390\n"
-    f.writelines([port,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
+    f.writelines([port,baud,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt])
     f.close()
     
 '''
