@@ -80,6 +80,7 @@ class MyServer(BaseHTTPRequestHandler):
             case 'update_connection_list':
                 devices = []
                 availbledevices = serial_ports()
+                print("============")
                 for device in availbledevices:
                     devices.append({"Device": device})
 
