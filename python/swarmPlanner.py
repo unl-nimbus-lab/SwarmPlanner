@@ -5,6 +5,7 @@ import os
 import time
 import socketserver
 from helperFunctions import *
+from generateComposeCommand import *
 import json
 import cgi
 import sys
@@ -357,6 +358,9 @@ class MyServer(BaseHTTPRequestHandler):
         try:
             data = json.loads(post_data.decode('utf-8'))  # Decode and parse the JSON data
             print("Received POST data:", data)  # Print the received data
+
+            composeCommand = generateComposeCommand(data)
+            subprocess.run(composeCommand)
 
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
