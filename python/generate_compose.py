@@ -16,8 +16,8 @@ startingMavrosBind = 14555
 
 #physical things
 minimumAltitude = 400
-defalutStartingLat = 40.851932
-defaultStartingLon = -96.608755
+defalutStartingLat = 40.846735
+defaultStartingLon = -96.471819
 
 
 #ArduPilot Image
