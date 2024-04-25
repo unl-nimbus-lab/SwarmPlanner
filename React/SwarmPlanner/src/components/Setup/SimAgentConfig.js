@@ -1,12 +1,15 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import SensorConfig from './SensorConfig';
 import '../../styles/TestStyles.css'
+import {agentContext} from './BodySwarmConfig'
 
 
 const SimAgentConfig = ({ id }) => {
 
     const [sensors, setSensors] = useState([]);
     const [idTrack, setIDTrack] = useState(1);
+
+    const {gazeboAgents,setGazeboAgents} = useContext(agentContext)
 
     const addSensor = () => {
         
@@ -24,18 +27,25 @@ const SimAgentConfig = ({ id }) => {
         );
     };
 
+    const handleFuck = () => {
+        console.log(gazeboAgents)
+    }
+
     return (
-      <div className="Bodypink">
-        SimAgent {id}
-        <button onClick={addSensor}>
+            <div className="Bodypink">
+            SimAgent {id}
+
+            <button onClick={handleFuck}>FUCK</button>
+        
+            <button onClick={addSensor}>
                 Add Sensor
-        </button>
-        <div>
-            {sensors.map(sensor => (
-                <SensorConfig key={sensor.id} id={sensor.id} onRemove={removeSensor}/>
-            ))}
-        </div>
-      </div>
+            </button>
+            <div>
+                {sensors.map(sensor => (
+                    <SensorConfig key={sensor.id} agentId={id} sensorId={sensor.id} onRemove={removeSensor}/>
+                    ))}
+                </div>
+            </div>
     );
   };
 

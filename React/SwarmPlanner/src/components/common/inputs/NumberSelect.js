@@ -1,7 +1,7 @@
 import react, {useState} from 'react'
 
 const NumberSelect = ( {onChange} ) => {
-    const [inputValue, setInputValue] = useState(0);
+    const [inputValue, setInputValue] = useState(1);
 
     const handleInputChange = (event) => {
         const value = event.target.value.replace(/\D/,'');
@@ -15,7 +15,7 @@ const NumberSelect = ( {onChange} ) => {
             id="input"
             value={inputValue} 
             onChange={handleInputChange}
-            min="0"
+            min="1"
         />
     );
 };

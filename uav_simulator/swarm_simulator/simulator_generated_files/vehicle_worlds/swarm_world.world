@@ -2,11 +2,8 @@
 <sdf version="1.5"> 
   <world name="swarm_world"> 
     <include> 
-      <uri>model://beer</uri> 
+      <uri>model://drone1</uri> 
       <pose>1 0 0 0 0 0 0</pose> 
     </include> 
-    <include> 
-      <uri>model://beer</uri> 
-      <pose>1 1 0 0 0 0 0</pose>
   </world> 
 </sdf> 

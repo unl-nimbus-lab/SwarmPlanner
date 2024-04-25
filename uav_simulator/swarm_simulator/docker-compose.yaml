@@ -10,7 +10,7 @@ services:
       - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
     command: >
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param"
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter1.param -f gazebo-drone1"
 
   hrl_1:
     depends_on:
@@ -27,6 +27,22 @@ services:
       /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
                     export $$(cat /root/home/env_files/env1)
                     roslaunch hrl_control hrl_control.launch"
+
+  gazebo:
+    image: gazebo_docker
+    container_name: gazebo
+    stdin_open: true
+    tty: true
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../gazebo_docker/packages/iq_sim/worlds:/home/catkin_ws/src/iq_sim/worlds
+    command: >
+      /bin/bash -c "source ~/catkin_ws/devel/setup.bash &&
+             roslaunch ~/catkin_ws/src/uav_sim/launch/runway.launch"
 
   mavlink_router:
     image: grantphllps/mavlink_router

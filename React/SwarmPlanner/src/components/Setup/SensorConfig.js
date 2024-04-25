@@ -1,16 +1,23 @@
-import {react, useState} from 'react'
+import {react, useState, useContext, useEffect} from 'react'
 import '../../styles/TestStyles.css'
+import {agentContext} from './BodySwarmConfig'
 
 
 
-const SensorConfig = ({id,onRemove}) => {
+const SensorConfig = ({agentId,sensorId,onRemove}) => {
 
     const [sensorType, setSensorType] = useState('');
-    const [sensorOrientation, setSensorOrientation] = useState('');
-    const [sensorPosition, setSensorPosition] = useState('');
+    const [sensorPosition, setSensorPosition] = useState('')
+    const [sensorOrientation, setSensorOrientation] = useState('')
+
+    //Imported context
+    const {gazeboAgents, setGazeboAgents} = useContext(agentContext)
+
 
     const handleSelectChange = (event) => {
         setSensorType(event.target.value);
+        const temp = gazeboAgents;
+        console.log(temp)
     };
 
     const handleOrientationChange = (event) => {
@@ -23,7 +30,7 @@ const SensorConfig = ({id,onRemove}) => {
 
     return (
         <div className="Bodyblue">
-            Im sensor {id} bitch
+            Im sensor {sensorId}
             <select id="sensorType" value={sensorType} onChange={handleSelectChange}>
                 <option value="">Select Sensor Type</option>
                 <option value="camera">camera</option>
@@ -48,8 +55,14 @@ const SensorConfig = ({id,onRemove}) => {
                 <option value="up">up</option>
                 <option value="down">down</option>
             </select>
-            <button onClick={()=> onRemove(id)}>
+            <button onClick= { ()=> 
+            // console.log(sensorType,sensorOrientation,sensorPosition) 
+            onRemove(sensorId)
+            }>
                 X
+            </button>
+            <button onClick={ ()=> console.log(sensorId)}>
+                Whos                
             </button>
         </div>    
     )

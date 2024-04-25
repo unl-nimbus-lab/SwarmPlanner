@@ -94,12 +94,14 @@ ENV GAZEBO_MODEL_PATH=/home/ardupilot_gazebo/models
 #This command fixes A LOT of issues (?)
 RUN apt upgrade libignition-math2 -y
 
-WORKDIR /home/catkin_ws/
+WORKDIR /home/catkin_ws/src/
 
 #Add more models
 RUN git clone https://github.com/osrf/gazebo_models.git
 
 # COPY ./packages/iq_sim /home/catkin_ws/src/iq_sim
+
+WORKDIR /home/catkin_ws
 
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
     && catkin build -j4
@@ -107,7 +109,7 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
 #ENV GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:$HOME/catkin_ws/src/uav_sim/models
 ENV GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:/home/catkin_ws/src/iq_sim/models
 
-COPY ./gazebo_entrypoint.sh /
+COPY ./gazebo_entrypoint.sh /gazebo_entrypoint.sh
 RUN ["chmod", "+x", "/gazebo_entrypoint.sh"]
 
 ENTRYPOINT ["/gazebo_entrypoint.sh"]
