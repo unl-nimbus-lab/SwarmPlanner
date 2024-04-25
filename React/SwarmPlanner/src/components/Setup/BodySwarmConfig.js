@@ -74,7 +74,7 @@ function BodySwarmConfig() {
     //Fetch function
     const handleClick = () => {
         console.log(gazeboAgents)
-        fetch(url,requestOptions)
+        //fetch(url,requestOptions)
     }
 
     //This useEffect is used to update the data object with the latest values of the state

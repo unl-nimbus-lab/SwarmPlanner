@@ -25,10 +25,13 @@ const SimAgentConfig = ({ id }) => {
         setSensors(prevSensors => 
             prevSensors.filter(child => child.id !== idToRemove)
         );
+        const tempState = gazeboAgents;
+        tempState[id-1].sensors[idToRemove-1] = [];
+        setGazeboAgents(tempState);
     };
 
     const handleFuck = () => {
-        console.log(gazeboAgents)
+        console.log(gazeboAgents[id-1])
     }
 
     return (

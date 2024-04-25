@@ -16,8 +16,6 @@ const SensorConfig = ({agentId,sensorId,onRemove}) => {
 
     const handleSelectChange = (event) => {
         setSensorType(event.target.value);
-        const temp = gazeboAgents;
-        console.log(temp)
     };
 
     const handleOrientationChange = (event) => {
@@ -27,6 +25,17 @@ const SensorConfig = ({agentId,sensorId,onRemove}) => {
     const handlePositionChange = (event) => {
         setSensorPosition(event.target.value);
     }
+
+    useEffect( () => {
+        //Create the sensor Array, make a copy of the entire state, update the copy and reset teh state
+        const tempSensor = [sensorType,sensorPosition,sensorOrientation];
+        //console.log(temp)
+        const tempState = gazeboAgents;
+        tempState[agentId-1].sensors[sensorId-1] = tempSensor;
+        setGazeboAgents(tempState);
+
+    }, [sensorType,sensorOrientation,sensorPosition]
+    )
 
     return (
         <div className="Bodyblue">
@@ -60,9 +69,6 @@ const SensorConfig = ({agentId,sensorId,onRemove}) => {
             onRemove(sensorId)
             }>
                 X
-            </button>
-            <button onClick={ ()=> console.log(sensorId)}>
-                Whos                
             </button>
         </div>    
     )
