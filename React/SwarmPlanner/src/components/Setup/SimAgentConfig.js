@@ -38,7 +38,7 @@ const SimAgentConfig = ({ id }) => {
             <div className="Bodypink">
             SimAgent {id}
 
-            <button onClick={handleFuck}>FUCK</button>
+            <button onClick={handleFuck}>Show Agent</button>
         
             <button onClick={addSensor}>
                 Add Sensor

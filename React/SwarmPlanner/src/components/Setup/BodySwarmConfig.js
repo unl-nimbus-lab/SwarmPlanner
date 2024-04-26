@@ -77,6 +77,21 @@ function BodySwarmConfig() {
         //fetch(url,requestOptions)
     }
 
+    const incrementAgents = () => {
+        setNumberOfAgents(numberOfAgents + 1);
+        //Add a new agent to the gazeboAgents array
+        const temp = gazeboAgents;
+        temp.push(new Agent(numberOfAgents+1));
+        setGazeboAgents(temp);
+    }
+
+    const decrementAgents = () => {
+        const temp = numberOfAgents;
+        if (temp > 1) {
+            setNumberOfAgents(numberOfAgents - 1);
+        }
+    }
+
     //This useEffect is used to update the data object with the latest values of the state
     useEffect(() => {
         data.NUMBER_OF_AGENTS = numberOfAgents;
@@ -91,7 +106,7 @@ function BodySwarmConfig() {
             data.WORLD = null;
         }
         
-        NumberToSwarm(numberOfAgents);
+        //NumberToSwarm(numberOfAgents);
         NumberToArray(numberOfAgents);
 
         console.log(data);
@@ -103,8 +118,13 @@ function BodySwarmConfig() {
     return(
         <div>
             <agentContext.Provider value = {{gazeboAgents,setGazeboAgents}} >
+                <div className="Bodyblue">
+                    {numberOfAgents}
+                    <button onClick={incrementAgents}>+</button>
+                    <button onClick={decrementAgents}>-</button>
+                </div>
 
-                <NumberSelect label="Number of Agents" onChange={NumberToArray}/>
+                {/* <NumberSelect label="Number of Agents" onChange={NumberToArray}/> */}
 
                 <div>
                     <RosSelect sendUp={handleSetRos}/>
