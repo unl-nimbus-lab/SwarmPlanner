@@ -9,6 +9,14 @@ import GazeboSelect from './GazeboSelect';
 //Going to use this context so the SimAgentConfig component can access the state of the agents
 export const agentContext = createContext();
 
+const swarmConfig = {
+    numberOfAgents: 1,
+    ros: "NONE",
+    gazebo: "FALSE",
+    world: null,
+    gazeboAgents: null,
+}
+
 function BodySwarmConfig() {
     
     // Sim agents are just for mutating the agent context and adding sensors 
@@ -26,6 +34,14 @@ function BodySwarmConfig() {
         this.sensors = [];
     }
 
+    function SwarmData() {
+        this.numberOfAgents = 0;
+        this.ros = "NONE";
+        this.gazebo = "FALSE";
+        this.world = null;
+        this.gazeboAgents = null;
+    }
+
     //Gazebo agents is a list of agents, the agent frame and the sensors from the agent object
     const [gazeboAgents, setGazeboAgents] = useState([ new Agent(1) ])
 
@@ -36,6 +52,8 @@ function BodySwarmConfig() {
     const handleSetGazebo = (data) => {
         setGazebo(data);
     }
+
+
 
     //This basically setsup the simAgentConfig components 
     const NumberToArray = (number) => {
@@ -59,13 +77,14 @@ function BodySwarmConfig() {
         "ROS": ros,
         "GAZEBO": gazebo,
         "WORLD": world,
+        "SWARMINFO": null,
     };
 
     //Request options for the fetch
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(swarmConfig)
     };
 
     //URL for the fetch
@@ -73,8 +92,9 @@ function BodySwarmConfig() {
 
     //Fetch function
     const handleClick = () => {
-        console.log(gazeboAgents)
-        //fetch(url,requestOptions)
+        console.log(JSON.stringify(swarmConfig))
+        requestOptions.body = JSON.stringify(swarmConfig);
+        fetch(url,requestOptions)
     }
 
     const incrementAgents = () => {
@@ -88,30 +108,33 @@ function BodySwarmConfig() {
     const decrementAgents = () => {
         const temp = numberOfAgents;
         if (temp > 1) {
+            const temp = gazeboAgents;
+            temp.pop();
+            setGazeboAgents(temp);
             setNumberOfAgents(numberOfAgents - 1);
         }
     }
 
     //This useEffect is used to update the data object with the latest values of the state
     useEffect(() => {
-        data.NUMBER_OF_AGENTS = numberOfAgents;
-        data.ROS = ros;
-        data.GAZEBO = gazebo;
+        swarmConfig.numberOfAgents = numberOfAgents;
+        swarmConfig.ros = ros;
+        swarmConfig.gazebo = gazebo;
 
         if (gazebo === "TRUE") {
-            data.WORLD = "runway.world";
+            swarmConfig.world = "runway.world";
             setWorld("runway.world");
+            swarmConfig.gazeboAgents = gazeboAgents;
         } else {
             setWorld(null);
-            data.WORLD = null;
+            swarmConfig.world = null;
+            swarmConfig.gazeboAgents = null;
         }
         
         //NumberToSwarm(numberOfAgents);
         NumberToArray(numberOfAgents);
 
-        console.log(data);
-
-    }, [ numberOfAgents, ros, gazebo])
+    }, [ numberOfAgents, ros, gazebo, gazeboAgents])
 
 
 
