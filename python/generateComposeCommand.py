@@ -10,8 +10,8 @@ def generateComposeCommand(data):
     SUBS = 0
 
     #Do the number of agents
-    if int(data["NUMBER_OF_AGENTS"]) > 0:
-        COPTERS = int(data["NUMBER_OF_AGENTS"])
+    if int(data["numberOfAgents"]) > 0:
+        COPTERS = int(data["numberOfAgents"])
         composeCommand.append(str(COPTERS))
 
     composeCommand.append(str(HELICOPTERS))
@@ -22,11 +22,11 @@ def generateComposeCommand(data):
 
 
     #Set the ROS
-    if data["ROS"] == "ROS1":
+    if data["ros"] == "ROS1":
         composeCommand.append("-c")
 
     #Set the Gazebo
-    if data["GAZEBO"] == "TRUE":
+    if data["gazebo"] == "TRUE":
         composeCommand.append("-g")
 
     print(composeCommand)

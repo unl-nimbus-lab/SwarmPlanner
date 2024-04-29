@@ -1,5 +1,6 @@
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from generateComposeCommand import generateComposeCommand
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
@@ -22,10 +23,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             data = json.loads(post_data.decode('utf-8'))  # Decode and parse the JSON data
             print("Received POST data:", data)  # Print the received data
 
+            generateComposeCommand(data)
+
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(b"Received POST data, check server console for details.")
+
 
         except json.JSONDecodeError as e:
             print("Error decoding JSON:", e)
