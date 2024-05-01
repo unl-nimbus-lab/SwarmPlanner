@@ -18,3 +18,5 @@ services:
       - ../python:/home/python
 #      - /usr/bin/docker-compose:/usr/bin/docker-compose
 #      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+       /bin/bash -c "python3 /home/python/swarmPlanner.py"
