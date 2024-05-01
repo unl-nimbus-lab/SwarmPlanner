@@ -404,4 +404,4 @@ def generateVehicleModel(
 # generateModel(1,'./','./templates/','iris',['rotor','arduPilot'])
 # generateConfig(1,'./','./templates/',['iris_depend'])
 
-generateVehicleModel(1,'./','./templates/','iris',['sonar','rotor','arduPilot'])
+#generateVehicleModel(1,'./','./templates/','iris',['sonar','rotor','arduPilot'])

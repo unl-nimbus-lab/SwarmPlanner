@@ -5,6 +5,8 @@ import os
 import time
 import socketserver
 from helperFunctions import *
+from model_generate.model_generate import *
+from world_generate.world_generate import *
 from generateComposeCommand import *
 import json
 import cgi
@@ -327,6 +329,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self.wfile.write(bytes(str(vulnerabilities),encoding='utf8'))
             
             case 'generate_compose':
+                ##WARNING THIS IS BEING PHASED OUT FOR THE do_POST method
 
                 simulatorArguments = splitURL[2:]
 
@@ -358,6 +361,18 @@ class MyServer(BaseHTTPRequestHandler):
         try:
             data = json.loads(post_data.decode('utf-8'))  # Decode and parse the JSON data
             print("Received POST data:", data)  # Print the received data
+
+            #First Determine if we are using gazebo
+            if data['gazebo'] == 'TRUE':
+                numberOfModels = len(data['gazeboAgents'])
+
+                for model in data['gazeboAgents']:
+                    #Generate the command to start the gazebo simulator
+                    print(model)
+                    generateVehicleModel( int(model['id']),'./uav_simulator/swarm_simulator/simulator_generated_files/generated_models/','./python/model_generate/templates/','iris',['rotor','arduPilot'])
+
+            generateWorld("./uav_simulator/swarm_simulator/simulator_generated_files/vehicle_worlds/", "./python/world_generate/templates", "./uav_simulator/swarm_simulator/simulator_generated_files/generated_models")
+       
 
             composeCommand = generateComposeCommand(data)
             subprocess.run(composeCommand)
@@ -453,7 +468,7 @@ class MyServer(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=MyServer):
     server_address = ('', 8080)  # Run on localhost, port 8000
     httpd = server_class(server_address, handler_class)
-    print("Server running on port 8000...")
+    print("Server running on port 8080...")
     httpd.serve_forever()
 
 if __name__ == "__main__":        

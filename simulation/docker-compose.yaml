@@ -15,5 +15,6 @@ services:
     volumes:
       - ../uav_simulator:/home/uav_simulator
       - /usr/bin/docker:/usr/bin/docker
+      - ../python:/home/python
 #      - /usr/bin/docker-compose:/usr/bin/docker-compose
 #      - /var/run/docker.sock:/var/run/docker.sock

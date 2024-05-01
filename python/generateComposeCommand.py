@@ -1,6 +1,6 @@
 def generateComposeCommand(data):
     
-    composeCommand = ["python3", "./generate_compose.py"]
+    composeCommand = ["python3", "./python/generate_compose.py"]
     
     COPTERS = 0
     HELICOPTERS = 0

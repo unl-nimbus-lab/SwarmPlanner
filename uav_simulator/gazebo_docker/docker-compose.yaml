@@ -5,18 +5,15 @@ services:
     image: gazebo_docker:latest
     container_name: gazebo_docker
     network_mode: "host"
-    # deploy:
-    #   resources:
-    #     limits:
-    #       gpus: all
     stdin_open: true
     tty: true
     environment: 
       - DISPLAY
       - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ../swarm_simulator/simulator_generated_files/vehicle_worlds:/home/catkin_ws/src/vehicle_worlds/
-      - ../../python/model_generate/drone1:/home/catkin_ws/src/models/drone1/
+      - ../swarm_simulator/simulator_generated_files/vehicle_worlds/:/home/catkin_ws/src/vehicle_worlds/
+      - ../swarm_simulator/simulator_generated_files/generated_models/:/home/catkin_ws/src/models/
 
   
