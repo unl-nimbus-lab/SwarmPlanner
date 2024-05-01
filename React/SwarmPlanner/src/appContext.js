@@ -7,7 +7,7 @@ const AppContextProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [gcsAddress, setGCSAddress] = useState('http://127.0.0.1:8080');
   const [agentList, setAgentList] = useState([])
-  const [devMode, setDevMode] = useState(true);
+  const [devMode, setDevMode] = useState(false); //Here is the dev mode flag <<
 
   const updateBody = (input) => {
     setBody(input);

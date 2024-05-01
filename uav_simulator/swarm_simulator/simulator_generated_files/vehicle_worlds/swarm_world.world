@@ -9,29 +9,5 @@
       <uri>model://drone2</uri> 
       <pose>2 0 0 0 0 0 0</pose> 
     </include> 
-    <include> 
-      <uri>model://drone3</uri> 
-      <pose>3 0 0 0 0 0 0</pose> 
-    </include> 
-    <include> 
-      <uri>model://drone4</uri> 
-      <pose>4 0 0 0 0 0 0</pose> 
-    </include> 
-    <include> 
-      <uri>model://drone5</uri> 
-      <pose>5 0 0 0 0 0 0</pose> 
-    </include> 
-    <include> 
-      <uri>model://drone6</uri> 
-      <pose>6 0 0 0 0 0 0</pose> 
-    </include> 
-    <include> 
-      <uri>model://drone7</uri> 
-      <pose>7 0 0 0 0 0 0</pose> 
-    </include> 
-    <include> 
-      <uri>model://drone8</uri> 
-      <pose>8 0 0 0 0 0 0</pose> 
-    </include> 
   </world> 
 </sdf> 
