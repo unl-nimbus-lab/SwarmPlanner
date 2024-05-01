@@ -2,12 +2,12 @@ version: '3'
 
 services:
   swarmplanner_web:
-    image: grantphllps/swarmplanner_react
+    image: grantphllps/swarmplanner_react:demo
     container_name: swarmplanner_web
     network_mode: host
  
   swarmplanner_python:
-    image: grantphllps/swarmplanner_python
+    image: grantphllps/swarmplanner_python:demo
     container_name: swarmplanner_python
     stdin_open: true # docker run -i
     tty: true        # docker

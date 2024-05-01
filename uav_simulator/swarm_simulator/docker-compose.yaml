@@ -2,7 +2,7 @@ version: '3'
 
 services:
   sitl_1:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_1
     network_mode: host
     volumes:
@@ -17,7 +17,7 @@ services:
       - sitl_1
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_1
     stdin_open: true
     tty: true
@@ -29,7 +29,7 @@ services:
                     roslaunch hrl_control hrl_control.launch"
 
   sitl_2:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_2
     network_mode: host
     volumes:
@@ -44,7 +44,7 @@ services:
       - sitl_2
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_2
     stdin_open: true
     tty: true
@@ -56,7 +56,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_3:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_3
     network_mode: host
     volumes:
@@ -71,7 +71,7 @@ services:
       - sitl_3
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_3
     stdin_open: true
     tty: true
@@ -83,7 +83,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_4:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_4
     network_mode: host
     volumes:
@@ -98,7 +98,7 @@ services:
       - sitl_4
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_4
     stdin_open: true
     tty: true
@@ -110,7 +110,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_5:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_5
     network_mode: host
     volumes:
@@ -125,7 +125,7 @@ services:
       - sitl_5
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_5
     stdin_open: true
     tty: true
@@ -137,7 +137,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_6:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_6
     network_mode: host
     volumes:
@@ -152,7 +152,7 @@ services:
       - sitl_6
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_6
     stdin_open: true
     tty: true
@@ -164,7 +164,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_7:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_7
     network_mode: host
     volumes:
@@ -179,7 +179,7 @@ services:
       - sitl_7
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_7
     stdin_open: true
     tty: true
@@ -191,7 +191,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   sitl_8:
-    image: ardupilot_docker
+    image: grantphllps/ardupilot_docker:demo
     container_name: sitl_8
     network_mode: host
     volumes:
@@ -206,7 +206,7 @@ services:
       - sitl_8
       - mavlink_router
     network_mode: host
-    image: hrl_docker
+    image: grantphllps/hrl_docker:demo
     container_name: hrl_8
     stdin_open: true
     tty: true
@@ -218,7 +218,7 @@ services:
                     roslaunch --wait hrl_control hrl_control.launch"
 
   mavlink_router:
-    image: grantphllps/mavlink_router
+    image: grantphllps/mavlink_router:demo
     container_name: mavlink_router
     depends_on:
       - sitl_1
