@@ -23,36 +23,12 @@ services:
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter2) &&
                     /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I2 --add-param-file=/root/home/param_files/default_params_copter2.param"
 
-  sitl_3:
-    image: ardupilot_docker
-    container_name: sitl_3
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter3) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I3 --add-param-file=/root/home/param_files/default_params_copter3.param"
-
-  sitl_4:
-    image: ardupilot_docker
-    container_name: sitl_4
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter4) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I4 --add-param-file=/root/home/param_files/default_params_copter4.param"
-
   mavlink_router:
     image: grantphllps/mavlink_router
     container_name: mavlink_router
     depends_on:
       - sitl_1
       - sitl_2
-      - sitl_3
-      - sitl_4
     stdin_open: true
     tty: true
     network_mode: "host"

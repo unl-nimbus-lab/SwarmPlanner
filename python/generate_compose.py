@@ -234,7 +234,8 @@ if (numberOfCopters > 0):
         SR0_POSITION = "SR0_POSITION\t30\n"
         SR1_POSITION = "SR1_POSITION\t5\n"
         SR2_POSITION = "SR2_POSITION\t5\n"
-        f.writelines([frameClass,frameType,sysId,SR0_POSITION,SR1_POSITION,SR2_POSITION])
+        AUTO_OPTIONS = "AUTO_OPTIONS\t7\n"
+        f.writelines([frameClass,frameType,sysId,SR0_POSITION,SR1_POSITION,SR2_POSITION,AUTO_OPTIONS])
         f.close()
 
     print("Ardupilot parameter files generated sucessuflly!")
