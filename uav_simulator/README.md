@@ -91,3 +91,13 @@ After a Gazebo window appears displaying the drones, proceed as normal:
 and
 
 `sudo docker-compose up`
+
+## Update 9/30
+
+### The command to start SITL (In the base image, there are no other frames ardupilot knows about)
+
+/bin/bash -c "/home/ardupilot/Tools/autotest/sim_vehicle.py -v ArduCopter -f gazebo-iris -m '--daemon --streamrate=-1'"
+
+### The command to start gazebo with the correct world
+
+
