@@ -92,7 +92,7 @@ and
 
 `sudo docker-compose up`
 
-## Update 9/30
+# Update 9/30
 
 ### The command to start SITL (In the base image, there are no other frames ardupilot knows about)
 
@@ -100,4 +100,16 @@ and
 
 ### The command to start gazebo with the correct world
 
+gazebo --verbose ~/ardupilot_gazebo/worlds/iris_arducopter_runway.world
 
+gazebo Not working with router, can connect via swarmplanner using port 14550, not going to worry about this for now 
+
+TODO for gazebo:
+
+1) Need edit ardupilot/Tools/autotest/pysim/vehicleinfo.py dynamically in generate compose to have "gazebo-drones" (done)
+
+2) Need to change the part in generate compose that makes the sitl things becase they are wrong for gazebo (best to leave the non-gazebo parts as they are :) ) (done works for both gazebo and sitl only)
+
+3) and then the swarm worlds 
+
+4) Figure out wtf is going on with mavlink router (done, don't touch the mavlink router config)

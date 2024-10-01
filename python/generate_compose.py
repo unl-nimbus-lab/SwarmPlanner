@@ -1,4 +1,5 @@
 import sys
+from modify_vehicleinfo import modify_vehicleinfo, generate_new_lines
 #Need some text here explaining what is going on ...
 
 #Some global variables (Fight me)
@@ -9,7 +10,7 @@ useMavros = False
 useCustomCompanion = False
 
 #Networking starting options
-startingCommsPort = 5762
+startingCommsPort = 5752
 portIncrement = 10
 startingMavrosPort = 14550
 startingMavrosBind = 14555
@@ -28,7 +29,7 @@ defaultMavrosImage = "grantphllps/mavros_docker"
 defaultGazeboWorld = "runway.world"
 swarmWorld = "swarm_world.world"
 
-mavproxy_options = "'--daemon --streamrate=-1'"
+mavproxy_options = "'--daemon --streamrate=-1'" #Keep mavproxy running in the background
 
 pathToParamFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/param_files/"
 pathToSimSettings = "./uav_simulator/swarm_simulator/simulator_generated_files/sitl_settings/"
@@ -37,9 +38,14 @@ pathToRouter = "./uav_simulator/swarm_simulator/simulator_generated_files/mavlin
 pathToMavrosEnvs = "./uav_simulator/swarm_simulator/simulator_generated_files/mavros_envs/"
 pathToWorldFiles = "./uav_simulator/swarm_simulator/simulator_generated_files/vehicle_worlds/"
 pathToHRLfiles = "./uav_simulator/swarm_simulator/simulator_generated_files/hrl_envs/"
+pathToNewVehicleInfo = "./uav_simulator/swarm_simulator/simulator_generated_files/vehicleinfo/vehicleinfo.py"
 
 #####################
 #Begin argument parse
+
+"""
+Should be atleast 6 integer arguments arguments
+"""
 
 numberOfArgs = len(sys.argv)
 
@@ -47,7 +53,6 @@ helpMsg = "Usage: python generate_compose.py <number of copters> <number of heli
 
 for i in range(0,numberOfArgs):
     print("Arg " + str(i) + ": " + sys.argv[i])
-
 
 if (numberOfArgs <= 6):
     print(helpMsg)
@@ -69,6 +74,7 @@ print("Building for " + str(numberOfSubs) + " subs")
 
 numberOfVehicles = numberOfCopters + numberOfHelicopters + numberOfBlimps + numberOfPlanes + numberOfRovers + numberOfSubs
 
+#Additional arguments 
 if numberOfArgs > 6:
     for i in range(7,numberOfArgs):
         match(sys.argv[i]):
@@ -101,14 +107,14 @@ if numberOfArgs > 6:
 #Begin Mavlink Router Configuration
 
 #Generate the mavlink router file
-mavlinkConfig = pathToRouter + "main.conf" #pathToSwarmSimulator + "/mavlink_router/main.conf"
+mavlinkConfig = pathToRouter + "main.conf"
 f = open(mavlinkConfig,"w")
 
-name = "[TcpServer Default]\n"
-address = "Address = 0.0.0.0\n"
-port = "Port = 5759\n\n"
+#Set the default TCP server (make sure it's on a port that none of the SITL instances will try to use)
+header = "[General]\n"
+server = "TcpServerPort = 5740\n\n"
 
-f.writelines([name,address,port])
+f.writelines([header,server])
 
 #Add the TCP connections for each vehicle
 for i in range(1,numberOfVehicles + 1):
@@ -116,6 +122,7 @@ for i in range(1,numberOfVehicles + 1):
     address =   "Address = 0.0.0.0\n"
     port =      "Port = " + str(startingCommsPort + i*portIncrement) + "\n\n"
     f.writelines([name,address,port])
+
 
 #Add the main UPD connection
 name =      "[UdpEndpoint omega]\n"
@@ -266,6 +273,17 @@ if (useGazebo == True):
 #End gazebo world file editing
 ##############################
 
+#############################
+#Begin vehicleinfo.py editing
+if (useGazebo == True):
+    # 1) Generate the lines needed
+    new_vehicleinfo = generate_new_lines(numberOfCopters)
+
+    # 2) add those lines to the file using "modify_vehicleinfo.py"
+    modify_vehicleinfo("./python/vehicleinfo.py", new_vehicleinfo, pathToNewVehicleInfo)
+
+#End vehicle_info.py editing
+###########################
 
 #####################
 #Begin docker-compose
@@ -278,7 +296,7 @@ f.writelines(["version: '3'\n\n","services:\n"])
 #Begin SITL for Copters
 for i in range(1,numberOfCopters+1):
     var = str(i)
-    #nvar = str(i-1)
+    nvar = str(i-1)
 
     container =         "  sitl_" + var + ":\n"
     image =             "    image: " + defaultArduPilotImage + "\n"
@@ -287,14 +305,16 @@ for i in range(1,numberOfCopters+1):
     volumes =           '    volumes:\n'
     envVol1 =           '      - ./simulator_generated_files/param_files:/root/home/param_files\n'
     envVol2 =           '      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings\n'
+    envVol3 =           '      - ./simulator_generated_files/vehicleinfo/vehicleinfo.py:/home/ardupilot/Tools/autotest/pysim/vehicleinfo.py\n'
+    envVol4 =           '      - ./simulator_generated_files/param_files/default_params_copter' + var + '.param:/home/ardupilot/Tools/autotest/default_params/gazebo-drone' + var + '.parm\n'
     command =           '    command: >\n'
     comman1 =           '      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter' + var + ') &&\n'
     if (useGazebo == True):
-        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param'  +  ' -f gazebo-drone' + var + '"\n'
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + nvar + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param'  +  ' -f gazebo-drone' + var + '"\n'
     else:
-        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + var + ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
+        comman2 =           '                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m ' + mavproxy_options + ' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I' + nvar+ ' --add-param-file=/root/home/param_files/default_params_copter' + var + '.param"\n'
     
-    f.writelines([container,image,containerName,network,volumes,envVol1,envVol2,command,comman1,comman2,"\n"])
+    f.writelines([container,image,containerName,network,volumes,envVol1,envVol2,envVol3,envVol4,command,comman1,comman2,"\n"])
 
     if (useMavros == True):
         container =         "  mavros" + var + ":\n"
@@ -345,9 +365,9 @@ for i in range(1,numberOfCopters+1):
 #####################
 
 #####################
-#Begin gazebo
+#Begin gazebo DO NOT USE THIS
 
-if (useGazebo == True):
+if (useGazebo == "DON'T USE"):
     container =         "  gazebo:\n"
     image =             "    image: gazebo_docker\n"
     containerName =     "    container_name: gazebo\n"

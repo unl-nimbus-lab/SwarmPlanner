@@ -7,7 +7,7 @@ services:
     network_mode: host
  
   swarmplanner_python:
-    image: grantphllps/swarmplanner_python
+    image: grantphllps/swarmplanner_python:devel
     container_name: swarmplanner_python
     stdin_open: true # docker run -i
     tty: true        # docker

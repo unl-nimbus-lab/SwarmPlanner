@@ -53,10 +53,12 @@ RUN git clone https://github.com/unl-nimbus-lab/pymavswarm.git
 WORKDIR ${HOME}/pymavswarm
 RUN pip3 install .
 WORKDIR ${HOME}
-# COPY swarmPlanner.py .
-# COPY helperFunctions.py .
-# COPY generateComposeCommand.py .
-# COPY generate_compose.py .
+COPY swarmPlanner.py .
+COPY helperFunctions.py .
+COPY generateComposeCommand.py .
+COPY generate_compose.py .
+COPY vehicleinfo.py .
+COPY modify_vehicleinfo.py .
 
 #CMD ["python3", "/home/swarmPlanner.py"]
 CMD ["bash"]
