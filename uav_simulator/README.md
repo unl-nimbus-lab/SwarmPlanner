@@ -113,3 +113,27 @@ TODO for gazebo:
 3) and then the swarm worlds 
 
 4) Figure out wtf is going on with mavlink router (done, don't touch the mavlink router config)
+
+# Update 10/1
+
+## SITL only
+
+1) open SwarmPlanner
+
+2) Confiugre with no gazebo 
+
+3) cd into /SwarmPlanner/uav_simulator/swarm_simulator
+
+4) docker-compose up
+
+## SITL with Gazebo
+
+1) start gazebo add the drone models for the agents you plan to use (drone1 for agent 1 and so on)
+
+2) open SwarmPlanner
+
+3) configure with gazebo
+
+4) cd into /SwarmPlanner/uav_simulator/swarm_simulator
+
+5) docker-compose up

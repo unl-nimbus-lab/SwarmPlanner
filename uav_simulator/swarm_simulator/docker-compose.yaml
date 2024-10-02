@@ -12,41 +12,29 @@ services:
       - ./simulator_generated_files/param_files/default_params_copter1.param:/home/ardupilot/Tools/autotest/default_params/gazebo-drone1.parm
     command: >
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I0 --add-param-file=/root/home/param_files/default_params_copter1.param -f gazebo-drone1"
+                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I0 --add-param-file=/root/home/param_files/default_params_copter1.param"
 
-  sitl_2:
-    image: ardupilot_docker
-    container_name: sitl_2
+  hrl_1:
+    depends_on:
+      - sitl_1
+      - mavlink_router
     network_mode: host
+    image: hrl_docker
+    container_name: hrl_1
+    stdin_open: true
+    tty: true
     volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-      - ./simulator_generated_files/vehicleinfo/vehicleinfo.py:/home/ardupilot/Tools/autotest/pysim/vehicleinfo.py
-      - ./simulator_generated_files/param_files/default_params_copter2.param:/home/ardupilot/Tools/autotest/default_params/gazebo-drone2.parm
+      - ./simulator_generated_files/hrl_envs:/root/home/env_files
     command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter2) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter2.param -f gazebo-drone2"
-
-  sitl_3:
-    image: ardupilot_docker
-    container_name: sitl_3
-    network_mode: host
-    volumes:
-      - ./simulator_generated_files/param_files:/root/home/param_files
-      - ./simulator_generated_files/sitl_settings:/root/home/sitl_settings
-      - ./simulator_generated_files/vehicleinfo/vehicleinfo.py:/home/ardupilot/Tools/autotest/pysim/vehicleinfo.py
-      - ./simulator_generated_files/param_files/default_params_copter3.param:/home/ardupilot/Tools/autotest/default_params/gazebo-drone3.parm
-    command: >
-      /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter3) &&
-                    /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I2 --add-param-file=/root/home/param_files/default_params_copter3.param -f gazebo-drone3"
+      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
+                    export $$(cat /root/home/env_files/env1)
+                    roslaunch hrl_control hrl_control.launch"
 
   mavlink_router:
     image: grantphllps/mavlink_router
     container_name: mavlink_router
     depends_on:
       - sitl_1
-      - sitl_2
-      - sitl_3
     stdin_open: true
     tty: true
     network_mode: "host"

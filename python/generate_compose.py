@@ -12,8 +12,8 @@ useCustomCompanion = False
 #Networking starting options
 startingCommsPort = 5752
 portIncrement = 10
-startingMavrosPort = 14550
-startingMavrosBind = 14555
+startingMavrosPort = 14540
+startingMavrosBind = 14545
 
 #physical things
 minimumAltitude = 400
