@@ -19,6 +19,7 @@ startingMavrosBind = 14545
 minimumAltitude = 400
 defalutStartingLat = 40.846735
 defaultStartingLon = -96.471
+commonAltitude = 410
 
 
 #ArduPilot Image
@@ -186,7 +187,8 @@ for i in range(1,numberOfCopters + 1):
     homeLon =           "HOME_LON=" + str(defaultStartingLon) + "\n"
     homeAlt =           "HOME_ALT=390\n"
     thrustScalar =      "THRUST_SCALAR=1.0\n"
-    f.writelines([port,baud,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt,thrustScalar])
+    commonAlt =         "COMMON_ALT=" + str(commonAltitude) + '\n'
+    f.writelines([port,baud,sysId,clsId,compId,agentIdx,agentAlt,homeLat,homeLon,homeAlt,thrustScalar,commonAlt])
     f.close()
     
 '''
