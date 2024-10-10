@@ -14,22 +14,6 @@ services:
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter1) &&
                     /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I0 --add-param-file=/root/home/param_files/default_params_copter1.param"
 
-  hrl_1:
-    depends_on:
-      - sitl_1
-      - mavlink_router
-    network_mode: host
-    image: hrl_docker
-    container_name: hrl_1
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./simulator_generated_files/hrl_envs:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/env1)
-                    roslaunch hrl_control hrl_control.launch"
-
   sitl_2:
     image: ardupilot_docker
     container_name: sitl_2
@@ -42,22 +26,6 @@ services:
     command: >
       /bin/bash -c "export $$(cat /root/home/sitl_settings/default_sim_settings_copter2) &&
                     /home/ardupilot/Tools/autotest/sim_vehicle.py --vehicle $${VEHICLE} -m '--daemon --streamrate=-1' -w --custom-location=$${LAT},$${LON},$${ALT},$${DIR} --no-rebuild -I1 --add-param-file=/root/home/param_files/default_params_copter2.param"
-
-  hrl_2:
-    depends_on:
-      - sitl_2
-      - mavlink_router
-    network_mode: host
-    image: hrl_docker
-    container_name: hrl_2
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./simulator_generated_files/hrl_envs:/root/home/env_files
-    command: >
-      /bin/bash -c "source /home/catkin_ws/devel/setup.bash &&
-                    export $$(cat /root/home/env_files/env2)
-                    roslaunch --wait hrl_control hrl_control.launch"
 
   mavlink_router:
     image: grantphllps/mavlink_router
