@@ -1,15 +1,43 @@
 import React from 'react'
 import DebugVectorButton from '../../common/buttons/DebugVectorButton';
+
+
+
 import ThreeValueInput from '../../common/inputs/ThreeValueInput';
 import BasicSlider from '../../common/sliders/BasicSlider';
 import SingleValueInput from '../../common/inputs/SingleValueInput';
 import FourValueInput from '../../common/inputs/FourValueInput';
 import DebugIntButton  from '../../common/buttons/DebugIntButton';
+
+
+
 import '../../../styles/common.css'
 import '../../../styles/TextStyles.css'
 import '../../../styles/InputTextStyles.css'
 import '../../../styles/SwarmManagerSlider.css'
 import '../../../styles/AgentStatusCard.css'
+
+import OnOffButton from '../../common/buttons/OnOffButton';
+import SimpleCommand from '../../common/buttons/SimpleCommand';
+import LongButton from '../../common/buttons/LongButton';
+
+let commandMap = {
+    arm: "arm",
+    disarm: "disarm",
+    col_on: "col_on",
+    col_off: "col_off",
+    vel_on: "vel_on",
+    vel_off: "vel_off",
+    guided: "guided",
+    rtl: "rtl",
+    land: "land",
+    brake: "brake",
+    auto: "auto",
+    ping: "ping",
+    takeoff: "takeoff",
+    mission: "mission",
+
+};
 
 class HRLButtons extends React.Component {
     constructor(props) {
@@ -25,6 +53,8 @@ class HRLButtons extends React.Component {
 
     }
 
+
+
     render() {
         return(
             <div>
@@ -36,19 +66,45 @@ class HRLButtons extends React.Component {
                     <input className="SmallInput" onChange={this.handleChangeClusterId} type='text' defaultValue="C1" />
                 </div> */}
                 <div className="center">
-                    <DebugIntButton class="ArmButton" title="START ROS" value={"1"}/>
-                    <DebugIntButton class="DisarmButton" title="STOP ROS" value={"2"}/>
+                    <OnOffButton class="ArmButton" title="ARM" command={commandMap.arm} />
+                    <OnOffButton class="DisarmButton" title="DISARM" command={commandMap.disarm}/>
+
                 </div>
                 <div className="center">
-                    <DebugVectorButton class="ModeButton" title="GUIDED" clusterId={1} clusterCommand="3" option1="1" />
-                    <DebugVectorButton class="ModeButton" title="ALT SEP" clusterId={1} clusterCommand="3" option1="4" />
-                    <DebugVectorButton class="ModeButton" title="TRACK"   clusterId={1} clusterCommand="3" option1="5" />
+                    <OnOffButton class="ArmButton" title="Control ON" command={commandMap.vel_on}/>
+                    <OnOffButton class="DisarmButton" title="Control OFF" command={commandMap.vel_off}/>
+
                 </div>
                 <div className="center">
-                    <DebugVectorButton class="ModeButton" title="HRL NAV" clusterId={1} clusterCommand="3" option1="9" />
-                    <DebugVectorButton class="ModeButton" title="RALLY" clusterId={1} clusterCommand="3" option1="1" />
-                    <DebugVectorButton class="ModeButton" title="SEND IT"   clusterId={1} clusterCommand="3" option1="5" />
+                    <OnOffButton class="ArmButton" title="Avoidance ON" command={commandMap.col_on}/>
+                    <OnOffButton class="DisarmButton" title="Avoidance OFF" command={commandMap.col_off}/>
+
                 </div>
+                <div className="center">
+                    <SimpleCommand class="ModeButton" title="GUIDED"    command={commandMap.guided} />
+                    <SimpleCommand class="ModeButton" title="RTL"       command={commandMap.rtl} />
+                    <SimpleCommand class="ModeButton" title="LAND"      command={commandMap.land} />
+                </div>
+                <div className="center">
+                    <SimpleCommand class="ModeButton" title="BRAKE"     command={commandMap.brake} />
+                    <SimpleCommand class="ModeButton" title="AUTO"      command={commandMap.auto} />
+                    <SimpleCommand class="ModeButton" title="PING"      command={commandMap.ping} />
+                </div>
+                <div>
+                    <SimpleCommand class="ModeButton" title="POS 1"     command={"mission"} option1={"m1"} option2={"s1"}/>
+                    <SimpleCommand class="ModeButton" title="POS 2"     command={"mission"} option1={"m1"} option2={"s2"}/>
+                    <SimpleCommand class="ModeButton" title="POS 3"     command={"mission"} option1={"m1"} option2={"s3"}/>
+                </div>
+                <div>
+                    <SimpleCommand class="ModeButton" title="POS 4"     command={"mission"} option1={"m1"} option2={"s4"}/>
+                    <SimpleCommand class="ModeButton" title="POS 5"     command={"mission"} option1={"m1"} option2={"s5"}/>
+                    <SimpleCommand class="ModeButton" title="POS 6"     command={"mission"} option1={"m1"} option2={"s6"}/>
+                </div>
+                <div>
+                    <LongButton class="EmergencyRTL" title="TAKEOFF"    command={commandMap.takeoff}/>
+                </div>
+
+
                 {/* <div className="center">
                     <DebugVectorButton class="OrangeButton" title="ENABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="11"/>
                     <DebugVectorButton class="OrangeButton" title="DISABLE ORBIT" clusterId={this.state.clusterId} clusterCommand="12"/>
@@ -80,8 +136,6 @@ class HRLButtons extends React.Component {
                     </div>
                     <FourValueInput buttonFcn={this.normalVectorSend} />
                 </div>
-
-
             </div>
         )
     }
