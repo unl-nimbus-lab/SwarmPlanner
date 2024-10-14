@@ -91,14 +91,14 @@ class HRLButtons extends React.Component {
                     <SimpleCommand class="ModeButton" title="PING"      command={commandMap.ping} />
                 </div>
                 <div>
-                    <SimpleCommand class="ModeButton" title="POS 1"     command={"mission"} option1={"m1"} option2={"s1"}/>
-                    <SimpleCommand class="ModeButton" title="POS 2"     command={"mission"} option1={"m1"} option2={"s2"}/>
-                    <SimpleCommand class="ModeButton" title="POS 3"     command={"mission"} option1={"m1"} option2={"s3"}/>
+                    <SimpleCommand class="ModeButton" title="POS 1"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"1"}/>
+                    <SimpleCommand class="ModeButton" title="POS 2"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"2"}/>
+                    <SimpleCommand class="ModeButton" title="POS 3"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"3"}/>
                 </div>
                 <div>
-                    <SimpleCommand class="ModeButton" title="POS 4"     command={"mission"} option1={"m1"} option2={"s4"}/>
-                    <SimpleCommand class="ModeButton" title="POS 5"     command={"mission"} option1={"m1"} option2={"s5"}/>
-                    <SimpleCommand class="ModeButton" title="POS 6"     command={"mission"} option1={"m1"} option2={"s6"}/>
+                    <SimpleCommand class="ModeButton" title="POS 4"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"4"}/>
+                    <SimpleCommand class="ModeButton" title="POS 5"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"5"}/>
+                    <SimpleCommand class="ModeButton" title="POS 6"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"6"}/>
                 </div>
                 <div>
                     <LongButton class="EmergencyRTL" title="TAKEOFF"    command={commandMap.takeoff}/>
