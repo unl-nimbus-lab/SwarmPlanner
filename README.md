@@ -1,34 +1,34 @@
 # swarmplanner
 A browser-based tool for managing swarms
 
-# To use the application:
+# To use the ground control station:
 
 `git clone <this repository>`
 
-## If you want to use Swarmplanner with USB devices:
+`cd SwarmPlanner`
 
-`cd SwarmPlanner/deployment`
-
-## then start the app:
-
-`docker-compose up`
+`git checkout demo_do_not_change`
 
 ## If you want to use SwarmPlanner in simulation:
 
 `cd SwarmPlanner/simulation`
 
-## then start the app:
+## Start the GCS:
 
 `docker-compose up`
 
-# To use the application in `Development mode`: 
+## Open a browser and go to 
 
-`cd SwarmPlanner/React/SwarmPlanner`
+`localhost:3000`
 
-## Build the development image:
+# To start the demo simulation
 
-`docker build -t swarmplanner_devel .`
+`cd SwarmPlanner/uav_simulator/swarm_simulator`
 
-## then start the development image:
+`docker-compose up`
 
-`docker run -p 3000:3000 --mount type=bind,source="$(pwd)",target=/app swarmplanner_devel`
+### the docker layers should begin to download
+
+## Connect to the demo simulator
+
+### Connect the GCS to UDP , udpin:127.0.0.1:4242 or udpin:127.0.0.1:4243
