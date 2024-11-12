@@ -71,37 +71,41 @@ class HRLButtons extends React.Component {
 
                 </div>
                 <div className="center">
-                    <OnOffButton class="ArmButton" title="Control ON" command={commandMap.vel_on}/>
-                    <OnOffButton class="DisarmButton" title="Control OFF" command={commandMap.vel_off}/>
+                    <OnOffButton class="ArmButton" title="Control ON" command={commandMap.vel_on} option1={"-r"}/>
+                    <OnOffButton class="DisarmButton" title="Control OFF" command={commandMap.vel_off} option1={"-r"}/>
 
                 </div>
                 <div className="center">
-                    <OnOffButton class="ArmButton" title="Avoidance ON" command={commandMap.col_on}/>
-                    <OnOffButton class="DisarmButton" title="Avoidance OFF" command={commandMap.col_off}/>
+                    <OnOffButton class="ArmButton" title="Avoidance ON" command={commandMap.col_on} option1={"-r"}/>
+                    <OnOffButton class="DisarmButton" title="Avoidance OFF" command={commandMap.col_off} option1={"-r"}/>
 
                 </div>
                 <div className="center">
                     <SimpleCommand class="ModeButton" title="GUIDED"    command={commandMap.guided} option1={"-r"}/>
-                    <SimpleCommand class="ModeButton" title="RTL"       command={commandMap.rtl} />
-                    <SimpleCommand class="ModeButton" title="LAND"      command={commandMap.land} />
+                    <SimpleCommand class="ModeButton" title="RTL"       command={commandMap.rtl} option1={"-r"}/>
+                    <SimpleCommand class="ModeButton" title="LAND"      command={commandMap.land} option1={"-r"}/>
                 </div>
                 <div className="center">
-                    <SimpleCommand class="ModeButton" title="BRAKE"     command={commandMap.brake} />
-                    <SimpleCommand class="ModeButton" title="AUTO"      command={commandMap.auto} />
+                    <SimpleCommand class="ModeButton" title="BRAKE"     command={commandMap.brake} option1={"-r"}/>
+                    <SimpleCommand class="ModeButton" title="AUTO"      command={commandMap.auto} option1={"-r"}/>
                     <SimpleCommand class="ModeButton" title="PING"      command={commandMap.ping} />
                 </div>
                 <div>
-                    <SimpleCommand class="ModeButton" title="POS 1"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"1"}/>
-                    <SimpleCommand class="ModeButton" title="POS 2"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"2"}/>
-                    <SimpleCommand class="ModeButton" title="POS 3"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"3"}/>
+                    <SimpleCommand class="ModeButton" title="LH 4"     command={"SET_LH"} option1={"4"} />
+                    <SimpleCommand class="ModeButton" title="LH 6"     command={"SET_LH"} option1={"6"} />
+                    <SimpleCommand class="ModeButton" title="LH 8"     command={"SET_LH"} option1={"8"} />
                 </div>
                 <div>
-                    <SimpleCommand class="ModeButton" title="POS 4"     command={"mission"} option1={"-m"} option2={"1"} option3={"-s"} option4={"4"}/>
-                    <SimpleCommand class="ModeButton" title="TIME2"     command={"SET"}     option1={"0.025"}/>
-                    <SimpleCommand class="ModeButton" title="TIME3"     command={"SET"} option1={"0.05"} />
+                    <SimpleCommand class="ModeButton" title="RT 0.005"     command={"SET"} option1={"0.005"} option2={"-r"}/>
+                    <SimpleCommand class="ModeButton" title="RT 0.025"     command={"SET"} option1={"0.025"} option2={"-r"}/>
+                    <SimpleCommand class="ModeButton" title="RT 0.050"     command={"SET"} option1={"0.05"}  option2={"-r"}/>
+                </div>
+
+                <div>
+                    <LongButton class="EmergencyRTL" title="START" command={"mission"} />
                 </div>
                 <div>
-                    <LongButton class="EmergencyRTL" title="TAKEOFF"    command={commandMap.takeoff}/>
+                    <LongButton class="EmergencyLand" title="RTL"  command={commandMap.rtl} option1={"-r"}/>
                 </div>
 
 
