@@ -1,5 +1,5 @@
     <link name="cam_link">
-      <pose>0 0 -0.02 0 0 0 </pose>
+      <pose>#PX #PY #PZ 0 0 #ANGLE </pose>
       <inertial>
         <mass>0.01</mass>
         <inertia>
@@ -26,7 +26,7 @@
     	</geometry>
     </visual>
     <sensor name="cam" type="camera" >
-      <pose>0 0 0.15 0 #ANGLE 0</pose>
+      <pose>0 0 0.15 0 0 0</pose>
       <camera>
         <horizontal_fov>#FOV</horizontal_fov>
         <image>

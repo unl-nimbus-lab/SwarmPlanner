@@ -64,7 +64,7 @@
       </link>
 
 
-      <joint type="fixed" name="#FRAME">
+      <joint type="fixed" name="#FRAME_joint">
         <pose>0 0 0 0 0 0</pose>
         <parent>iris::base_link</parent>
         <child>#FRAME</child>

@@ -63,7 +63,7 @@ def generateRotorPlugin(templateDir: str) -> str:
 
 def generateBasicCameraPlugin(
     templateDir: str,
-    angle: float = 0.0,
+    angle: float = 1.57,
     fov: float = 1.2,
     near: float = 0.1,
     far: float = 1000,
@@ -71,12 +71,18 @@ def generateBasicCameraPlugin(
     cameraName: str = "webcam",
     imageTopicName: str = "image_raw",
     infoTopicName: str = "camera_info",
-    fameName: str ="camera_link") -> str:
+    fameName: str ="camera_link",
+    pos_x = 0, #Forewards/Backwards
+    pos_y = 0, #Left/Right
+    pos_z = 0, #From the base of the drone
+
+
+    ) -> str:
     """
     Generates a basic camera plugin with the given parameters
 
     :param templateDir: The directory where the template files are located
-    :param angle: The angle of the camera
+    :param angle: The angle of the camera, radians (positive is ccw)
     :param fov: The field of view of the camera
     :param near: The near clipping plane of the camera
     :param far: The far clipping plane of the camera
@@ -85,6 +91,9 @@ def generateBasicCameraPlugin(
     :param imageTopicName: The name of the image topic
     :param infoTopicName: The name of the info topic
     :param fameName: The name of the frame
+    :param pos_x: x-location of the camera (postive-foreward, negative-backward)
+    :param pos_y: y-location of the camera (positive-left, negative-right)
+    :param pos_z: z-location of the camera (positive-up, negative-down)
     """
 
     basicCameraPlugin = templateDir + 'basicCameraPlugin.txt'
@@ -95,6 +104,9 @@ def generateBasicCameraPlugin(
         content = file.read()
 
         content = content.replace("#ANGLE", str(angle))
+        content = content.replace("#PX", str(pos_x))
+        content = content.replace("#PY", str(pos_y))
+        content = content.replace("#PZ", str(pos_z))
         content = content.replace("#FOV", str(fov))
         content = content.replace("#NEAR", str(near))
         content = content.replace("#FAR", str(far))
@@ -103,6 +115,8 @@ def generateBasicCameraPlugin(
         content = content.replace("#IMAGE", imageTopicName)
         content = content.replace("#INFO", infoTopicName)
         content = content.replace("#FRAME", fameName)
+
+
     
     return content
 
@@ -369,13 +383,20 @@ def generateVehicleModel(
     vehicle: str,
     plugins) -> None:
     """
-    Generates the model.sdf and model.config files
+    Generates the vehicle model files
 
     :param systemId: The system ID of the drone
     :param modelDir: The directory where the models are located
     :param templateDir: The directory where the template files are located
     :param vehicle: The vehicle to be generated
     :param plugins: The plugins to be generated
+        plugins availible:
+            - rotor (required)
+            - ardupilot (required)
+            - camera (one orientation/location)
+            - sonar (front facing front)
+            - lidar (works, just wait for gazebo)
+
     """
 
     #Set some variables we'll need
@@ -390,8 +411,9 @@ def generateVehicleModel(
     #Create the directory
     try:
         os.mkdir(vehicleDir)
-    except OSError:
+    except OSError as e:
         print ("Creation of the directory %s failed" % vehicleDir)
+        print(e)
     else:
         print ("Successfully created the directory %s " % vehicleDir)
 
@@ -404,4 +426,15 @@ def generateVehicleModel(
 # generateModel(1,'./','./templates/','iris',['rotor','arduPilot'])
 # generateConfig(1,'./','./templates/',['iris_depend'])
 
-#generateVehicleModel(1,'./','./templates/','iris',['sonar','rotor','arduPilot'])
+if __name__ == "__main__":
+
+    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','camera'])
+
+#TODO:
+# Lookfor files, create if not there
+
+
+#Successful:
+#   ['rotor','ardupilot']
+#   ['rotor','ardupilot','camera'] #Bottom Mounted Facing Forward #ROS only?
+
