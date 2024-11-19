@@ -1,6 +1,6 @@
           <!-- Sonar Sensor -->
       <link name="#FRAME">
-        <pose>0.18 0 .2 0 #NDANGLE #NEANGLE</pose>
+        <pose>#PX #PY #PZ 0 #NDANGLE #NEANGLE</pose>
         <collision name="sonar_collision">
           <geometry>
             <box>

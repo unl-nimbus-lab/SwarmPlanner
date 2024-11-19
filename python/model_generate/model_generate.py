@@ -63,7 +63,7 @@ def generateRotorPlugin(templateDir: str) -> str:
 
 def generateBasicCameraPlugin(
     templateDir: str,
-    angle: float = 1.57,
+    angle: float = 0,
     fov: float = 1.2,
     near: float = 0.1,
     far: float = 1000,
@@ -122,13 +122,17 @@ def generateBasicCameraPlugin(
 
 def generateSonarPlugin(
     templateDir: str,
-    northEastAngle: float = 0,
-    northDownAngle: float = 0,
+    northEastAngle: float = 0, #Y-rotation
+    northDownAngle: float = 0, #Z-rotation
     minRange: float = 0.2,
     maxRange: float = 10,
     updateRate: float = 10,
     topicName: str = "sonar",
-    frameName: str = "sonar_link") -> str:
+    frameName: str = "sonar_link",
+    pos_x: float = 0.18,
+    pos_y: float = 0,
+    pos_z: float = 0.2) -> str:
+
     """
     Generates a sonar plugin with the given parameters
 
@@ -156,6 +160,10 @@ def generateSonarPlugin(
         content = content.replace("#UPDATE", str(updateRate))
         content = content.replace("#TOPIC", topicName)
         content = content.replace("#FRAME", frameName)
+
+        content = content.replace("#PX", str(pos_x))
+        content = content.replace("#PY", str(pos_y))
+        content = content.replace("#PZ", str(pos_z))
     
     return content
 
@@ -428,13 +436,11 @@ def generateVehicleModel(
 
 if __name__ == "__main__":
 
-    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','camera'])
+    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','sonar'])
 
 #TODO:
-# Lookfor files, create if not there
 
 
 #Successful:
 #   ['rotor','ardupilot']
-#   ['rotor','ardupilot','camera'] #Bottom Mounted Facing Forward #ROS only?
-
+#   ['rotor','ardupilot','camera']
