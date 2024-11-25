@@ -436,7 +436,7 @@ def generateVehicleModel(
 
 if __name__ == "__main__":
 
-    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','sonar'])
+    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','lidar'])
 
 #TODO:
 

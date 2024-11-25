@@ -213,85 +213,72 @@
       </control>
     </plugin>
   
-          <!-- Sonar Sensor -->
-      <link name="drone1/sonar_link">
-        <pose>0.3 0 0.2 0 1.57 0</pose>
-        <collision name="sonar_collision">
-          <geometry>
-            <box>
-              <size>.01 .01 .01</size>
-            </box>
-          </geometry>
-        </collision>
-
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.01 0.01 0.01</size>
-            </box>
-          </geometry>
-        </visual>
-        <inertial>
-          <mass>0.1</mass>
-          <inertia>
-            <ixx>0.001</ixx>
+<!--add lidar-->
+    <link name="hokuyo_link">
+      <pose>0 0 0 0 0 0</pose>
+      <collision name="collision">
+        <pose>0 0 0.3 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.1</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.27 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://hokuyo/meshes/hokuyo.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass>0.016</mass>
+        <inertia>
+            <ixx>0.0001</ixx>
             <ixy>0</ixy>
             <ixz>0</ixz>
-            <iyy>0.001</iyy>
+            <iyy>0.0001</iyy>
             <iyz>0</iyz>
-            <izz>0.001</izz>
-          </inertia>
-        </inertial>
-        <sensor type="ray" name="sonar_sensor">
-          <visualize>true</visualize>
-          <update_rate>10</update_rate>
-          <ray>
-             <scan>
-                <horizontal>
-                   <samples>10</samples>
-                   <resolution>1</resolution> 
-                   <min_angle>-0.14835</min_angle>
-                   <max_angle>0.14835</max_angle>
-                </horizontal>
-                <vertical>
-                   <samples>10</samples>
-                   <resolution>1</resolution> 
-                   <min_angle>-0.14835</min_angle>
-                   <max_angle>0.14835</max_angle> 
-                </vertical>
-             </scan>
-             <range>
-                <min>0.2</min>
-                <max>10</max>
-                <resolution>0.02</resolution>
-             </range>
-          </ray>
-          <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range2">
-             <gaussianNoise>0.005</gaussianNoise>
-             <alwaysOn>true</alwaysOn>
-             <updateRate>10</updateRate>
-             <topicName>drone1/sonar</topicName>
-             <frameName>drone1/sonar_link</frameName>
-             <radiation>INFRARED</radiation>
-             <fov>0.2967</fov>
-          </plugin>
-        </sensor>
-      </link>
+            <izz>0.0001</izz>
+            <!-- low intertia necessary to avoid not disturb the drone -->
+        </inertia>
+      </inertial>
 
+      <sensor type="ray" name="laser">
+        <pose>0 0 0.3 0 0 1.57</pose>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1024</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.141593</min_angle>
+              <max_angle>3.141593</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>30</max>
+            <resolution>0.1</resolution>
+          </range>
+          <!-- <noise>
+            <type>Gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise> -->
+        </ray>
+        <plugin name="robo_scan" filename="libgazebo_ros_ray_sensor.so">
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>base_scan</frame_name>
+       </plugin>
+      </sensor>
+    </link>
 
-      <joint type="fixed" name="drone1/sonar_link_joint">
-        <pose>0 0 0 0 0 0</pose>
-        <parent>iris::base_link</parent>
-        <child>drone1/sonar_link</child>
-        <axis>
-          <limit>
-            <lower>0</lower>
-            <upper>0</upper>
-          </limit>
-          <xyz>0 0 1</xyz>
-          <use_parent_model_frame>true</use_parent_model_frame>
-        </axis>
-      </joint>
-
-  </model>
+    <joint name="hokuyo_joint" type="fixed">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>iris::base_link</parent>
+      <child>hokuyo_link</child>
+    </joint>  </model>
 </sdf>

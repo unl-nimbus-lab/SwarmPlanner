@@ -54,12 +54,10 @@
             <stddev>0.01</stddev>
           </noise> -->
         </ray>
-        <plugin name="hokuyo_node" filename="libgazebo_ros_laser.so">
-          <robotNamespace></robotNamespace>
-          <topicName>#TOPIC</topicName>
-          <frameName>/hokuyo_sensor_link</frameName>
-        </plugin>
-      </sensor>
+        <plugin name="robo_scan" filename="libgazebo_ros_ray_sensor.so">
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>base_scan</frame_name>
+       </plugin>
     </link>
 
     <joint name="hokuyo_joint" type="fixed">
