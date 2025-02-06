@@ -54,10 +54,14 @@
             <stddev>0.01</stddev>
           </noise> -->
         </ray>
-        <plugin name="robo_scan" filename="libgazebo_ros_ray_sensor.so">
+        <plugin name="#DRONE_lidar_robo_scan" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <remapping>~/out:=#TOPIC</remapping>                                                               
+          </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
           <frame_name>base_scan</frame_name>
        </plugin>
+      </sensor>
     </link>
 
     <joint name="hokuyo_joint" type="fixed">

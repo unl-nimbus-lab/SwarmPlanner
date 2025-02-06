@@ -122,28 +122,27 @@ def generateBasicCameraPlugin(
 
 def generateSonarPlugin(
     templateDir: str,
-    northEastAngle: float = 0, #Y-rotation
-    northDownAngle: float = 0, #Z-rotation
-    minRange: float = 0.2,
-    maxRange: float = 10,
+    drone: str,
     updateRate: float = 10,
-    topicName: str = "sonar",
-    frameName: str = "sonar_link",
-    pos_x: float = 0.18,
-    pos_y: float = 0,
-    pos_z: float = 0.2) -> str:
-
+    samples: int = 1,
+    resolution: float = 1,
+    minAngle: float = 0,
+    maxAngle: float = 0,
+    minRange: float = 0.1,
+    maxRange: float = 30,
+    topicName: str ="point_scan",) -> str:
     """
-    Generates a sonar plugin with the given parameters
+    Generates a lidar plugin with the given parameters
 
     :param templateDir: The directory where the template files are located
-    :param northEastAngle: The angle of the sonar
-    :param northDownAngle: The angle of the sonar
-    :param minRange: The minimum range of the sonar
-    :param maxRange: The maximum range of the sonar
-    :param updateRate: The update rate of the sonar
+    :param updateRate: The update rate of the lidar
+    :param samples: The number of samples of the lidar
+    :param resolution: The resolution of the lidar
+    :param minAngle: The minimum angle of the lidar
+    :param maxAngle: The maximum angle of the lidar
+    :param minRange: The minimum range of the lidar
+    :param maxRange: The maximum range of the lidar
     :param topicName: The name of the topic
-    :param frameName: The name of the frame
     """
 
     sonarPlugin = templateDir + 'sonarPlugin.txt'
@@ -153,22 +152,21 @@ def generateSonarPlugin(
         # Read the contents of the file into a string
         content = file.read()
 
-        content = content.replace("#NEANGLE", str(northEastAngle))
-        content = content.replace("#NDANGLE", str(northDownAngle))
+        content = content.replace("#UPDATE", str(updateRate))
+        content = content.replace("#SAMPLES", str(samples))
+        content = content.replace("#RESOLUTION", str(resolution))
+        content = content.replace("#MINANGLE", str(minAngle))
+        content = content.replace("#MAXANGLE", str(maxAngle))
         content = content.replace("#MINRANGE", str(minRange))
         content = content.replace("#MAXRANGE", str(maxRange))
-        content = content.replace("#UPDATE", str(updateRate))
         content = content.replace("#TOPIC", topicName)
-        content = content.replace("#FRAME", frameName)
-
-        content = content.replace("#PX", str(pos_x))
-        content = content.replace("#PY", str(pos_y))
-        content = content.replace("#PZ", str(pos_z))
+        content = content.replace("#DRONE", drone)
     
     return content
 
 def generateLidarPlugin(
     templateDir: str,
+    drone: str,
     updateRate: float = 10,
     samples: int = 1024,
     resolution: float = 1,
@@ -176,7 +174,8 @@ def generateLidarPlugin(
     maxAngle: float = 3.141593,
     minRange: float = 0.1,
     maxRange: float = 30,
-    topicName: str ="scan",) -> str:
+    topicName: str ="scan",
+    ) -> str:
     """
     Generates a lidar plugin with the given parameters
 
@@ -206,6 +205,7 @@ def generateLidarPlugin(
         content = content.replace("#MINRANGE", str(minRange))
         content = content.replace("#MAXRANGE", str(maxRange))
         content = content.replace("#TOPIC", topicName)
+        content = content.replace("#DRONE", drone)
     
     return content
 
@@ -268,9 +268,9 @@ def generatePlugin(
     elif plugin == 'camera':
         return generateBasicCameraPlugin(templateDir,imageTopicName="drone" + str(systemId) + "/image_raw",infoTopicName="drone" + str(systemId) + "/camera_info",fameName="drone" + str(systemId) + "/camera_link")
     elif plugin == 'sonar':
-        return generateSonarPlugin(templateDir,topicName="drone" + str(systemId) + "/sonar",frameName="drone" + str(systemId) + "/sonar_link")
+        return generateSonarPlugin(templateDir,drone="drone" + str(systemId),topicName="drone" + str(systemId) + "/point_scan")
     elif plugin == 'lidar':
-        return generateLidarPlugin(templateDir,topicName="drone" + str(systemId) + "/scan")
+        return generateLidarPlugin(templateDir,drone="drone" + str(systemId),topicName="drone" + str(systemId) + "/scan")
     else:
         return 'Did not specify a valid plugin'
 
@@ -436,7 +436,9 @@ def generateVehicleModel(
 
 if __name__ == "__main__":
 
-    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','lidar'])
+    generateVehicleModel(1,'./','./templates/','iris',['rotor','arduPilot','sonar','lidar'])
+    generateVehicleModel(2,'./','./templates/','iris',['rotor','arduPilot','sonar','lidar'])
+    generateVehicleModel(3,'./','./templates/','iris',['rotor','arduPilot','sonar','lidar'])
 
 #TODO:
 

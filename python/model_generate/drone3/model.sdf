@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <sdf version="1.6">
-  <model name="drone1">
+  <model name="drone3">
     <include>
       <uri>model://iris_with_standoffs</uri>
     </include>
@@ -138,8 +138,8 @@
     </plugin>
         <plugin name="arducopter_plugin" filename="libArduPilotPlugin.so">
       <fdm_addr>127.0.0.1</fdm_addr>
-      <fdm_port_in>9002</fdm_port_in>
-      <fdm_port_out>9003</fdm_port_out>
+      <fdm_port_in>9022</fdm_port_in>
+      <fdm_port_out>9023</fdm_port_out>
       <!--
           Require by APM :
           Only change model and gazebo from XYZ to XY-Z coordinates
@@ -261,9 +261,9 @@
             <stddev>0.01</stddev>
           </noise> -->
         </ray>
-        <plugin name="drone1_sonar_robo_scan" filename="libgazebo_ros_ray_sensor.so">
+        <plugin name="drone3_sonar_robo_scan" filename="libgazebo_ros_ray_sensor.so">
           <ros>
-            <remapping>~/out:=drone1/point_scan</remapping>                                                               
+            <remapping>~/out:=drone3/point_scan</remapping>                                                               
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
           <frame_name>base_scan</frame_name>
@@ -332,9 +332,9 @@
             <stddev>0.01</stddev>
           </noise> -->
         </ray>
-        <plugin name="drone1_lidar_robo_scan" filename="libgazebo_ros_ray_sensor.so">
+        <plugin name="drone3_lidar_robo_scan" filename="libgazebo_ros_ray_sensor.so">
           <ros>
-            <remapping>~/out:=drone1/scan</remapping>                                                               
+            <remapping>~/out:=drone3/scan</remapping>                                                               
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
           <frame_name>base_scan</frame_name>
