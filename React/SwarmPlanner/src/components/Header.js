@@ -5,6 +5,7 @@ import '../styles/Header.css'
 import Swarm from '../resources/images/swarm.svg'
 import Path from '../resources/images/location-path.svg'
 import tool from '../resources/images/wrench.svg'
+import paramIcon from '../resources/images/parameter-icon.svg'
 
 
 class Header extends React.Component {
@@ -36,7 +37,7 @@ class Header extends React.Component {
                     <TabButton image={Swarm} class={swarmOverviewStyle} title="SwarmOverview" buttonFcn={this.props.buttonFcn} message="Overview"/>
                     <TabButton image={Path} class={clusterControlStyle} title="ClusterControl" buttonFcn={this.props.buttonFcn} message="Mission"/>
                     <TabButton image={tool} class={swarmConfigStyle} title="SwarmConfig" buttonFcn={this.props.buttonFcn} message="Setup"/>
-                    <TabButton image={tool} class={swarmConfigStyle} title="ParameterControl" buttonFcn={this.props.buttonFcn} message="Parameters"/>
+                    <TabButton image={paramIcon} class={swarmConfigStyle} title="ParameterControl" buttonFcn={this.props.buttonFcn} message="Parameters"/>
 
                 </div>
                 <div>

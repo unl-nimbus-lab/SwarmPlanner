@@ -6,12 +6,17 @@ import BodyAgentView from './components/BodyAgentView';
 import BodyClusterControl from './components/BodyClusterControl';
 import BodySwarmConfig from './components/BodySwarmConfig';
 import BodyParameterControl from './components/BodyParameterControl';
+import { createContext } from "react";
+import LocationStore from './classes/LocationStore'
 
+export const LocationContext = createContext();
 
 class App extends React.Component {
+  
   constructor(props) {
     super(props)
-    this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: []}
+    this.state = {body: "SwarmOverview", checkedAgents: [''], ignoreComps: [], LocationStore: new LocationStore()}
+
   }
 
   removeAgent= (input) => {
@@ -42,15 +47,15 @@ class App extends React.Component {
   }
 
   render() {
-    
     const body = this.getBody();
-
     return (
-      <div>
-        <Header buttonFcn={this.updateBody} selected={this.state.body} />
-        <LeftSideBar />
-        {body}
-      </div>
+      <LocationContext.Provider value={this.state.LocationStore}>
+        <div>
+          <Header buttonFcn={this.updateBody} selected={this.state.body} />
+          <LeftSideBar />
+          {body}
+        </div>
+      </LocationContext.Provider>
     );
   }
 }
